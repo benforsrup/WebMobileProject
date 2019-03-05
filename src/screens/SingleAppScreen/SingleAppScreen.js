@@ -6,30 +6,45 @@ import {
   StyleSheet,
   View,
   Text,
+  ScrollView,
   Alert
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { get } from 'lodash';
 import Config from 'react-native-config';
-
+import { applyThemeOptions } from '../../styling'
 import { pushTutorialScreen } from 'src/navigation';
 import { connectData } from 'src/redux';
 
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center'
   }
 });
 
-class SingleAppScreen extends PureComponent {
+class SingleAppScreen extends React.Component {
 
   constructor(props) {
     super(props);
 
     Navigation.events().bindComponent(this);
+    console.log(this)
   }
+
+  static get options() {
+    
+    
+    return applyThemeOptions({
+      topBar:{
+        title:{
+          text: 'Home',
+        },
+      },
+    });
+  }
+
 
   navigationButtonPressed({ buttonId }) {
     const { data } = this.props;
@@ -50,11 +65,13 @@ class SingleAppScreen extends PureComponent {
 
   render() {
     return (
+      <ScrollView>
       <View style={styles.flex}>
-        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
+        <Text style={{ fontSize: 48, fontWeight: 'bold', color:'green' }}>
           {Config.API_URL}
         </Text>
       </View>
+      </ScrollView>
     );
   }
 }

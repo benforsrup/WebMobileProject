@@ -20,25 +20,46 @@ import {
   TAB2_SCREEN
 } from './Screens';
 
-function WrappedComponent(Component) {
-  return function inject(props) {
-    const EnhancedComponent = () => (
-      <Provider>
-        <Component
-          {...props}
-        />
-      </Provider>
-    );
+function WrappedComponent(Component, store) {
+  const InternalComponent = Component;
+  return class Scene extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
-    return <EnhancedComponent />;
-  };
+    static options = { // LINKED HERE
+        ...InternalComponent.options,
+    };
+
+    render() {
+        return (
+            <Provider store={store}>
+                <InternalComponent
+                    ref="child"
+                    {...this.props}
+                />
+            </Provider>
+        );
+    }
+};
+  // return function inject(props) {
+  //   const EnhancedComponent = () => (
+  //     <Provider>
+  //       <Component
+  //         {...props}
+  //       />
+  //     </Provider>
+  //   );
+
+  //   return <EnhancedComponent />;
+  // };
 }
 
-export default function () {
-  Navigation.registerComponent(WELCOME_SCREEN, () => WrappedComponent(WelcomeScreen));
-  Navigation.registerComponent(LOGIN_SCREEN, () => WrappedComponent(LoginScreen));
-  Navigation.registerComponent(SINGLE_APP_SCREEN, () => WrappedComponent(SingleAppScreen));
-  Navigation.registerComponent(TAB1_SCREEN, () => WrappedComponent(Tab1Screen));
-  Navigation.registerComponent(TAB2_SCREEN, () => WrappedComponent(Tab2Screen));
+export default function (store) {
+  Navigation.registerComponent(WELCOME_SCREEN, () => WrappedComponent(WelcomeScreen, store));
+  Navigation.registerComponent(LOGIN_SCREEN, () => WrappedComponent(LoginScreen, store));
+  Navigation.registerComponent(SINGLE_APP_SCREEN, () => WrappedComponent(SingleAppScreen, store));
+  Navigation.registerComponent(TAB1_SCREEN, () => WrappedComponent(Tab1Screen, store));
+  Navigation.registerComponent(TAB2_SCREEN, () => WrappedComponent(Tab2Screen, store));
   console.info('All screens have been registered...');
 }

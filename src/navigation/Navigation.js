@@ -1,7 +1,7 @@
 // @flow
 
 import { Navigation } from 'react-native-navigation';
-
+import {StatusBar } from 'react-native'
 import {
   WELCOME_SCREEN,
   SINGLE_APP_SCREEN,
@@ -9,40 +9,17 @@ import {
   TAB2_SCREEN
 } from './Screens';
 import registerScreens from './registerScreens';
-
+import store from '../redux/store'
 // Register all screens on launch
-registerScreens();
+registerScreens(store);
 
 export function pushTutorialScreen() {
+
   Navigation.setDefaultOptions({
-    topBar: {
-      background: {
-        color: '#039893'
-      },
-      title: {
-        color: 'white',
-      },
-      backButton: {
-        title: '', // Remove previous screen name from back button
-        color: 'white'
-      },
-      buttonColor: 'white',
-    },
     statusBar: {
       style: 'light'
     },
-    layout: {
-      orientation: ['portrait']
-    },
-    bottomTabs: {
-      titleDisplayMode: 'alwaysShow'
-    },
-    bottomTab: {
-      textColor: 'gray',
-      selectedTextColor: 'black',
-      iconColor: 'gray',
-      selectedIconColor: 'black',
-    }
+    
   });
 
   Navigation.setRoot({
@@ -75,21 +52,19 @@ export function pushSingleScreenApp() {
             name: SINGLE_APP_SCREEN,
             options: {
               topBar: {
-                title: {
-                  text: 'SINGLE SCREEN APP'
-                },
+                
                 leftButtons: [
                   {
                     id: 'nav_user_btn',
                     icon: require('assets/icons/ic_nav_user.png'),
-                    color: 'white'
+                    color: 'black'
                   }
                 ],
                 rightButtons: [
                   {
                     id: 'nav_logout_btn',
                     icon: require('assets/icons/ic_nav_logout.png'),
-                    color: 'white'
+                    color: 'black'
                   }
                 ]
               }

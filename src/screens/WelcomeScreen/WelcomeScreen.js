@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Navigation } from 'react-native-navigation';
-
+import { pushSingleScreenApp, pushTabBasedApp } from 'src/navigation';
 import { LOGIN_SCREEN } from 'src/navigation';
 import { SFProDisplayMedium } from 'src/fonts';
 
@@ -43,21 +43,22 @@ const styles = StyleSheet.create({
 class WelcomeScreen extends PureComponent {
 
   handleGetStartAction = (screenType) => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: LOGIN_SCREEN,
-        passProps: {
-          screenType
-        },
-        options: {
-          topBar: {
-            title: {
-              text: 'LOGIN'
-            }
-          }
-        }
-      }
-    });
+    pushSingleScreenApp()
+    // Navigation.push(this.props.componentId, {
+    //   component: {
+    //     name: LOGIN_SCREEN,
+    //     passProps: {
+    //       screenType
+    //     },
+    //     options: {
+    //       topBar: {
+    //         title: {
+    //           text: 'LOGIN'
+    //         }
+    //       }
+    //     }
+    //   }
+    // });
   };
 
   render() {
