@@ -11,7 +11,7 @@ import { Navigation } from 'react-native-navigation';
 import { pushSingleScreenApp, pushTabBasedApp } from 'src/navigation';
 import { LOGIN_SCREEN } from 'src/navigation';
 import { SFProDisplayMedium } from 'src/fonts';
-
+import firebase from 'react-native-firebase'
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
@@ -43,7 +43,17 @@ const styles = StyleSheet.create({
 class WelcomeScreen extends PureComponent {
 
   handleGetStartAction = (screenType) => {
-    pushTabBasedApp()
+    firebase.auth()
+    .signInAnonymously()
+    .then(credential => {
+      if (credential) {
+        console.log('default app user ->', credential.user.toJSON());
+        pushTabBasedApp()
+      }
+
+    }).catch(error=>{
+      console.log(error, "comeon")
+    })
     // Navigation.push(this.props.componentId, {
     //   component: {
     //     name: LOGIN_SCREEN,

@@ -11,6 +11,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { connectData } from 'src/redux';
 import { pushSingleScreenApp, pushTabBasedApp } from 'src/navigation';
+import firebase from 'react-native-firebase';
 
 const styles = StyleSheet.create({
   flex: {
@@ -31,30 +32,15 @@ class LoginScreen extends React.Component {
  
 
   loginWithFacebook = () => {
-    // const { getFacebookUserData, screenType } = this.props;
-
-    // LoginManager
-    //   .logInWithReadPermissions(['public_profile', 'email'])
-    //   .then((result) => {
-    //     if (result.isCancelled) {
-    //       return Promise.reject('Facebook login cancelled.');
-    //     }
-    //     return AccessToken.getCurrentAccessToken();
-    //   })
-    //   .then((data) => {
-    //     if (data.accessToken) {
-    //       getFacebookUserData({ facebookToken: data.accessToken });
-    //       if (screenType === 'Single') {
-    //         pushSingleScreenApp();
-    //       } else {
-    //         pushTabBasedApp();
-    //       }
-    //     } else {
-    //       Alert.alert('ReactNativeStarterKit', 'Failed to get facebook access token.');
-    //     }
-    //   })
-    //   .catch(() => Alert.alert('ReactNativeStarterKit', 'Something went wrong.'));
-    pushSingleScreenApp();
+    //pushSingleScreenApp();
+    firebase.auth()
+    .signInAnonymously()
+    .then(credential => {
+      if (credential) {
+        console.log('default app user ->', credential.user.toJSON());
+        pushTabBasedApp()
+      }
+    });
   };
 
   render() {

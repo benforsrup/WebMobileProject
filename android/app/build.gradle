@@ -152,6 +152,7 @@ configurations.all {
 }
 
 dependencies {
+    implementation project(':react-native-firebase')
     implementation project(':react-native-maps')
     implementation project(':react-native-config')
     implementation project(':react-native-fbsdk')

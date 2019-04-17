@@ -5,7 +5,6 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "postinstall": "remotedev-debugger --hostname=localhost --port=8000 --injectserver=reactnative",
     "android": "concurrently \"npm run android:dubugger\" \"npm run android:packager\" \"cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug\"",
     "android-build-prod": "export ENVFILE=.env && cd android && ./gradlew app:assembleRelease && cd .."
   },
@@ -17,6 +16,7 @@
     "react-native-config": "^0.11.7",
     "react-native-elements": "^0.19.1",
     "react-native-fbsdk": "^0.8.0",
+    "react-native-firebase": "^5.3.1",
     "react-native-maps": "^0.23.0",
     "react-native-navigation": "2.12.0",
     "react-native-vector-icons": "^6.1.0",
