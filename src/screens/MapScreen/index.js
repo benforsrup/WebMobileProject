@@ -2,7 +2,7 @@ import { connectData } from 'src/redux';
 import React, { Component } from "react";
 import { Navigation } from 'react-native-navigation';
 import { pushTutorialScreen } from 'src/navigation';
-import Map from './Map'
+import Map from '../../components/map/Map'
 import {
     Image,
     Platform,

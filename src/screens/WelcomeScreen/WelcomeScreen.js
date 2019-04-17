@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 class WelcomeScreen extends PureComponent {
 
   handleGetStartAction = (screenType) => {
-    pushSingleScreenApp()
+    pushTabBasedApp()
     // Navigation.push(this.props.componentId, {
     //   component: {
     //     name: LOGIN_SCREEN,
