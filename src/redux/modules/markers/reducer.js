@@ -20,7 +20,7 @@ export default function markers(state = DEFAULT, action = {}) {
     }
     case DEC: {
       return {
-        "testing": state["testing"] -1
+        "testing": state["testing"] - 1
       };
     }
     default:

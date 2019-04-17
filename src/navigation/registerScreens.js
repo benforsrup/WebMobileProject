@@ -61,7 +61,7 @@ export default function (store) {
   Navigation.registerComponent(MAP_SCREEN, () => WrappedComponent(MapScreen, store));
 
   //custom components
-  Navigation.registerComponent(CUSTOMTOPBAR, () => TopBarBackground);
+  Navigation.registerComponent(CUSTOMTOPBAR, () => WrappedComponent(TopBarBackground, store));
 
 
   console.info('All screens have been registered...');
