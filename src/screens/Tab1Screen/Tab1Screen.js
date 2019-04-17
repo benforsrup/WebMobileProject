@@ -1,5 +1,3 @@
-// @flow
-
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -12,8 +10,11 @@ import { Navigation } from 'react-native-navigation';
 import { get } from 'lodash';
 import Map from '../../components/map/Map'
 import { pushTutorialScreen } from 'src/navigation';
-import { connectData } from 'src/redux';
+import { connectData, markersActionCreators } from 'src/redux';
 import { applyThemeOptions } from '../../styling'
+import { bindActionCreators } from "redux";
+
+
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
@@ -60,11 +61,14 @@ class Tab1Screen extends PureComponent {
 
     switch (buttonId) {
       case 'nav_logout_btn': {
-        pushTutorialScreen();
+        console.log("hey", this.props.actions)
+        this.props.actions.increment()
+        //pushTutorialScreen();
         break;
       }
       case 'nav_user_btn': {
-        Alert.alert(get(data, 'user.name', 'Unknown User'));
+        this.props.actions.decrement()
+        //Alert.alert(get(data, 'user.name', 'Unknown User'));
         break;
       }
       default:
@@ -73,6 +77,7 @@ class Tab1Screen extends PureComponent {
   }
 
   render() {
+    console.log(this.props.markers)
     return (
       <View style={styles.container}>
           <Map />
@@ -81,8 +86,24 @@ class Tab1Screen extends PureComponent {
   }
 }
 
-Tab1Screen.propTypes = {
-  data: PropTypes.shape({}).isRequired
-};
+// Tab1Screen.propTypes = {
+//   data: PropTypes.shape({}).isRequired
+// };
 
-export default connectData()(Tab1Screen);
+function mapStateToProps(state) {
+  const { data, markers } = state
+  console.log(state)
+  return  {
+    data: data,
+    markers: markers
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching plain actions
+    actions: bindActionCreators(markersActionCreators, dispatch),
+  }
+}
+
+
+export default connectData(mapStateToProps, mapDispatchToProps)(Tab1Screen);

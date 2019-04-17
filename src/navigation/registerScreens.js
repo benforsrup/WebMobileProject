@@ -29,7 +29,6 @@ import {
 
 function WrappedComponent(Component, store) {
   const InternalComponent = Component;
-  console.log(MapScreen)
   return class Scene extends React.Component {
     constructor(props) {
         super(props);

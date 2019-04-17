@@ -25,6 +25,5 @@ export const applyThemeOptions = (settings) => {
   
       // set(settings, 'layout.backgroundColor', '007aff');
     }
-    console.log(settings)
     return settings;
 }

@@ -9,9 +9,9 @@ function mapStateToProps({ data }) {
 
 const mapDispatchToProps = fetchDataActionCreators;
 
-export function connectData(configMapStateToProps = mapStateToProps) {
+export function connectData(configMapStateToProps = mapStateToProps, configMapDispatchToProps = mapDispatchToProps ) {
   return connect(
     configMapStateToProps,
-    mapDispatchToProps,
+    configMapDispatchToProps,
   );
 }

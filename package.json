@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
+    "postinstall": "remotedev-debugger --hostname=localhost --port=8000 --injectserver=reactnative",
     "android": "concurrently \"npm run android:dubugger\" \"npm run android:packager\" \"cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug\"",
     "android-build-prod": "export ENVFILE=.env && cd android && ./gradlew app:assembleRelease && cd .."
   },

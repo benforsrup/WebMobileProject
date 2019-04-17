@@ -4,7 +4,9 @@ import {
   GET_FACEBOOK_DATA_SUCCESS
 } from './actions';
 
-export const DEFAULT = {};
+export const DEFAULT = {
+  "testing":"hey"
+};
 
 export default function data(state = DEFAULT, action = {}) {
   const { type, payload } = action;
