@@ -5,6 +5,7 @@ import {StatusBar } from 'react-native'
 import {
   WELCOME_SCREEN,
   SINGLE_APP_SCREEN,
+  MAP_SCREEN,
   TAB1_SCREEN,
   TAB2_SCREEN
 } from './Screens';
@@ -44,29 +45,31 @@ export function pushTutorialScreen() {
 }
 
 export function pushSingleScreenApp() {
+  console.disableYellowBox = true;
   Navigation.setRoot({
     root: {
       stack: {
         children: [{
           component: {
-            name: SINGLE_APP_SCREEN,
+            name: MAP_SCREEN,
             options: {
               topBar: {
                 
-                leftButtons: [
-                  {
-                    id: 'nav_user_btn',
-                    icon: require('assets/icons/ic_nav_user.png'),
-                    color: 'black'
-                  }
-                ],
-                rightButtons: [
-                  {
-                    id: 'nav_logout_btn',
-                    icon: require('assets/icons/ic_nav_logout.png'),
-                    color: 'black'
-                  }
-                ]
+                // leftButtons: [
+                //   {
+                //     id: 'nav_user_btn',
+                //     // icon: require('assets/icons/ic_nav_user.png'),
+                //     color: 'black',
+                //     systemItem: 'back'
+                //   }
+                // ],
+                // rightButtons: [
+                //   {
+                //     id: 'nav_logout_btn',
+                //     icon: require('assets/icons/ic_nav_logout.png'),
+                //     color: 'black'
+                //   }
+                // ]
               }
             }
           }

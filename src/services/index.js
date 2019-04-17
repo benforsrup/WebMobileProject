@@ -1,1 +1,2 @@
-export { default as App_Service } from './restService';
+import * as _geoService from './geoService'
+export const geoService = _geoService;

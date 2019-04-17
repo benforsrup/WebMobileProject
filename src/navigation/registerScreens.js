@@ -8,8 +8,13 @@ import {
   LoginScreen,
   SingleAppScreen,
   Tab1Screen,
-  Tab2Screen
+  Tab2Screen,
+  MapScreen
 } from 'src/screens';
+
+
+import TopBarBackground from 'src/screens/MapScreen/components/TopBarBackground'
+
 import { Provider } from 'src/redux';
 
 import {
@@ -17,11 +22,14 @@ import {
   LOGIN_SCREEN,
   SINGLE_APP_SCREEN,
   TAB1_SCREEN,
-  TAB2_SCREEN
+  TAB2_SCREEN,
+  MAP_SCREEN,
+  CUSTOMTOPBAR
 } from './Screens';
 
 function WrappedComponent(Component, store) {
   const InternalComponent = Component;
+  console.log(MapScreen)
   return class Scene extends React.Component {
     constructor(props) {
         super(props);
@@ -42,17 +50,7 @@ function WrappedComponent(Component, store) {
         );
     }
 };
-  // return function inject(props) {
-  //   const EnhancedComponent = () => (
-  //     <Provider>
-  //       <Component
-  //         {...props}
-  //       />
-  //     </Provider>
-  //   );
-
-  //   return <EnhancedComponent />;
-  // };
+ 
 }
 
 export default function (store) {
@@ -61,5 +59,11 @@ export default function (store) {
   Navigation.registerComponent(SINGLE_APP_SCREEN, () => WrappedComponent(SingleAppScreen, store));
   Navigation.registerComponent(TAB1_SCREEN, () => WrappedComponent(Tab1Screen, store));
   Navigation.registerComponent(TAB2_SCREEN, () => WrappedComponent(Tab2Screen, store));
+  Navigation.registerComponent(MAP_SCREEN, () => WrappedComponent(MapScreen, store));
+
+  //custom components
+  Navigation.registerComponent(CUSTOMTOPBAR, () => TopBarBackground);
+
+
   console.info('All screens have been registered...');
 }

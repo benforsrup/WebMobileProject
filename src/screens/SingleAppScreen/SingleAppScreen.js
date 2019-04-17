@@ -30,12 +30,9 @@ class SingleAppScreen extends React.Component {
     super(props);
 
     Navigation.events().bindComponent(this);
-    console.log(this)
   }
 
-  static get options() {
-    
-    
+  static get options() { 
     return applyThemeOptions({
       topBar:{
         title:{

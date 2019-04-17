@@ -10,30 +10,20 @@ const getStatusBarStyle = (backgroundColor) => {
   };
 
 export const applyThemeOptions = (settings) => {
-    if (Platform.OS === 'ios') {
-        console.log('StatusBar.translucent:', StatusBar.translucent);
-      // NavBar
-    //   const navBarStyle = 'dark';
-    //   const navBarBg = 'transparent';
-  
-    //   if (navBarBg && navBarBg !== 'transparent') {
-    //     StatusBar.setBarStyle(getStatusBarStyle(navBarBg));
-    //   } else {
-    //     StatusBar.setBarStyle(navBarStyle === 'dark' ? 'light-content' : 'dark-content');
-    //   }
-  
+    if (Platform.OS === 'ios') {  
       // Top Bar
       set(settings, 'topBar.drawBehind', true);
+      
       set(settings, 'topBar.background.translucent', true);
-      set(settings, 'topBar.background.blur', false);
-      set(settings, 'topBar.background.color', ' transparent');
+      set(settings, 'topBar.background.blur', true);
       set(settings, 'topBar.barStyle', 'default');
       set(settings, 'topBar.title.color', 'black');
+      // set(settings, 'topBar.background.color', 'green')
       set(settings, 'topBar.buttonColor', '007aff');
-      set(settings, 'statusBar.style', 'light')
+      set(settings, 'statusBar.style', 'dark')
   
   
-      set(settings, 'layout.backgroundColor', '007aff');
+      // set(settings, 'layout.backgroundColor', '007aff');
     }
     console.log(settings)
     return settings;
