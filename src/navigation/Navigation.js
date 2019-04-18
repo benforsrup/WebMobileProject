@@ -4,9 +4,7 @@ import { Navigation } from 'react-native-navigation';
 import {StatusBar } from 'react-native'
 import {
   WELCOME_SCREEN,
-  SINGLE_APP_SCREEN,
   MAP_SCREEN,
-  TAB1_SCREEN,
   TAB2_SCREEN
 } from './Screens';
 import registerScreens from './registerScreens';
@@ -87,11 +85,11 @@ export function pushTabBasedApp() {
           stack: {
             children: [{
               component: {
-                name: TAB1_SCREEN,
+                name: MAP_SCREEN,
                 options: {
                   topBar: {
                     title: {
-                      text: 'TAB 1'
+                      text: 'Badplatser'
                     },
                     leftButtons: [
                       {
@@ -115,7 +113,7 @@ export function pushTabBasedApp() {
               bottomTab: {
                 icon: require('assets/icons/ic_tab_home.png'),
                 testID: 'FIRST_TAB_BAR_BUTTON',
-                text: 'Tab1',
+                text: 'Badplatser',
               }
             }
           }

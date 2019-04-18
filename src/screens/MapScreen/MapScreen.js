@@ -8,11 +8,12 @@ import {
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { get } from 'lodash';
-import Map from '../../components/map/Map'
+import Map from './Map'
 import { pushTutorialScreen } from 'src/navigation';
 import { connectData, markersActionCreators } from 'src/redux';
 import { applyThemeOptions } from '../../styling'
 import { bindActionCreators } from "redux";
+import { connect } from 'react-redux'
 
 
 const styles = StyleSheet.create({
@@ -28,11 +29,10 @@ const styles = StyleSheet.create({
   }
 });
 
-class Tab1Screen extends PureComponent {
+class MapScreen extends PureComponent {
 
   constructor(props) {
     super(props);
-
     Navigation.events().bindComponent(this);
   }
 
@@ -48,12 +48,13 @@ class Tab1Screen extends PureComponent {
             name: 'custom.TopBarBackground',
             alignment: 'fill'
           }
-        },
-        
-        
-      },
-      
+        },      
+      },    
     });
+  }
+
+  componentDidMount(){
+    //fetch markers
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -106,4 +107,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connectData(mapStateToProps, mapDispatchToProps)(Tab1Screen);
+export default connect(mapStateToProps, mapDispatchToProps)(MapScreen);

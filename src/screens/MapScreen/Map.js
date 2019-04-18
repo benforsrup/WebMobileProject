@@ -10,13 +10,25 @@ import {
   import {geoService} from '../../services'
 
   import locationButtonActive from "../../assets/images/location_active_ios.png";
+import BadMarker from "./BadMarker";
   const defaultRegion = {
     latitude: 59.329323,
     longitude: 18.068581,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   }
-  class MapScreen extends Component {
+
+
+  export const badmarkers = [
+    {
+      information:{
+        name:'Test'
+      },
+      location: { longitude: 18.267003, latitude: 59.291998 },
+    },
+  ];
+
+  class Map extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -47,7 +59,13 @@ import {
             <MapView
                 region={this.state.region}
                 style={StyleSheet.absoluteFill}
+          >
+
+          <BadMarker 
+            badmarkers={badmarkers}
           />
+          
+          </MapView>
           <View style={styles.touchable}>
             <TouchableWithoutFeedback
               onPress={this.moveToUserLocation}
@@ -93,4 +111,4 @@ import {
 })
   
   
-  export default MapScreen;
+  export default Map;

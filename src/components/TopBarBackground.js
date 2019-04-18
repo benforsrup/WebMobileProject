@@ -5,8 +5,7 @@ import {
   Text
 } from 'react-native';
 import {Navigation } from 'react-native-navigation'
-import { connectData } from 'src/redux'
-
+import { connect } from 'react-redux';
 class TopBarBackground extends Component {
 
   constructor(props) {
@@ -43,13 +42,13 @@ class TopBarBackground extends Component {
   }
 }
 
-function mapStateToProps(state){
+const mapStateToProps = (state) => {
   return {
     markers: state.markers
   }
 }
 
-export default connectData(mapStateToProps,null)(TopBarBackground)
+export default connect(mapStateToProps,null)(TopBarBackground)
 
 const styles = StyleSheet.create({
   container: {
