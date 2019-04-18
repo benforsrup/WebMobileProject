@@ -13,7 +13,7 @@ import {
 
 
 import TopBarBackground from 'src/components/TopBarBackground'
-
+import DetailOverlay from 'src/screens/MapScreen/DetailOverlay'
 import { Provider } from 'src/redux';
 
 import {
@@ -22,7 +22,8 @@ import {
   SINGLE_APP_SCREEN,
   TAB2_SCREEN,
   MAP_SCREEN,
-  CUSTOMTOPBAR
+  CUSTOMTOPBAR,
+  CUSTOMDETAILOVERLAY
 } from './Screens';
 
 function WrappedComponent(Component, store) {
@@ -59,6 +60,7 @@ export default function (store) {
 
   //custom components
   Navigation.registerComponent(CUSTOMTOPBAR, () => WrappedComponent(TopBarBackground, store));
+  Navigation.registerComponent(CUSTOMDETAILOVERLAY, () => WrappedComponent(DetailOverlay, store));
 
 
   console.info('All screens have been registered...');

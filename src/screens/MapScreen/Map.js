@@ -4,11 +4,12 @@ import {
     Image,
     Platform,
     View,
+    Text,
     StyleSheet,
     TouchableWithoutFeedback
   } from "react-native";
   import {geoService} from '../../services'
-
+import { Overlay } from 'react-native-elements'
   import locationButtonActive from "../../assets/images/location_active_ios.png";
 import BadMarker from "./BadMarker";
   const defaultRegion = {
@@ -32,7 +33,8 @@ import BadMarker from "./BadMarker";
     constructor(props){
         super(props)
         this.state = {
-            region: defaultRegion
+            region: defaultRegion,
+            detailVisible:false
         }
     }
     moveToUserLocation = () => {
@@ -52,25 +54,30 @@ import BadMarker from "./BadMarker";
         });
     }
 
+    handleMarkerSelect = (event) => {
+      console.log("heey")
+      this.props.onDetailOpen()
+
+    }
+
     render() {
       
       return (
         <View style={styles.mapWrapper}>    
             <MapView
                 region={this.state.region}
-                style={StyleSheet.absoluteFill}
-          >
+                style={StyleSheet.absoluteFill}>
 
-          <BadMarker 
-            badmarkers={badmarkers}
-          />
+            <BadMarker 
+              badmarkers={badmarkers}
+              markerSelect={this.handleMarkerSelect}/>
+            </MapView>
           
-          </MapView>
+
           <View style={styles.touchable}>
             <TouchableWithoutFeedback
               onPress={this.moveToUserLocation}
-              hitSlop={{ top: 50, left: 10, right: 10, bottom: 10 }}
-            >
+              hitSlop={{ top: 50, left: 10, right: 10, bottom: 10 }}>
               <View>
                 <Image
                   accessibilityLabel="Show my location"
@@ -80,6 +87,8 @@ import BadMarker from "./BadMarker";
               </View>
             </TouchableWithoutFeedback>
           </View>
+
+          
 
         </View>
       );
@@ -107,7 +116,11 @@ import BadMarker from "./BadMarker";
     image: {
       width: 48,
       height: 48
-    }
+    },
+    detailOverlay:{
+      alignSelf:'center',
+      
+    },
 })
   
   

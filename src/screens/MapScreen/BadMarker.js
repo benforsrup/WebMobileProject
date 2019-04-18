@@ -4,7 +4,7 @@ import { Marker } from "react-native-maps";
 import { lightNavyBlueColor, transparent } from '../../constants/colors'
 
 
-const BadMarker = ({badmarkers}) =>{
+const BadMarker = ({badmarkers, markerSelect}) =>{
     if(badmarkers.length == 0){
         return null;
     }
@@ -16,6 +16,7 @@ const BadMarker = ({badmarkers}) =>{
                     key={index}
                     coordinate={marker.location}
                     centerOffset={{ x: 0, y: -15 }}
+                    onPress={markerSelect}
                     stopPropagation
                 >
                     <View style={styles.markerView}>

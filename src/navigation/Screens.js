@@ -7,5 +7,7 @@ export const TAB2_SCREEN = 'demo.Tab2Screen';
 export const MAP_SCREEN = 'demo.MapScreen';
 
 //CUSTOM TOP BAR
-
 export const CUSTOMTOPBAR = 'custom.TopBarBackground'
+
+//CUSTOM DETAIL OVERLAY
+export const CUSTOMDETAILOVERLAY = 'custom.DetailOverlay'
