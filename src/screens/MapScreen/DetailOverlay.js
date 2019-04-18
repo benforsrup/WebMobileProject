@@ -7,6 +7,11 @@ import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { applyThemeOptions } from 'src/styling'
 import { transparent } from '../../constants/colors';
+import { BlurView } from "@react-native-community/blur";
+import * as Animatable from 'react-native-animatable';
+
+
+
 const width=Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 class DetailOverlay extends React.Component{
@@ -29,36 +34,63 @@ class DetailOverlay extends React.Component{
     constructor(props) {
         super(props);
         Navigation.events().bindComponent(this);
+        this.state={
+            ref:null
+        }
+    }
+
+    componentDidMount(){
+        this.setState({
+            ref:this.ref
+        })
     }
     
-    closeOverlay = async() =>{
-        console.log(this.props.componentId)
-        await Navigation.dismissOverlay(this.props.componentId)
+    closeOverlay = () =>{
+        console.log(this.props)
+        this.props.events.emit('closeDetail')
+        this.animatable.slideOutDown(200)
+        setTimeout(async() => await Navigation.dismissOverlay(this.props.componentId)  , 400)
+        
     } 
 
     render(){
         return(
-            <View style={styles.container} onPress={this.closeOverlay} >
-                    <Icon onPress={this.closeOverlay} name="times" size={30} color="#900" style={styles.close} />
-            </View>
+            <Animatable.View 
+                ref={ref => { this.animatable = ref }}
+                animation="slideInUp"
+                duration={200}
+                style={styles.blurContainer}>
+                {this.state.ref &&
+                <BlurView 
+                    style={[StyleSheet.absoluteFillObject, {borderRadius:20}]}
+                    
+                    blurType="light"
+                    viewRef={this.state.ref}
+                    blurAmount={10} />}
+                
+                    
+                <View  ref={ref => this.ref = ref} >
+                        <Icon onPress={this.closeOverlay} name="times" size={30} color="#900" style={styles.close} />
+                </View>
+                
+                </Animatable.View>
         )
     }
 }
 
 
 const styles = StyleSheet.create({
-    container:{
-        position:'absolute',
+    blurContainer:{
+        
+        height:300,
         width:width,
-        backgroundColor:'rgba(0,0,0,0.5)',
-        height:height/4,
-        zIndex:10,
         bottom:0,
+        backgroundColor:'rgba(0,200,0,0.3)',
+        marginTop:height-300,
         marginBottom:0,
         borderRadius:20,
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center' 
+        overflow:'hidden',
+        borderColor:'lightgreen'
     },
     close:{
         position:'absolute',

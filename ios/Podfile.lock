@@ -97,6 +97,8 @@ PODS:
   - nanopb/encode (0.3.901)
   - React (0.58.5):
     - React/Core (= 0.58.5)
+  - react-native-blur (0.8.0):
+    - React
   - react-native-google-maps (0.23.0):
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 2.5.0)
@@ -161,6 +163,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Google-Maps-iOS-Utils
   - GoogleMaps
+  - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - React/Core (from `../node_modules/react-native`)
@@ -205,6 +208,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-blur:
+    :path: "../node_modules/@react-native-community/blur"
   react-native-google-maps:
     :path: "../node_modules/react-native-maps"
   react-native-maps:
@@ -232,10 +237,11 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   React: 6cd5e6fcc3b6a52d2fb27a638f622139da710dff
+  react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-google-maps: 544d2208b09a7e2ec2c6112c8a97c4e7f921f74d
   react-native-maps: 9469741f77f270c605cafec603ce47327dc5b5f8
   yoga: 0e0009ffb2544aeead64a1209f3d488d3849947b
 
-PODFILE CHECKSUM: 4b001a727852ea87c7415b441a7fe0b70f5fb427
+PODFILE CHECKSUM: 0a6f41d7350d8d61378029b2aacfd33e0374920e
 
 COCOAPODS: 1.6.1

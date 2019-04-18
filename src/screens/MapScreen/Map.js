@@ -55,7 +55,6 @@ import BadMarker from "./BadMarker";
     }
 
     handleMarkerSelect = (event) => {
-      console.log("heey")
       this.props.onDetailOpen()
 
     }

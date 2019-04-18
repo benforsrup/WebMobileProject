@@ -95,14 +95,14 @@ export function pushTabBasedApp() {
                       {
                         id: 'nav_user_btn',
                         icon: require('assets/icons/ic_nav_user.png'),
-                        color: 'white'
+                        color: 'black'
                       }
                     ],
                     rightButtons: [
                       {
                         id: 'nav_logout_btn',
                         icon: require('assets/icons/ic_nav_logout.png'),
-                        color: 'white'
+                        color: 'black'
                       }
                     ]
                   }

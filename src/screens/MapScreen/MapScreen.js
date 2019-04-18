@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import EventEmitter from 'EventEmitter'
 import {
   StyleSheet,
   View,
@@ -28,8 +29,10 @@ class MapScreen extends PureComponent {
     super(props);
     Navigation.events().bindComponent(this);
     this.state={
-      detailOpen: true
+      detailIsOpen: false
     }
+     this.events = new EventEmitter();
+    this.events.addListener('closeDetail', () =>  this.setState({detailIsOpen:false}) );
   }
 
   static get options() { 
@@ -74,21 +77,28 @@ class MapScreen extends PureComponent {
   }
 
    openDetail = async() =>{
+     console.log("is open: ", this.state.detailIsOpen)
+     
+     if(!this.state.detailIsOpen){
       await Navigation.showOverlay({
         component: {
           name: 'custom.DetailOverlay',
-          options: {
-            layout: {
-              componentBackgroundColor: 'transparent'
-            },
+          passProps:{
+            events:this.events
+          },
+          options: { 
             overlay: {
-              interceptTouchOutside: true
+              interceptTouchOutside: false
             }
           }
         }
       });
-    
-  
+    }
+      this.setState({detailIsOpen: true})
+
+  }
+  closeDetail =async() => {
+    this.setState({detailOpen:false})
   }
   backDropPress = (event) =>{
     console.log(event, "hey")

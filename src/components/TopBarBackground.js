@@ -33,7 +33,6 @@ class TopBarBackground extends Component {
   }
 
   render() {
-    console.log(this.props.markers, "hey")
     return (
       <View style={styles.container}>
         <Text style={styles.title}> {this.props.markers.testing} </Text>
