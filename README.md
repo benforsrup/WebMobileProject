@@ -1,4 +1,4 @@
-### Badplatser
+# Badplatser
 
 ## Requirements
 Before start, make sure you installed:
