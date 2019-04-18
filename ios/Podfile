@@ -34,7 +34,7 @@ target 'ReactNativeStarterKit' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
-
+  pod 'Firebase/Firestore'
   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
 
 end

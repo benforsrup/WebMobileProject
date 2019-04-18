@@ -9,8 +9,7 @@ import { applyThemeOptions } from 'src/styling'
 import { transparent } from '../../constants/colors';
 import { BlurView } from "@react-native-community/blur";
 import * as Animatable from 'react-native-animatable';
-
-
+import { connect } from 'react-redux'
 
 const width=Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -48,12 +47,13 @@ class DetailOverlay extends React.Component{
     closeOverlay = () =>{
         console.log(this.props)
         this.props.events.emit('closeDetail')
-        this.animatable.slideOutDown(200)
-        setTimeout(async() => await Navigation.dismissOverlay(this.props.componentId)  , 400)
+        this.animatable.slideOutDown(1000)
+        setTimeout(async() => await Navigation.dismissOverlay(this.props.componentId)  , 1000)
         
     } 
 
     render(){
+        const {marker, selectedMarker} = this.props
         return(
             <Animatable.View 
                 ref={ref => { this.animatable = ref }}
@@ -69,8 +69,9 @@ class DetailOverlay extends React.Component{
                     blurAmount={10} />}
                 
                     
-                <View  ref={ref => this.ref = ref} >
+                <View style={styles.detailContainer} ref={ref => this.ref = ref} >
                         <Icon onPress={this.closeOverlay} name="times" size={30} color="#900" style={styles.close} />
+                        <Text> {selectedMarker.information.name} </Text>
                 </View>
                 
                 </Animatable.View>
@@ -92,10 +93,26 @@ const styles = StyleSheet.create({
         overflow:'hidden',
         borderColor:'lightgreen'
     },
+    detailContainer:{
+        justifyContent:'center',
+        alignItems:'center',
+        height:300
+    },
     close:{
         position:'absolute',
         right:20,
         top:20
     }
 })
-export default DetailOverlay
+
+const mapStateToProps = state =>{
+    const selectedIndex = state.markers.selectedIndex
+    const selectedMarker = state.markers.markers[selectedIndex]
+    return{
+        selectedMarker
+    }
+}
+
+
+
+export default connect(mapStateToProps, null)(DetailOverlay);

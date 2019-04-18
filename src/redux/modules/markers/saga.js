@@ -1,17 +1,16 @@
 // @flow
 
-import { App_Service } from 'src/services';
-
+import {  firebaseService } from 'src/services'
 import {
   take,
   put,
   call,
   fork,
-  all
+  all,takeLatest
 } from 'redux-saga/effects';
 
 import {
-  GET_FACEBOOK_DATA,
+  REQUEST_BADPLATSER,
   fetchDataActionCreators
 } from './actions';
 
@@ -33,6 +32,22 @@ export function* asyncGetFacebookUserData({ payload }) {
   }
 }
 
+export function* GetBadplatser(){
+  console.log("GET_BADPLATSER")
+  try{
+    const response = yield call(firebaseService.getBadplatser);
+    if(response.result === 'ok'){
+      console.log(response)
+    }
+  } catch(e){
+    console.log(e)
+  }
+}
+
+export function* watchGetBadplatser(){
+  yield takeLatest(REQUEST_BADPLATSER, GetBadplatser);
+}
+
 export function* watchGetFacebookUserData() {
   while (true) {
     const action = yield take(GET_FACEBOOK_DATA);
@@ -42,6 +57,6 @@ export function* watchGetFacebookUserData() {
 
 export default function* () {
   yield all([
-    fork(watchGetFacebookUserData),
+    fork(watchGetBadplatser),
   ]);
 }

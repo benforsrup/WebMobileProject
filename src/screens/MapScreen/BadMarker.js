@@ -16,7 +16,7 @@ const BadMarker = ({badmarkers, markerSelect}) =>{
                     key={index}
                     coordinate={marker.location}
                     centerOffset={{ x: 0, y: -15 }}
-                    onPress={markerSelect}
+                    onPress={() => markerSelect(marker, index)}
                     stopPropagation
                 >
                     <View style={styles.markerView}>

@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import { Overlay, Button } from 'react-native-elements'
 import Modal from "react-native-modal";
 import { DetailOverlay } from './DetailOverlay';
+import firebase from 'react-native-firebase';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -31,8 +32,10 @@ class MapScreen extends PureComponent {
     this.state={
       detailIsOpen: false
     }
-     this.events = new EventEmitter();
+    this.events = new EventEmitter();
     this.events.addListener('closeDetail', () =>  this.setState({detailIsOpen:false}) );
+    this.firebaseRef = firebase.firestore().collection('badplatser')
+    this.unsubscribe = null;
   }
 
   static get options() { 
@@ -54,6 +57,24 @@ class MapScreen extends PureComponent {
 
   componentDidMount(){
     //fetch markers
+    // this.props.actions.requestBadplatser()
+    this.unsubscribe = this.firebaseRef.onSnapshot(this.onCollectionUpdate) 
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onCollectionUpdate = (querySnapshot) =>{
+    const markers = [];
+    querySnapshot.forEach((doc) => {
+      const { location, information } = doc.data();
+      markers.push({
+        location,
+        information
+      })  
+    });
+    this.props.actions.receivedBadplatser(markers)
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -76,15 +97,16 @@ class MapScreen extends PureComponent {
     }
   }
 
-   openDetail = async() =>{
-     console.log("is open: ", this.state.detailIsOpen)
+   openDetail = async(marker) =>{
+    //  console.log("is open: ", this.state.detailIsOpen)
      
      if(!this.state.detailIsOpen){
       await Navigation.showOverlay({
         component: {
           name: 'custom.DetailOverlay',
           passProps:{
-            events:this.events
+            events:this.events,
+            marker: marker
           },
           options: { 
             overlay: {
@@ -101,15 +123,19 @@ class MapScreen extends PureComponent {
     this.setState({detailOpen:false})
   }
   backDropPress = (event) =>{
-    console.log(event, "hey")
+    // console.log(event, "hey")
   }
 
   render() {
-    console.log(this.props.markers)
+    // console.log(this.props.markers)
     return (
       <View style={styles.container}>
             
-          <Map onDetailOpen={this.openDetail} />
+          <Map 
+            onSelectMarker={this.props.actions.setSelectedBadPlats}
+            onDetailOpen={this.openDetail}
+            badmarkers={this.props.markers.markers}
+            />
           
       </View>
     );
@@ -158,7 +184,6 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   const { data, markers } = state
-  console.log(state)
   return  {
     data: data,
     markers: markers

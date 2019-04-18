@@ -15,56 +15,61 @@ import BadMarker from "./BadMarker";
   const defaultRegion = {
     latitude: 59.329323,
     longitude: 18.068581,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
   }
 
-
-  export const badmarkers = [
-    {
-      information:{
-        name:'Test'
-      },
-      location: { longitude: 18.267003, latitude: 59.291998 },
-    },
-  ];
 
   class Map extends Component {
     constructor(props){
         super(props)
         this.state = {
-            region: defaultRegion,
+            curPos: defaultRegion,
+            curAng: 45,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
             detailVisible:false
         }
     }
     moveToUserLocation = () => {
-        console.log(geoService)
         geoService.getCurrentLocation().then(position => {
             if (position) {
-                console.log(position)
-              this.setState({
-                region: {
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                  latitudeDelta: 0.003,
-                  longitudeDelta: 0.003,
-                },
-              });
+                this.setState({
+                  curPos: {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    latitudeDelta: 0.003,
+                    longitudeDelta: 0.003,
+                  },
+              }, () => this.updateMap());
             }
         });
+        
     }
 
-    handleMarkerSelect = (event) => {
-      this.props.onDetailOpen()
+    
 
+
+    handleMarkerSelect = (marker, index) => {
+      console.log(marker, "hey")
+      this.props.onDetailOpen(marker)
+      this.props.onSelectMarker(index)
+      this.map.animateCamera({ center: marker.location, zoom:20 });
+
+    }
+
+    updateMap(){
+      this.map.animateCamera({ center: this.state.curPos });
     }
 
     render() {
-      
+      const { badmarkers } = this.props
       return (
         <View style={styles.mapWrapper}>    
             <MapView
-                region={this.state.region}
+                ref={(el) => (this.map = el)}
+                initialRegion={{
+                  ...this.state.curPos,
+                  latitudeDelta: this.state.latitudeDelta,
+                  longitudeDelta: this.state.longitudeDelta}}
                 style={StyleSheet.absoluteFill}>
 
             <BadMarker 
@@ -123,4 +128,4 @@ import BadMarker from "./BadMarker";
 })
   
   
-  export default Map;
+  export default  Map;
