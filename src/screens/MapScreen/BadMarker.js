@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Animated } from "react-native";
 import { Marker } from "react-native-maps";
 import { lightNavyBlueColor, transparent } from '../../constants/colors'
 
 
-const BadMarker = ({badmarkers, markerSelect}) =>{
+const BadMarker = ({badmarkers, markerSelect, animations}) =>{
     if(badmarkers.length == 0){
         return null;
     }
@@ -13,7 +13,18 @@ const BadMarker = ({badmarkers, markerSelect}) =>{
 
     return (
         <Fragment>
-            {badmarkers.map((marker, index) => (
+            {badmarkers.map((marker, index) => {
+                const scaleStyle = {
+                    transform: [
+                      {
+                        scale: animations[index].scale,
+                      },
+                    ],
+                  };
+                  const opacityStyle = {
+                    opacity: animations[index].opacity,
+                  };
+                return(
                 <Marker
                     key={index}
                     coordinate={marker.location}
@@ -21,16 +32,16 @@ const BadMarker = ({badmarkers, markerSelect}) =>{
                     onPress={() => markerSelect(marker, index)}
                     stopPropagation
                 >
-                    <View style={styles.markerView}>
+                    <Animated.View style={[styles.markerView, scaleStyle, opacityStyle]}>
                         <View style={styles.markerTextWrapper}>
                         <Text type="h4" style={{color:'white', fontWeight:'700'}}>
                             {marker.information.name}
                         </Text>
                         </View>
                         <View style={styles.triangle} />
-                    </View>
+                    </Animated.View>
                 </Marker>
-            ))}
+            )})}
         </Fragment>
     )
 }

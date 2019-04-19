@@ -72,13 +72,9 @@ const CARD_WIDTH = width - 20;
           if (this.index !== index) {
             this.index = index;
             const { location } = this.props.badmarkers[index];
-            this.map.animateToRegion(
-              {
-                ...location,
-                latitudeDelta: this.state.latitudeDelta,
-                longitudeDelta: this.state.longitudeDelta,
-              },
-              350
+            this.map.animateCamera({center:location,zoom:10}     
+              ,
+              {duration:350}
             );
           }
         }, 10);
@@ -108,12 +104,15 @@ const CARD_WIDTH = width - 20;
     handleMarkerSelect = (marker, index) => {
       //this.props.onDetailOpen(marker)
       //this.props.onSelectMarker(index)
+      console.log(this.cardListRef)
+      this.cardListRef.getNode().scrollTo({x:index*(CARD_WIDTH+20)})
       this.map.animateCamera({ center: marker.location, zoom:20 });
 
     }
 
     updateMap(){
       this.map.animateCamera({ center: this.state.curPos });
+      
     }
 
     render() {
@@ -127,7 +126,7 @@ const CARD_WIDTH = width - 20;
         ];
         const scale = this.animation.interpolate({
           inputRange,
-          outputRange: [1, 2.5, 1],
+          outputRange: [1, 1.2, 1],
           extrapolate: "clamp",
         });
         const opacity = this.animation.interpolate({
@@ -150,11 +149,14 @@ const CARD_WIDTH = width - 20;
 
             <BadMarker 
               badmarkers={badmarkers}
-              markerSelect={this.handleMarkerSelect}/>
+              markerSelect={this.handleMarkerSelect}
+              animations={interpolations}
+              />
             </MapView>
           
             <Animated.ScrollView
               horizontal
+              ref={(ref) => this.cardListRef = ref}
               scrollEventThrottle={1}
               showsHorizontalScrollIndicator={true}
               snapToInterval={CARD_WIDTH+20}
