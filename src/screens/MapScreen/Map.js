@@ -40,8 +40,7 @@ const CARD_WIDTH = width - 20;
             curAng: 45,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-            detailVisible:false,
-            ref:null
+            detailVisible:false
 
         }
     }
@@ -53,9 +52,7 @@ const CARD_WIDTH = width - 20;
 
     componentDidMount() {
       this.moveToUserLocation()
-      this.setState({
-        ref:this.ref
-    })
+      
       // We should detect when scrolling has stopped then animate
       // We should just debounce the event listener here
       this.animation.addListener(({ value }) => {
@@ -72,6 +69,7 @@ const CARD_WIDTH = width - 20;
           if (this.index !== index) {
             this.index = index;
             const { location } = this.props.badmarkers[index];
+            console.log("should animate")
             this.map.animateCamera({center:location,zoom:10}     
               ,
               {duration:350}
@@ -104,7 +102,6 @@ const CARD_WIDTH = width - 20;
     handleMarkerSelect = (marker, index) => {
       //this.props.onDetailOpen(marker)
       //this.props.onSelectMarker(index)
-      console.log(this.cardListRef)
       this.cardListRef.getNode().scrollTo({x:index*(CARD_WIDTH+20)})
       this.map.animateCamera({ center: marker.location, zoom:20 });
 
@@ -113,6 +110,10 @@ const CARD_WIDTH = width - 20;
     updateMap(){
       this.map.animateCamera({ center: this.state.curPos });
       
+    }
+
+    handleOnPress = (event) => {
+      console.log("hey")
     }
 
     render() {
@@ -131,7 +132,7 @@ const CARD_WIDTH = width - 20;
         });
         const opacity = this.animation.interpolate({
           inputRange,
-          outputRange: [0.35, 1, 0.35],
+          outputRange: [0.55, 1, 0.55],
           extrapolate: "clamp",
         });
         return { scale, opacity };
@@ -145,12 +146,14 @@ const CARD_WIDTH = width - 20;
                   ...this.state.curPos,
                   latitudeDelta: this.state.latitudeDelta,
                   longitudeDelta: this.state.longitudeDelta}}
+                onPress={this.handleOnPress}
                 style={StyleSheet.absoluteFill}>
 
             <BadMarker 
               badmarkers={badmarkers}
               markerSelect={this.handleMarkerSelect}
               animations={interpolations}
+              
               />
             </MapView>
           
@@ -178,8 +181,8 @@ const CARD_WIDTH = width - 20;
               contentContainerStyle={styles.endPadding}
             >
 
-            {badmarkers.map((marker, index) => (
-                  <DetailCard marker={marker} />
+            { badmarkers.map((marker, index) => (
+                  <DetailCard marker={marker} key={marker.id}/>
                   
               ))}
 

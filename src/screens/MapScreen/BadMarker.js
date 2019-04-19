@@ -3,48 +3,53 @@ import { View, StyleSheet, Text, Animated } from "react-native";
 import { Marker } from "react-native-maps";
 import { lightNavyBlueColor, transparent } from '../../constants/colors'
 
+export default class BadMarker extends React.Component{
 
-const BadMarker = ({badmarkers, markerSelect, animations}) =>{
-    if(badmarkers.length == 0){
-        return null;
+    
+
+    render(){
+        const { badmarkers, markerSelect, animations} = this.props
+        if(badmarkers.length == 0){
+            return null;
+        }
+        return (
+            <Fragment>
+                {badmarkers.map((marker, index) => {
+                    const scaleStyle = {
+                        transform: [
+                          {
+                            scale: animations[index].scale ,
+                          },
+                        ],
+                      };
+                      const opacityStyle = {
+                        opacity: animations[index].opacity,
+                      };
+                      console.log(scaleStyle, opacityStyle)
+                    return(
+                    <Marker
+                        key={index}
+                        coordinate={marker.location}
+                        centerOffset={{ x: 0, y: -15 }}
+                        onPress={() => markerSelect(marker, index)}
+                        stopPropagation
+                    >
+                        <Animated.View style={[styles.markerView, scaleStyle, opacityStyle]}>
+                            <View style={styles.markerTextWrapper}>
+                            <Text type="h4" style={{color:'white', fontWeight:'700'}}>
+                                {marker.information.name}
+                            </Text>
+                            </View>
+                            <View style={styles.triangle} />
+                        </Animated.View>
+                    </Marker>
+                )})}
+            </Fragment>
+        )
     }
-
-
-
-    return (
-        <Fragment>
-            {badmarkers.map((marker, index) => {
-                const scaleStyle = {
-                    transform: [
-                      {
-                        scale: animations[index].scale,
-                      },
-                    ],
-                  };
-                  const opacityStyle = {
-                    opacity: animations[index].opacity,
-                  };
-                return(
-                <Marker
-                    key={index}
-                    coordinate={marker.location}
-                    centerOffset={{ x: 0, y: -15 }}
-                    onPress={() => markerSelect(marker, index)}
-                    stopPropagation
-                >
-                    <Animated.View style={[styles.markerView, scaleStyle, opacityStyle]}>
-                        <View style={styles.markerTextWrapper}>
-                        <Text type="h4" style={{color:'white', fontWeight:'700'}}>
-                            {marker.information.name}
-                        </Text>
-                        </View>
-                        <View style={styles.triangle} />
-                    </Animated.View>
-                </Marker>
-            )})}
-        </Fragment>
-    )
 }
+
+
 
 const styles = StyleSheet.create({
     markerView: {
@@ -78,4 +83,3 @@ const styles = StyleSheet.create({
     }
   });
 
-  export default BadMarker;
