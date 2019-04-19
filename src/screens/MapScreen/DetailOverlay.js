@@ -70,7 +70,7 @@ class DetailOverlay extends React.Component{
                 
                     
                 <View style={styles.detailContainer} ref={ref => this.ref = ref} >
-                        <Icon onPress={this.closeOverlay} name="times" size={30} color="#900" style={styles.close} />
+                        <Icon onPress={this.closeOverlay} name="times" size={30} color="white" style={styles.close} />
                         <Text> {selectedMarker.information.name} </Text>
                 </View>
                 
@@ -84,11 +84,12 @@ const styles = StyleSheet.create({
     blurContainer:{
         
         height:300,
-        width:width,
+        width:width-20,
         bottom:0,
-        backgroundColor:'rgba(0,200,0,0.3)',
-        marginTop:height-300,
-        marginBottom:0,
+        backgroundColor:'rgba(30, 139, 195, 0.5)',
+        marginTop:height-310,
+        marginBottom:10,
+        marginLeft:10,
         borderRadius:20,
         overflow:'hidden',
         borderColor:'lightgreen'

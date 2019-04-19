@@ -8,6 +8,7 @@ YellowBox.ignoreWarnings([
     'Could not find image',
     'RCTBridge required dispatch_sync',
     'Required dispatch_sync to load constants',
-    'Remote debugger'
+    'Remote debugger',
+    'Unhandled Promise Rejection'
   ]);
 Navigation.events().registerAppLaunchedListener(() => pushTutorialScreen());

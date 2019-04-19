@@ -9,7 +9,7 @@ const BadMarker = ({badmarkers, markerSelect}) =>{
         return null;
     }
 
-    
+
 
     return (
         <Fragment>
@@ -23,7 +23,7 @@ const BadMarker = ({badmarkers, markerSelect}) =>{
                 >
                     <View style={styles.markerView}>
                         <View style={styles.markerTextWrapper}>
-                        <Text type="h4" color="whiteColor">
+                        <Text type="h4" style={{color:'white', fontWeight:'700'}}>
                             {marker.information.name}
                         </Text>
                         </View>
@@ -43,24 +43,26 @@ const styles = StyleSheet.create({
     markerTextWrapper: {
       paddingHorizontal: 8,
       paddingVertical: 2,
-      backgroundColor: lightNavyBlueColor,
-      height: 30,
-      width: 30,
+      backgroundColor: 'rgba(25, 181, 254, 1)',
+      height: 50,
+      width: 100,
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: 2
+      borderRadius: 10,
+      
     },
     triangle: {
       width: 0,
       height: 0,
       backgroundColor: transparent,
       borderStyle: "solid",
-      borderLeftWidth: 5,
-      borderRightWidth: 5,
-      borderBottomWidth: 10,
+      borderLeftWidth: 8,
+      borderRightWidth: 8,
+      borderBottomWidth: 13,
+      zIndex:10,
       borderLeftColor: transparent,
       borderRightColor: transparent,
-      borderBottomColor: lightNavyBlueColor,
+      borderBottomColor: 'rgba(25, 181, 254, 1)',
       transform: [{ rotate: "180deg" }]
     }
   });
