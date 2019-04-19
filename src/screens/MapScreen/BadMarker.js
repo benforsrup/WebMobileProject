@@ -8,7 +8,7 @@ export default class BadMarker extends React.Component{
     
 
     render(){
-        const { badmarkers, markerSelect, animations} = this.props
+        const { badmarkers, markerSelect, animations, detailOpen} = this.props
         if(badmarkers.length == 0){
             return null;
         }
@@ -18,14 +18,13 @@ export default class BadMarker extends React.Component{
                     const scaleStyle = {
                         transform: [
                           {
-                            scale: animations[index].scale ,
+                            scale: detailOpen ? animations[index].scale : 1 ,
                           },
                         ],
                       };
                       const opacityStyle = {
-                        opacity: animations[index].opacity,
+                        opacity: detailOpen ? animations[index].opacity: 1,
                       };
-                      console.log(scaleStyle, opacityStyle)
                     return(
                     <Marker
                         key={index}

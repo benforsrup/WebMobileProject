@@ -8,6 +8,7 @@ import {
     StyleSheet,
     TouchableWithoutFeedback,
     Animated,
+    Easing,
     Dimensions,
     ScrollView
   } from "react-native";
@@ -40,7 +41,8 @@ const CARD_WIDTH = width - 20;
             curAng: 45,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-            detailVisible:false
+            detailVisible:false,
+            detailMoveAnim: new Animated.Value(400)
 
         }
     }
@@ -55,32 +57,34 @@ const CARD_WIDTH = width - 20;
       
       // We should detect when scrolling has stopped then animate
       // We should just debounce the event listener here
-      this.animation.addListener(({ value }) => {
-        let index = Math.floor(value / CARD_WIDTH + 0.5); // animate 30% away from landing on the next item
-        if (index >= this.props.badmarkers.length) {
-          index = this.props.badmarkers.length - 1;
-        }
-        if (index <= 0) {
-          index = 0;
-        }
+      // this.animation.addListener(({ value }) => {
+      //   console.log(value)
+      //   let index = Math.floor(value / CARD_WIDTH + 0.5); // animate 30% away from landing on the next item
+      //   if (index >= this.props.badmarkers.length) {
+      //     index = this.props.badmarkers.length - 1;
+      //   }
+      //   if (index <= 0) {
+      //     index = 0;
+      //   }
   
-        clearTimeout(this.regionTimeout);
-        this.regionTimeout = setTimeout(() => {
-          if (this.index !== index) {
-            this.index = index;
-            const { location } = this.props.badmarkers[index];
-            console.log("should animate")
-            this.map.animateCamera({center:location,zoom:10}     
-              ,
-              {duration:350}
-            );
-          }
-        }, 10);
-      });
+      //   clearTimeout(this.regionTimeout);
+      //   this.regionTimeout = setTimeout(() => {
+      //     if (this.index !== index) {
+      //       this.index = index;
+      //       const { location } = this.props.badmarkers[index];
+      //       console.log("should animate")
+      //       this.map.animateCamera({center:location,zoom:10}     
+      //         ,
+      //         {duration:350}
+      //       );
+      //     }
+      //   }, 10);
+      // });
     }
 
     
     moveToUserLocation = () => {
+      console.log("moveToUserLocation")
         geoService.getCurrentLocation().then(position => {
             if (position) {
                 this.setState({
@@ -100,10 +104,21 @@ const CARD_WIDTH = width - 20;
 
 
     handleMarkerSelect = (marker, index) => {
+      console.log("markerSelect")
       //this.props.onDetailOpen(marker)
       //this.props.onSelectMarker(index)
+      this.setState({detailVisible: true})
       this.cardListRef.getNode().scrollTo({x:index*(CARD_WIDTH+20)})
       this.map.animateCamera({ center: marker.location, zoom:20 });
+
+      Animated.timing(                  // Animate over time
+        this.state.detailMoveAnim,            // The animated value to drive
+        {
+          toValue: 0,
+          duration: 200,   
+          useNativeDriver: true           // Make it take a while
+        }
+      ).start();   
 
     }
 
@@ -114,6 +129,44 @@ const CARD_WIDTH = width - 20;
 
     handleOnPress = (event) => {
       console.log("hey")
+      this.setState({detailVisible: false})
+      Animated.timing(                  // Animate over time
+        this.state.detailMoveAnim,            // The animated value to drive
+        {
+          toValue: 400,
+          duration: 200, 
+          useNativeDriver: true             // Make it take a while
+        }
+      ).start();   
+
+
+    }
+
+    handleAnimationEvent = (event) => {
+      console.log(event.nativeEvent.contentOffset.x)
+      let value = event.nativeEvent.contentOffset.x;
+      let index = Math.floor(value / CARD_WIDTH + 0.5); // animate 30% away from landing on the next item
+        if (index >= this.props.badmarkers.length) {
+          index = this.props.badmarkers.length - 1;
+        }
+        if (index <= 0) {
+          index = 0;
+        }
+  
+        clearTimeout(this.regionTimeout);
+        this.regionTimeout = setTimeout(() => {
+          if (this.index !== index) {
+            this.index = index;
+            const { location } = this.props.badmarkers[index];
+            console.log("should animate")
+            this.map.animateCamera({center:location,zoom:10}     
+              ,
+              {duration:350}
+            );
+          }
+        }, 10);
+      
+
     }
 
     render() {
@@ -137,6 +190,7 @@ const CARD_WIDTH = width - 20;
         });
         return { scale, opacity };
       });
+      
 
       return (
         <View style={styles.mapWrapper}>    
@@ -153,6 +207,7 @@ const CARD_WIDTH = width - 20;
               badmarkers={badmarkers}
               markerSelect={this.handleMarkerSelect}
               animations={interpolations}
+              detailOpen={this.state.detailVisible}
               
               />
             </MapView>
@@ -161,7 +216,7 @@ const CARD_WIDTH = width - 20;
               horizontal
               ref={(ref) => this.cardListRef = ref}
               scrollEventThrottle={1}
-              showsHorizontalScrollIndicator={true}
+              showsHorizontalScrollIndicator={false}
               snapToInterval={CARD_WIDTH+20}
               decelerationRate={0}
               snapToAlignment={"center"}
@@ -175,13 +230,14 @@ const CARD_WIDTH = width - 20;
                     },
                   },
                 ],
-                { useNativeDriver: true }
+                { useNativeDriver: true,
+                listener: event => this.handleAnimationEvent(event) }
               )}
-              style={styles.scrollView}
+              style={[styles.scrollView, {transform:[{translateY: this.state.detailMoveAnim}]}]}
               contentContainerStyle={styles.endPadding}
             >
 
-            { badmarkers.map((marker, index) => (
+            {badmarkers.map((marker, index) => (
                   <DetailCard marker={marker} key={marker.id}/>
                   
               ))}
