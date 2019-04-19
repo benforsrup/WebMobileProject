@@ -82,7 +82,7 @@ export function pushTabBasedApp() {
 
   Navigation.setDefaultOptions({
     statusBar: {
-      style: 'light'
+      style: 'dark'
     },
     topBar:{
       background:{

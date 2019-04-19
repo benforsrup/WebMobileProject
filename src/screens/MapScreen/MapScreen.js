@@ -88,27 +88,27 @@ class MapScreen extends PureComponent {
    openDetail = async(marker) =>{
     //  console.log("is open: ", this.state.detailIsOpen)
      
-     if(!this.state.detailIsOpen){
-      await Navigation.showOverlay({
-        component: {
-          name: 'custom.DetailOverlay',
-          passProps:{
-            events:this.events,
-            marker: marker
-          },
-          options: { 
-            overlay: {
-              interceptTouchOutside: false
-            }
-          }
-        }
-      });
-    }
-      this.setState({detailIsOpen: true})
+    //  if(!this.state.detailIsOpen){
+    //   await Navigation.showOverlay({
+    //     component: {
+    //       name: 'custom.DetailOverlay',
+    //       passProps:{
+    //         events:this.events,
+    //         marker: marker
+    //       },
+    //       options: { 
+    //         overlay: {
+    //           interceptTouchOutside: false
+    //         }
+    //       }
+    //     }
+    //   });
+    // }
+    //   this.setState({detailIsOpen: true})
 
   }
   closeDetail =async() => {
-    this.setState({detailOpen:false})
+    // this.setState({detailOpen:false})
   }
   backDropPress = (event) =>{
     // console.log(event, "hey")
