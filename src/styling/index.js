@@ -18,10 +18,14 @@ export const applyThemeOptions = (settings) => {
       set(settings, 'topBar.background.blur', true);
       set(settings, 'topBar.barStyle', 'default');
       set(settings, 'topBar.title.color', 'black');
-      // set(settings, 'topBar.background.color', 'green')
+      // set(settings, 'topBar.background.color', 'rgba(0,255,0,0.4)')
       set(settings, 'topBar.buttonColor', '007aff');
       set(settings, 'statusBar.style', 'dark')
-  
+      
+
+      set(settings, 'bottomBar.background.translucent', true);
+      set(settings, 'bottomBar.background.blur', true);
+      set(settings, 'bottomBar.barStyle', 'default');
   
       // set(settings, 'layout.backgroundColor', '007aff');
     }

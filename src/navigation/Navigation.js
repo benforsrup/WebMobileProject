@@ -78,6 +78,29 @@ export function pushSingleScreenApp() {
 }
 
 export function pushTabBasedApp() {
+
+
+  Navigation.setDefaultOptions({
+    statusBar: {
+      style: 'light'
+    },
+    topBar:{
+      background:{
+        translucent: true,
+      },
+      blur:true,
+      drawBehind: true,
+    },
+    bottomTabs:{
+      translucent:true,
+      barStyle:'default',
+      drawBehind:true,
+      selectedTabColor:'green'
+   
+    }
+    
+  });
+
   Navigation.setRoot({
     root: {
       bottomTabs: {

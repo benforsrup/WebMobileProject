@@ -9,6 +9,8 @@ const BadMarker = ({badmarkers, markerSelect}) =>{
         return null;
     }
 
+    
+
     return (
         <Fragment>
             {badmarkers.map((marker, index) => (

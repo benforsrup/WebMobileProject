@@ -38,22 +38,10 @@ class MapScreen extends PureComponent {
     this.unsubscribe = null;
   }
 
-  static get options() { 
-    return applyThemeOptions({
-      statusBar:{
-        backgroundColor: 'blue'
-      },
-      topBar:{
-        noBorder:true,
-        title:{
-          component: {
-            name: 'custom.TopBarBackground',
-            alignment: 'fill'
-          }
-        },      
-      },    
-    });
-  }
+  // static get options() { 
+  //   // return applyThemeOptions({ 
+  //   // });
+  // }
 
   componentDidMount(){
     //fetch markers
