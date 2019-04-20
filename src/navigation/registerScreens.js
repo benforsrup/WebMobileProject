@@ -8,7 +8,8 @@ import {
   LoginScreen,
   SingleAppScreen,
   Tab2Screen,
-  MapScreen
+  MapScreen,
+  BadDetailScreen
 } from 'src/screens';
 
 
@@ -23,7 +24,8 @@ import {
   TAB2_SCREEN,
   MAP_SCREEN,
   CUSTOMTOPBAR,
-  CUSTOMDETAILOVERLAY
+  CUSTOMDETAILOVERLAY,
+  BAD_DETAIL_SCREEN
 } from './Screens';
 
 function WrappedComponent(Component, store) {
@@ -57,6 +59,7 @@ export default function (store) {
   Navigation.registerComponent(SINGLE_APP_SCREEN, () => WrappedComponent(SingleAppScreen, store));
   Navigation.registerComponent(MAP_SCREEN, () => WrappedComponent(MapScreen, store));
   Navigation.registerComponent(TAB2_SCREEN, () => WrappedComponent(Tab2Screen, store));
+  Navigation.registerComponent(BAD_DETAIL_SCREEN, () => WrappedComponent(BadDetailScreen, store));
 
   //custom components
   Navigation.registerComponent(CUSTOMTOPBAR, () => WrappedComponent(TopBarBackground, store));

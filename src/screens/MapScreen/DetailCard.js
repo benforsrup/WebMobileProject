@@ -3,14 +3,14 @@ import React, { Fragment } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Marker } from "react-native-maps";
 import { lightNavyBlueColor, transparent } from '../../constants/colors'
-import { Dimensions } from 'react-native'
+import { Dimensions, TouchableOpacity } from 'react-native'
 const { width, height } = Dimensions.get("window");
 
 const CARD_HEIGHT = height / 4;
 const CARD_WIDTH = width - 20;
 
 
-const DetailCard = ({marker}) =>{
+const DetailCard = ({marker, index, key, openDetail}) =>{
 
     return (
         <View style={styles.card} >
@@ -18,9 +18,9 @@ const DetailCard = ({marker}) =>{
                 style={[StyleSheet.absoluteFillObject, styles.blurContainer]}
                 blurType="light"
                 blurAmount={10} >
-                <View>
+                <TouchableOpacity onPress={() => openDetail(index)}>
                     <Text> {marker.information.name}</Text>
-                </View>
+                </TouchableOpacity>
             </BlurView>
         </View>
     )

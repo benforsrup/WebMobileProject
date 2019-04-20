@@ -84,7 +84,7 @@ const CARD_WIDTH = width - 20;
 
     
     moveToUserLocation = () => {
-      console.log("moveToUserLocation")
+      // console.log("moveToUserLocation")
         geoService.getCurrentLocation().then(position => {
             if (position) {
                 this.setState({
@@ -128,7 +128,6 @@ const CARD_WIDTH = width - 20;
     }
 
     handleOnPress = (event) => {
-      console.log("hey")
       this.setState({detailVisible: false})
       Animated.timing(                  // Animate over time
         this.state.detailMoveAnim,            // The animated value to drive
@@ -143,7 +142,6 @@ const CARD_WIDTH = width - 20;
     }
 
     handleAnimationEvent = (event) => {
-      console.log(event.nativeEvent.contentOffset.x)
       let value = event.nativeEvent.contentOffset.x;
       let index = Math.floor(value / CARD_WIDTH + 0.5); // animate 30% away from landing on the next item
         if (index >= this.props.badmarkers.length) {
@@ -158,7 +156,6 @@ const CARD_WIDTH = width - 20;
           if (this.index !== index) {
             this.index = index;
             const { location } = this.props.badmarkers[index];
-            console.log("should animate")
             this.map.animateCamera({center:location,zoom:10}     
               ,
               {duration:350}
@@ -167,6 +164,12 @@ const CARD_WIDTH = width - 20;
         }, 10);
       
 
+    }
+
+    openDetail = (index) => {
+      const marker = this.props.badmarkers[index];
+      this.props.onSelectMarker(index)
+      this.props.onDetailOpen(marker)
     }
 
     render() {
@@ -238,7 +241,7 @@ const CARD_WIDTH = width - 20;
             >
 
             {badmarkers.map((marker, index) => (
-                  <DetailCard marker={marker} key={marker.id}/>
+                  <DetailCard marker={marker} index={index} key={marker.id} openDetail={this.openDetail}/>
                   
               ))}
 

@@ -105,6 +105,26 @@ class MapScreen extends PureComponent {
     //   });
     // }
     //   this.setState({detailIsOpen: true})
+    console.log(marker)
+    Navigation.showModal({
+      stack: {
+        children: [{
+          component: {
+            name: 'demo.BadDetailScreen',
+            passProps: {
+              marker: marker
+            },
+            options: {
+              topBar: {
+                title: {
+                  text: marker.information.name
+                }
+              }
+            }
+          }
+        }]
+      }
+    });
 
   }
   closeDetail =async() => {
