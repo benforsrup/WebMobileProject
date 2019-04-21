@@ -117,7 +117,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowOffset: { width: 0, height: 10 },
         shadowRadius: 10,
-        borderRadius: entryBorderRadius
+        borderRadius: entryBorderRadius,
+        backgroundColor:'white'
     },
       cardInnerContainer:{
         width: CARD_WIDTH,
