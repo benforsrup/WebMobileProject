@@ -33,10 +33,11 @@ export default class BadMarker extends React.Component{
                         onPress={() => markerSelect(marker, index)}
                         stopPropagation
                     >
-                        <Animated.View style={[styles.markerView, scaleStyle, opacityStyle]}>
+                        <Animated.View style={[styles.markerView]}>
                             <View style={styles.markerTextWrapper}>
                             <Text type="h4" style={{color:'white', fontWeight:'700'}}>
                                 {marker.information.name}
+                                
                             </Text>
                             </View>
                             <View style={styles.triangle} />

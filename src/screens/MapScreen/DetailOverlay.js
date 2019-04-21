@@ -55,6 +55,7 @@ class DetailOverlay extends React.Component{
     render(){
         const {marker, selectedMarker} = this.props
         return(
+            
             <Animatable.View 
                 ref={ref => { this.animatable = ref }}
                 animation="slideInUp"

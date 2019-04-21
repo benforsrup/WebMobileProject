@@ -18,20 +18,27 @@ import locationButtonActive from "../../assets/images/location_active_ios.png";
 import BadMarker from "./BadMarker";
 import { BlurView } from "@react-native-community/blur";
 import DetailCard from "./DetailCard";
+import Carousel, { Pagination, getInputRangeFromIndexes } from 'react-native-snap-carousel';
+import { Navigation } from 'react-native-navigation'
 
 
-
-  const defaultRegion = {
-    latitude: 59.329323,
-    longitude: 18.068581,
-  }
-
+const defaultRegion = {
+  latitude: 59.329323,
+  longitude: 18.068581,
+}
 
 const { width, height } = Dimensions.get("window");
 
-const CARD_HEIGHT = height / 4;
-const CARD_WIDTH = width - 20;
 
+function wp (percentage) {
+    const value = (percentage * width) / 100;
+    return Math.round(value);
+}
+
+
+const CARD_WIDTH = wp(85);
+const CARD_HEIGHT = height * 0.36;
+const sliderWidth = width;
 
   class Map extends Component {
     constructor(props){
@@ -42,8 +49,8 @@ const CARD_WIDTH = width - 20;
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
             detailVisible:false,
-            detailMoveAnim: new Animated.Value(400)
-
+            detailMoveAnim: new Animated.Value(400),
+            bottomTabsHeight:80
         }
     }
 
@@ -52,9 +59,11 @@ const CARD_WIDTH = width - 20;
       this.animation = new Animated.Value(0);
     }
 
-    componentDidMount() {
+   async componentDidMount() {
       this.moveToUserLocation()
-      
+      const constants = await Navigation.constants();
+      const bottomTabsHeight = constants.bottomTabsHeight;
+      this.setState({bottomTabsHeight: bottomTabsHeight-10})      
       // We should detect when scrolling has stopped then animate
       // We should just debounce the event listener here
       // this.animation.addListener(({ value }) => {
@@ -81,7 +90,6 @@ const CARD_WIDTH = width - 20;
       //   }, 10);
       // });
     }
-
     
     moveToUserLocation = () => {
       // console.log("moveToUserLocation")
@@ -100,25 +108,23 @@ const CARD_WIDTH = width - 20;
         
     }
 
-    
-
-
     handleMarkerSelect = (marker, index) => {
-      console.log("markerSelect")
       //this.props.onDetailOpen(marker)
       //this.props.onSelectMarker(index)
-      this.setState({detailVisible: true})
-      this.cardListRef.getNode().scrollTo({x:index*(CARD_WIDTH+20)})
-      this.map.animateCamera({ center: marker.location, zoom:20 });
-
       Animated.timing(                  // Animate over time
         this.state.detailMoveAnim,            // The animated value to drive
         {
           toValue: 0,
-          duration: 200,   
+          duration: 100,   
           useNativeDriver: true           // Make it take a while
         }
       ).start();   
+      this.setState({detailVisible: true})
+      this.cardListRef.snapToItem(index)
+      // this.cardListRef.getNode().scrollTo({x:index*(CARD_WIDTH+20)})
+      this.map.animateCamera({ center: marker.location, zoom:20 });
+
+     
 
     }
 
@@ -172,9 +178,62 @@ const CARD_WIDTH = width - 20;
       this.props.onDetailOpen(marker)
     }
 
-    render() {
-      const { badmarkers } = this.props
+    _renderCardItem = ({item, index}) => {
+      return <DetailCard marker={item} index={index} key={item.id} openDetail={this.openDetail}/>
+    }
 
+    onCardScroll = (event) => {
+      Animated.event(
+        [
+          {
+            nativeEvent:{
+              contentOffset:{
+                x:this.animation
+              }
+            }
+          }
+        ]
+      )
+      // Animated.event(
+      //   [
+      //     {
+      //       nativeEvent: {
+      //         contentOffset: {
+      //           x: this.animation,
+      //         },
+      //       },
+      //     },
+      //   ],
+      //   { useNativeDriver: true,
+      //   listener: () => this.handleAnimationEvent(event) }
+      // )
+      
+    }
+
+    renderDetailCards = ()=> {
+      const { badmarkers } = this.props
+      return (
+        <Animated.View  style={[styles.scrollView, {bottom: this.state.bottomTabsHeight,transform:[{translateY: this.state.detailMoveAnim}]}]}>
+                <Carousel
+                  ref={(ref) => this.cardListRef = ref}
+                  data={badmarkers}
+                  renderItem={this._renderCardItem}
+                  sliderWidth={sliderWidth}
+                  itemWidth={CARD_WIDTH}
+                  containerCustomStyle={styles.slider}
+                  contentContainerCustomStyle={styles.sliderContentContainer}
+                  onScroll={this.handleAnimationEvent}
+                  // useScrollView={true}
+                  removeClippedSubviews={false} 
+                />
+        </Animated.View>
+      )
+    }
+
+   
+
+    render() {
+      const { badmarkers } = this.props;
       const interpolations = badmarkers.map((marker, index) => {
         const inputRange = [
           (index - 1) * CARD_WIDTH,
@@ -214,8 +273,10 @@ const CARD_WIDTH = width - 20;
               
               />
             </MapView>
+
+            {this.renderDetailCards()}
           
-            <Animated.ScrollView
+            {/* <Animated.ScrollView
               horizontal
               ref={(ref) => this.cardListRef = ref}
               scrollEventThrottle={1}
@@ -245,7 +306,7 @@ const CARD_WIDTH = width - 20;
                   
               ))}
 
-            </Animated.ScrollView>
+            </Animated.ScrollView> */}
 
 
           <View style={styles.touchable}>
@@ -297,10 +358,8 @@ const CARD_WIDTH = width - 20;
     },
     scrollView: {
       position: "absolute",
-      bottom: 80,
       left: 0,
       right: 0,
-      paddingVertical: 10,
       paddingHorizontal:0,
     },
     card: {
@@ -333,6 +392,13 @@ const CARD_WIDTH = width - 20;
     cardDescription: {
       fontSize: 12,
       color: "#444",
+    },
+    slider: {
+      marginTop: 15,
+      overflow: 'visible' // for custom animations
+    },
+    sliderContentContainer: {
+      paddingVertical: 10 // for custom animation
     },
 })
   
