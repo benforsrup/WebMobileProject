@@ -23,8 +23,8 @@ import { Navigation } from 'react-native-navigation'
 
 
 const defaultRegion = {
-  latitude: 59.329323,
-  longitude: 18.068581,
+  latitude: 59.284467,
+  longitude: 18.281070,
 }
 
 const { width, height } = Dimensions.get("window");
@@ -60,10 +60,11 @@ const sliderWidth = width;
     }
 
    async componentDidMount() {
-      this.moveToUserLocation()
+      //this.moveToUserLocation()
       const constants = await Navigation.constants();
       const bottomTabsHeight = constants.bottomTabsHeight;
-      this.setState({bottomTabsHeight: bottomTabsHeight-10})      
+      console.log(bottomTabsHeight)
+      this.setState({bottomTabsHeight: bottomTabsHeight})      
       // We should detect when scrolling has stopped then animate
       // We should just debounce the event listener here
       // this.animation.addListener(({ value }) => {
@@ -114,7 +115,7 @@ const sliderWidth = width;
       Animated.timing(                  // Animate over time
         this.state.detailMoveAnim,            // The animated value to drive
         {
-          toValue: 0,
+          toValue: this.state.bottomTabsHeight,
           duration: 100,   
           useNativeDriver: true           // Make it take a while
         }
@@ -361,6 +362,7 @@ const sliderWidth = width;
       left: 0,
       right: 0,
       paddingHorizontal:0,
+      
     },
     card: {
       padding: 10,

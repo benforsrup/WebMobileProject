@@ -37,6 +37,8 @@ target 'ReactNativeStarterKit' do
   pod 'Firebase/Firestore'
   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
 
+  pod 'ReactNativeSearchBar', :path => '../node_modules/react-native-search-bar'
+
 end
 
 post_install do |installer|

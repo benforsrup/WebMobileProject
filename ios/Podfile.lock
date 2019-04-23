@@ -193,6 +193,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - ReactNativeSearchBar (3.4.2):
+    - React
   - yoga (0.58.5.React)
 
 DEPENDENCIES:
@@ -221,6 +223,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - ReactNativeSearchBar (from `../node_modules/react-native-search-bar`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -261,6 +264,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  ReactNativeSearchBar:
+    :path: "../node_modules/react-native-search-bar"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -292,8 +297,9 @@ SPEC CHECKSUMS:
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-google-maps: 544d2208b09a7e2ec2c6112c8a97c4e7f921f74d
   react-native-maps: 9469741f77f270c605cafec603ce47327dc5b5f8
+  ReactNativeSearchBar: 1e3e667edb51de2cbc878b977c5b13f3b25fe21e
   yoga: 0e0009ffb2544aeead64a1209f3d488d3849947b
 
-PODFILE CHECKSUM: c062e60263ecc9ed02a5db12b047a65e7bb9a9e2
+PODFILE CHECKSUM: 200985aa0b8519e244976d6e7a60174bb34f6eb1
 
 COCOAPODS: 1.6.1

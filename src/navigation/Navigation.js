@@ -92,11 +92,17 @@ export function pushTabBasedApp() {
       drawBehind: true,
     },
     bottomTabs:{
-      translucent:true,
+      // translucent:true,
       barStyle:'default',
-      drawBehind:true,
-      selectedTabColor:'green'
+      // drawBehind:true,
+      selectedTabColor:'green',
+      backgroundColor:'rgba(107, 185, 240, 1)'
    
+    },
+    bottomTab:{
+      iconColor:'rgba(52, 73, 94, 1)',
+      selectedIconColor:'white',
+      selectedTextColor:'white'
     }
     
   });
@@ -105,6 +111,43 @@ export function pushTabBasedApp() {
     root: {
       bottomTabs: {
         children: [{
+          stack: {
+            children: [{
+              component: {
+                name: TAB2_SCREEN,
+                options: {
+                  topBar: {
+                    visible:false,
+                    title: {
+                      text: 'TAB 2'
+                    },
+                    leftButtons: [
+                      {
+                        id: 'nav_user_btn',
+                        icon: require('assets/icons/ic_nav_user.png'),
+                        color: 'black'
+                      }
+                    ],
+                    rightButtons: [
+                      {
+                        id: 'nav_logout_btn',
+                        icon: require('assets/icons/ic_nav_logout.png'),
+                        color: 'black'
+                      }
+                    ]
+                  }
+                }
+              }
+            }],
+            options: {
+              bottomTab: {
+                icon: require('assets/icons/ic_tab_menu.png'),
+                testID: 'SECOND_TAB_BAR_BUTTON',
+                selectedTextColor:'white'
+              }
+            }
+          },
+        },{
           stack: {
             children: [{
               component: {
@@ -138,7 +181,6 @@ export function pushTabBasedApp() {
               bottomTab: {
                 icon: require('assets/icons/ic_tab_home.png'),
                 testID: 'FIRST_TAB_BAR_BUTTON',
-                text: 'Badplatser',
               }
             }
           }
@@ -148,34 +190,12 @@ export function pushTabBasedApp() {
             children: [{
               component: {
                 name: TAB2_SCREEN,
-                options: {
-                  topBar: {
-                    title: {
-                      text: 'TAB 2'
-                    },
-                    leftButtons: [
-                      {
-                        id: 'nav_user_btn',
-                        icon: require('assets/icons/ic_nav_user.png'),
-                        color: 'black'
-                      }
-                    ],
-                    rightButtons: [
-                      {
-                        id: 'nav_logout_btn',
-                        icon: require('assets/icons/ic_nav_logout.png'),
-                        color: 'black'
-                      }
-                    ]
-                  }
-                }
               }
             }],
             options: {
               bottomTab: {
-                icon: require('assets/icons/ic_tab_menu.png'),
+                icon: require('assets/icons/ic_nav_user.png'),
                 testID: 'SECOND_TAB_BAR_BUTTON',
-                text: 'Tab2',
               }
             }
           }
