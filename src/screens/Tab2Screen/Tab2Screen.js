@@ -9,11 +9,12 @@ import {
   Alert,
   SafeAreaView,
   ScrollView,
-  Dimensions
+  Dimensions,
+  FlatList
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { get } from 'lodash';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux'
 import { pushTutorialScreen } from 'src/navigation';
 import { connectData } from 'src/redux';
@@ -39,8 +40,8 @@ const styles = StyleSheet.create({
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 5.46,
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
 
     elevation: 9,
   },
@@ -54,7 +55,8 @@ class Tab2Screen extends PureComponent {
 
     Navigation.events().bindComponent(this);
     this.state={
-      search: 'test'
+      search: '',
+      isSearching: false
     }
   }
 
@@ -76,25 +78,66 @@ class Tab2Screen extends PureComponent {
   }
 
   updateSearch = (search) => {
-    this.setState({search})
+    let isSearching = false;
+    if(search.length > 0 ){
+      isSearching = true
+    }
+    this.setState({search, isSearching})
   }
 
 
+  _renderSearchListItem = ({item, index}) => {
+    return(
+        <ListItem
+            containerStyle={{backgroundColor:'transparent'}}
+            key={index}
+            bottomDivider={true}
+
+            title={item.information.name} />   
+
+    )
+  }
+  renderSearchList = () => {
+
+    let filteredBadplatser = this.props.markers.markers
+    filteredBadplatser = filteredBadplatser.filter((plats) => {
+      let platsnamn = plats.information.name.toLowerCase()
+      return platsnamn.indexOf(
+        this.state.search.toLowerCase()) !== -1
+    })
+    return (
+      <FlatList
+          data={filteredBadplatser}
+          keyExtractor={(item, index) => index}
+          renderItem={this._renderSearchListItem}
+      />
+    )
+  }
+
+  onCancel = () => {
+    this.setState({search: '', isSearching: false})
+  }
   
 
   render() {
-    const { search } = this.state
+    console.log(this.state.isSearching)
+    const { search, isSearching } = this.state
     return (
       <SafeAreaView style={styles.container}>
-      <ScrollView >
         <View style={styles.container}>
-        <View style={{alignItems:'center', marginTop: 20, paddingHorizontal:26 }}>
-        <Text style={{fontSize: 30, fontWeight:'bold'}}>Sök efter en badplats! 🏊‍</Text>
-        </View>
+        <ScrollView >
+
+        { !isSearching && 
+          <View style={{alignItems:'center', marginTop: 20, paddingHorizontal:26 }}>
+            <Text style={{fontSize: 30, fontWeight:'bold'}}>Sök efter en badplats! 🏊‍</Text>
+          </View>
+        }
         <View style={{alignItems:'center', marginVertical: 10}}>
           <SearchBar
             lightTheme={true}
             platform='ios'
+            ref={(ref) => this.ref = ref}
+            onCancel={() => this.onCancel()}
             inputContainerStyle={{backgroundColor:'white'}}
             containerStyle={[styles.searchBarShadow, {width: wp(90), backgroundColor:'transparent'}]}
             placeholder="Type Here..."
@@ -102,7 +145,10 @@ class Tab2Screen extends PureComponent {
             value={search}
           />
         </View>
+
+        {!isSearching  ? 
         
+        <View>
           <TopList
           badmarkers={this.props.markers.markers} 
           title="Mest populära badplatser"
@@ -117,9 +163,14 @@ class Tab2Screen extends PureComponent {
             badmarkers={this.props.markers.markers} 
             title="Varmast idag"
           />
-        
-        </View>
+        </View> : <View style={{paddingLeft:15, paddingRight:15}}>
+        {this.renderSearchList()}
+          </View>
+      }
+
         </ScrollView>
+
+        </View>
       </SafeAreaView>
     );
   }

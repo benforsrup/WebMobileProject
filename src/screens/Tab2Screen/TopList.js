@@ -4,7 +4,8 @@ import {
     View,
     ScrollView,
     StyleSheet,
-    Dimensions, FlatList
+    Dimensions, FlatList,
+    TouchableOpacity
 } from 'react-native'
 
 import Carousel, { Pagination, getInputRangeFromIndexes } from 'react-native-snap-carousel';
@@ -55,9 +56,15 @@ class TopList extends Component{
         return(
             <View style={styles.container}>
 
-                <Text style={styles.title}>
-                    {this.props.title}
-                </Text>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>
+                        {this.props.title}    
+                    </Text>
+                    <TouchableOpacity><Text style={styles.subtitle}>
+                        See all   
+                    </Text>
+                    </TouchableOpacity>
+                </View>
 
                 {this.renderCards()}
             </View>
@@ -79,7 +86,20 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         color:'black',
         fontSize: 20,
-        marginLeft: 30
+        
+    },
+    titleContainer:{
+        flex: 1,
+        justifyContent:'space-between',
+        flexDirection:'row',
+        paddingLeft: 20,
+        paddingRight: 10,
+        alignItems:'center'
+    },  
+    subtitle:{
+        fontWeight:'bold',
+        color:'rgba(150,217, 223, 1)',
+        fontSize: 15
     },
     card: {
         padding: 10,
