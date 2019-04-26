@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class SingleAppScreen extends React.Component {
+class ProfileScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -73,8 +73,5 @@ class SingleAppScreen extends React.Component {
   }
 }
 
-SingleAppScreen.propTypes = {
-  data: PropTypes.shape({}).isRequired
-};
 
-export default connectData()(SingleAppScreen);
+export default connectData()(ProfileScreen);

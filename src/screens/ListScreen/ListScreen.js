@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   
 });
 
-class Tab2Screen extends PureComponent {
+class ListScreen extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -250,4 +250,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tab2Screen);
+export default connect(mapStateToProps, mapDispatchToProps)(ListScreen);

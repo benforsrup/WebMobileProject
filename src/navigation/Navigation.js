@@ -5,7 +5,8 @@ import {StatusBar } from 'react-native'
 import {
   WELCOME_SCREEN,
   MAP_SCREEN,
-  TAB2_SCREEN
+  LIST_SCREEN,
+  PROFILE_SCREEN
 } from './Screens';
 import registerScreens from './registerScreens';
 import store from '../redux/store'
@@ -114,7 +115,7 @@ export function pushTabBasedApp() {
           stack: {
             children: [{
               component: {
-                name: TAB2_SCREEN,
+                name: LIST_SCREEN,
                 options: {
                   topBar: {
                     visible:false,
@@ -189,7 +190,7 @@ export function pushTabBasedApp() {
           stack: {
             children: [{
               component: {
-                name: TAB2_SCREEN,
+                name: PROFILE_SCREEN,
               }
             }],
             options: {
