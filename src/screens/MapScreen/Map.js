@@ -268,6 +268,27 @@ const sliderWidth = width;
       )
     }
 
+    handlePanDrag = (region) => {
+      let zoom = Math.round(Math.log(360 / region.longitudeDelta) / Math.LN2)
+      this.handleZoomLevels(zoom)
+    }
+
+
+    handleZoomLevels = zoom => {
+      switch(zoom){
+        case 9:
+          console.log("Level 9: far out, should filter based on distance from center")
+          break
+        case 10:
+          console.log("Level 10: far out, should filter based on a smaller distance from center")      
+          break    
+        case 13:
+          console.log("Level 13: far out, should filter based on a even samller distance from center")
+          break
+        default:
+          console.log("default zoom")
+      }
+    }
    
 
     render() {
@@ -296,7 +317,7 @@ const sliderWidth = width;
         <View style={styles.mapWrapper}>    
             <MapView
                 ref={(el) => (this.map = el)}
-                
+                onRegionChangeComplete={this.handlePanDrag}
                 initialRegion={{
                   ...this.state.curPos,
                   latitudeDelta: this.state.latitudeDelta,
