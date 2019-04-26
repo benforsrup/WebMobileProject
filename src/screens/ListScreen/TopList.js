@@ -31,7 +31,7 @@ class TopList extends Component{
     _renderCardItem = ({item, index}) => {
         let isFirst = false;
         
-        return <TopListCard marker={item} isFirst={index == 0}index={index} key={item.id} openDetail={this.openDetail}/>
+        return <TopListCard marker={item} isFirst={index == 0}index={index} key={item.id} openDetail={() => this.openDetail(index)}/>
       }
 
     renderCards = ()=> {
@@ -53,11 +53,10 @@ class TopList extends Component{
 
     openDetail = (index) => {
       const marker = this.props.badmarkers[index];
-      this.props.onSelectMarker(index)
-      this.props.onDetailOpen(marker)
+      
+      this.props.onDetailOpen(marker, index)
     }
     render(){
-        console.log(this.props)
         return(
             <View style={styles.container}>
 

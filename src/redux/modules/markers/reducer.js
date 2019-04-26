@@ -1,13 +1,14 @@
 // @flow
 
 import {
-  INC, DEC, RECEIVED_BADPLATSER, SET_SELECTED_BADPLATS
+  INC, DEC, RECEIVED_BADPLATSER, SET_SELECTED_BADPLATS, OPEN_FROM_LIST
 } from './actions';
 
 export const DEFAULT = {
   "testing":10,
   markers:[],
-  selectedIndex: 0
+  selectedIndex: 0,
+  openedFromList: false
 };
 
 export default function markers(state = DEFAULT, action = {}) {
@@ -37,6 +38,12 @@ export default function markers(state = DEFAULT, action = {}) {
       return {
         ...state,
         selectedIndex: payload
+      }
+    }
+    case OPEN_FROM_LIST:{
+      return{
+        ...state,
+        openedFromList: payload
       }
     }
     default:

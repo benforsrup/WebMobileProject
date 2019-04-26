@@ -135,11 +135,13 @@ class MapScreen extends PureComponent {
   }
 
   render() {
-    // console.log(this.props.markers)
+    console.log("Mapscreen: ", this.props.markers)
     return (
       <View style={styles.container}>
             
           <Map 
+            openedFromList={this.props.markers.openedFromList}
+            selectedMarkerIndex={this.props.markers.selectedIndex}
             onSelectMarker={this.props.actions.setSelectedBadPlats}
             onDetailOpen={this.openDetail}
             badmarkers={this.props.markers.markers}

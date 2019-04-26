@@ -55,7 +55,12 @@ class BadDetailScreen extends Component{
           default:
             break;
         }
-      }
+    }
+
+    navigateToMarkerMap = () => {
+      Navigation.dismissModal(this.props.componentId)
+      this.props.events.emit('navigateToMapMarker', this.props.marker,this.props.index )   
+    }
 
     render(){
         const default_images = [
@@ -94,9 +99,15 @@ class BadDetailScreen extends Component{
                 
                 <View style={styles.scrollContent}>
                   <TriggeringView onHide={() => console.log("text hidden")}>
-                  <TouchableOpacity onPress={() => console.log("tap!!")}>
-                      <Text style={styles.titleStyle}>{marker.information.name}</Text>
-                    </TouchableOpacity>
+                  <View style={{flexDirection:'row', alignItems:'center'}}>
+                      <TouchableOpacity onPress={() => console.log("tap!!")}>
+                        <Text style={styles.titleStyle}>{marker.information.name}</Text>
+                      </TouchableOpacity>
+                     {this.props.cameFromList && <TouchableOpacity onPress={this.navigateToMarkerMap}>
+                        <Text style={{marginLeft: 40}} >Open in map</Text>
+                      </TouchableOpacity>
+                     }
+                    </View>
                   </TriggeringView>
                 </View>
               </HeaderImageScrollView>

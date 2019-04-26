@@ -10,10 +10,14 @@ export const RECEIVED_BADPLATSER="RECIEVED_BADPLATSER"
 
 export const SET_SELECTED_BADPLATS="SET_SELECTED_BADPLATS"
 
+export const OPEN_FROM_LIST="OPEN_FROM_LIST"
+
 export const requestBadplatser = () => ({type: REQUEST_BADPLATSER})
 export const receivedBadplatser = (data) => ({type: RECEIVED_BADPLATSER, payload: data})
 
 export const setSelectedBadPlats = (i) => ({type:SET_SELECTED_BADPLATS, payload: i })
+
+export const openFromList = (condition) => ({type:OPEN_FROM_LIST, payload: condition})
 
 export const increment = () => ({type:INC})
 export const decrement = () => ({type:DEC})
@@ -23,5 +27,6 @@ export const markersActionCreators = {
   decrement,
   requestBadplatser,
   receivedBadplatser,
-  setSelectedBadPlats
+  setSelectedBadPlats,
+  openFromList
 };

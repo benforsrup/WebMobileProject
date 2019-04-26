@@ -60,7 +60,7 @@ const sliderWidth = width;
     }
 
    async componentDidMount() {
-      //this.moveToUserLocation()
+      this.moveToUserLocation()
       const constants = await Navigation.constants();
       const bottomTabsHeight = constants.bottomTabsHeight;
       console.log(bottomTabsHeight)
@@ -123,14 +123,21 @@ const sliderWidth = width;
       this.setState({detailVisible: true})
       this.cardListRef.snapToItem(index)
       // this.cardListRef.getNode().scrollTo({x:index*(CARD_WIDTH+20)})
-      this.map.animateCamera({ center: marker.location, zoom:20 });
+      this.map.animateCamera({ center: marker.location });
 
      
 
     }
 
     updateMap(){
-      this.map.animateCamera({ center: this.state.curPos });
+      //this.map.animateCamera({ center: this.state.curPos, zoom: 13 });
+      let r = {
+        latitude: this.state.curPos.latitude,
+        longitude: this.state.curPos.longitude,
+        latitudeDelta: this.state.latitudeDelta,
+        longitudeDelta: this.state.longitudeDelta,
+    };
+      this.map.animateToRegion(r, 300)
       
     }
 
@@ -148,6 +155,29 @@ const sliderWidth = width;
 
     }
 
+    componentDidUpdate(oldProps){
+      console.log(oldProps, this.props)
+      if(oldProps.openedFromList != this.props.openedFromList){
+        Animated.timing(                  // Animate over time
+          this.state.detailMoveAnim,            // The animated value to drive
+          {
+            toValue: this.state.bottomTabsHeight,
+            duration: 200, 
+            useNativeDriver: true             // Make it take a while
+          }
+        ).start(); 
+        const marker = this.props.badmarkers[this.props.selectedMarkerIndex];
+        let r = {
+          latitude: marker.location.latitude,
+          longitude: marker.location.longitude,
+          latitudeDelta: this.state.latitudeDelta,
+          longitudeDelta: this.state.longitudeDelta,
+        }
+        this.map.animateToRegion(r, 350);
+        this.cardListRef.snapToItem(this.props.selectedMarkerIndex, true)
+      }
+    }
+
     handleAnimationEvent = (event) => {
       let value = event.nativeEvent.contentOffset.x;
       let index = Math.floor(value / CARD_WIDTH + 0.5); // animate 30% away from landing on the next item
@@ -162,11 +192,17 @@ const sliderWidth = width;
         this.regionTimeout = setTimeout(() => {
           if (this.index !== index) {
             this.index = index;
-            const { location } = this.props.badmarkers[index];
-            this.map.animateCamera({center:location,zoom:10}     
-              ,
-              {duration:350}
-            );
+            const marker = this.props.badmarkers[index];
+
+            let r = {
+              latitude: marker.location.latitude,
+              longitude: marker.location.longitude,
+              latitudeDelta: this.state.latitudeDelta,
+              longitudeDelta: this.state.longitudeDelta,
+            }
+            this.map.animateToRegion(r, 350);
+
+
           }
         }, 10);
       
@@ -219,6 +255,7 @@ const sliderWidth = width;
                   ref={(ref) => this.cardListRef = ref}
                   data={badmarkers}
                   renderItem={this._renderCardItem}
+                  
                   sliderWidth={sliderWidth}
                   itemWidth={CARD_WIDTH}
                   containerCustomStyle={styles.slider}
@@ -259,6 +296,7 @@ const sliderWidth = width;
         <View style={styles.mapWrapper}>    
             <MapView
                 ref={(el) => (this.map = el)}
+                
                 initialRegion={{
                   ...this.state.curPos,
                   latitudeDelta: this.state.latitudeDelta,

@@ -21,6 +21,7 @@ import { pushTutorialScreen } from 'src/navigation';
 import TopList from './TopList';
 import { bindActionCreators } from "redux";
 import {  markersActionCreators } from 'src/redux';
+import EventEmitter from 'EventEmitter';
 
 const { width, height } = Dimensions.get("window");
 
@@ -59,6 +60,27 @@ class ListScreen extends PureComponent {
       search: '',
       isSearching: false
     }
+
+    this.events = new EventEmitter();
+    this.events.addListener('navigateToMapMarker', (marker, index) => this.navigateToMapMarker(marker, index) );
+  }
+
+  componentDidMount(){
+    this.props.actions.openFromList(false)
+  }
+
+  
+
+  navigateToMapMarker = (marker, index) => {
+    //set some marker stuff with redux
+    console.log("heeeeey marker")
+    this.props.actions.openFromList(true)
+    this.props.actions.setSelectedBadPlats(index)
+    Navigation.mergeOptions(this.props.componentId, {
+      bottomTabs: {
+        currentTabIndex: 1
+      }
+    });
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -85,7 +107,7 @@ class ListScreen extends PureComponent {
 
   _renderSearchListItem = ({item, index}) => {
     return(
-      <TouchableOpacity onPress={() => this.openDetail(item)}>
+      <TouchableOpacity onPress={() => this.openDetail(item, index)}>
         <ListItem
             containerStyle={{backgroundColor:'transparent'}}
             key={index}
@@ -138,15 +160,18 @@ class ListScreen extends PureComponent {
     }
   }
 
-  openDetail = async(marker) =>{
-    console.log(marker)
+  openDetail = async(marker, index) =>{
+    this.props.actions.openFromList(false)
     Navigation.showModal({
       stack: {
         children: [{
           component: {
             name: 'demo.BadDetailScreen',
             passProps: {
-              marker: marker
+              marker: marker,
+              events:this.events,
+              cameFromList: true,
+              index: index
             },
             options: {
               topBar: {
@@ -203,21 +228,18 @@ class ListScreen extends PureComponent {
         
         <View>
           <TopList
-          onSelectMarker={this.props.actions.setSelectedBadPlats}
           onDetailOpen={this.openDetail}
           badmarkers={this.props.markers.markers} 
           title="Mest populära badplatser"
           />
 
           <TopList
-           onSelectMarker={this.props.actions.setSelectedBadPlats}
             onDetailOpen={this.openDetail}
             badmarkers={this.props.markers.markers} 
             title="Dina favoriter"
           />
 
           <TopList
-           onSelectMarker={this.props.actions.setSelectedBadPlats}
             onDetailOpen={this.openDetail}
             badmarkers={this.props.markers.markers} 
             title="Varmast idag"

@@ -97,7 +97,8 @@ export function pushTabBasedApp() {
       barStyle:'default',
       // drawBehind:true,
       selectedTabColor:'green',
-      backgroundColor:'rgba(107, 185, 240, 1)'
+      backgroundColor:'rgba(107, 185, 240, 1)',
+      currentTabIndex: 0
    
     },
     bottomTab:{
