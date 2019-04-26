@@ -49,8 +49,13 @@ class TopList extends Component{
                 </View>
                   
         )
-      }
+    }
 
+    openDetail = (index) => {
+      const marker = this.props.badmarkers[index];
+      this.props.onSelectMarker(index)
+      this.props.onDetailOpen(marker)
+    }
     render(){
         console.log(this.props)
         return(

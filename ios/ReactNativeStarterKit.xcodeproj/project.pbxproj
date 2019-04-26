@@ -869,6 +869,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = NSU7YBGG58;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -877,6 +878,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1483,6 +1485,8 @@
 			baseConfigurationReference = F6ED67F804BEA673CA8AC798 /* Pods-ReactNativeStarterKit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = NSU7YBGG58;
@@ -1507,6 +1511,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.benforsrup.badplatser;
 				PRODUCT_NAME = ReactNativeStarterKit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1516,6 +1521,8 @@
 			baseConfigurationReference = 2FEDCFE8B9FA5BE15CA49D32 /* Pods-ReactNativeStarterKit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NSU7YBGG58;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1539,6 +1546,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.benforsrup.badplatser;
 				PRODUCT_NAME = ReactNativeStarterKit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -369,6 +369,7 @@ const sliderWidth = width;
       elevation: 2,
       marginHorizontal: 10,
       shadowColor: "#000",
+      backgroundColor:'white',
       borderRadius:20,
       shadowRadius: 5,
       shadowOpacity: 0.3,

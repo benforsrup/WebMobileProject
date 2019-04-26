@@ -10,16 +10,17 @@ import {
   SafeAreaView,
   ScrollView,
   Dimensions,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { get } from 'lodash';
 import { SearchBar, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux'
 import { pushTutorialScreen } from 'src/navigation';
-import { connectData } from 'src/redux';
 import TopList from './TopList';
 import { bindActionCreators } from "redux";
+import {  markersActionCreators } from 'src/redux';
 
 const { width, height } = Dimensions.get("window");
 
@@ -78,22 +79,19 @@ class Tab2Screen extends PureComponent {
   }
 
   updateSearch = (search) => {
-    let isSearching = false;
-    if(search.length > 0 ){
-      isSearching = true
-    }
-    this.setState({search, isSearching})
+    this.setState({search})
   }
 
 
   _renderSearchListItem = ({item, index}) => {
     return(
+      <TouchableOpacity onPress={() => this.openDetail(item)}>
         <ListItem
             containerStyle={{backgroundColor:'transparent'}}
             key={index}
             bottomDivider={true}
-
             title={item.information.name} />   
+      </TouchableOpacity>
 
     )
   }
@@ -108,14 +106,60 @@ class Tab2Screen extends PureComponent {
     return (
       <FlatList
           data={filteredBadplatser}
-          keyExtractor={(item, index) => index}
+          keyboardShouldPersistTaps={'handled'}
+
+          keyExtractor={(item, index) => index.toString()}
           renderItem={this._renderSearchListItem}
       />
     )
   }
 
   onCancel = () => {
+    //this.ref.blur()
     this.setState({search: '', isSearching: false})
+    
+  }
+  onClear = () => {
+    console.log("onClear")
+  }
+  onBlur = () => {
+    //this.ref.cancel()
+  }
+
+  handleFocus = () => {
+    if(!this.state.isSearching){
+      this.setState({isSearching: true})
+    }
+    else if(this.state.isSearching && this.state.search > 0){
+      this.setState({isSearching: false})
+    }
+    else{
+      
+    }
+  }
+
+  openDetail = async(marker) =>{
+    console.log(marker)
+    Navigation.showModal({
+      stack: {
+        children: [{
+          component: {
+            name: 'demo.BadDetailScreen',
+            passProps: {
+              marker: marker
+            },
+            options: {
+              topBar: {
+                title: {
+                  text: marker.information.name
+                }
+              }
+            }
+          }
+        }]
+      }
+    });
+
   }
   
 
@@ -125,47 +169,63 @@ class Tab2Screen extends PureComponent {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.container}>
-        <ScrollView >
+        <ScrollView stickyHeaderIndices={[1]} keyboardShouldPersistTaps={'handled'} >
 
-        { !isSearching && 
+        
+        
           <View style={{alignItems:'center', marginTop: 20, paddingHorizontal:26 }}>
             <Text style={{fontSize: 30, fontWeight:'bold'}}>Sök efter en badplats! 🏊‍</Text>
           </View>
-        }
-        <View style={{alignItems:'center', marginVertical: 10}}>
+        
+        <View style={{alignItems:'center', marginVertical: 10, backgroundColor:'rgba(240, 250, 252, 1)'}}>
           <SearchBar
             lightTheme={true}
+            
             platform='ios'
+            onFocus={this.handleFocus}
+            onBlur={this.onBlur}
+            onClear={this.onClear}
             ref={(ref) => this.ref = ref}
-            onCancel={() => this.onCancel()}
+            onCancel={this.onCancel}
+            cancelButtonTitle="Sluta sök"
             inputContainerStyle={{backgroundColor:'white'}}
             containerStyle={[styles.searchBarShadow, {width: wp(90), backgroundColor:'transparent'}]}
-            placeholder="Type Here..."
+            placeholder="Skriv här..."
+            
             onChangeText={this.updateSearch}
             value={search}
           />
         </View>
 
+     
+
         {!isSearching  ? 
         
         <View>
           <TopList
+          onSelectMarker={this.props.actions.setSelectedBadPlats}
+          onDetailOpen={this.openDetail}
           badmarkers={this.props.markers.markers} 
           title="Mest populära badplatser"
           />
 
           <TopList
+           onSelectMarker={this.props.actions.setSelectedBadPlats}
+            onDetailOpen={this.openDetail}
             badmarkers={this.props.markers.markers} 
             title="Dina favoriter"
           />
 
           <TopList
+           onSelectMarker={this.props.actions.setSelectedBadPlats}
+            onDetailOpen={this.openDetail}
             badmarkers={this.props.markers.markers} 
             title="Varmast idag"
           />
-        </View> : <View style={{paddingLeft:15, paddingRight:15}}>
-        {this.renderSearchList()}
-          </View>
+        </View> : 
+        <View style={{paddingLeft:15, paddingRight:15}}>
+            {this.renderSearchList()}
+        </View>
       }
 
         </ScrollView>
@@ -183,6 +243,11 @@ function mapStateToProps(state) {
     markers: markers
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching plain actions
+    actions: bindActionCreators(markersActionCreators, dispatch),
+  }
+}
 
-
-export default connect(mapStateToProps, null)(Tab2Screen);
+export default connect(mapStateToProps, mapDispatchToProps)(Tab2Screen);

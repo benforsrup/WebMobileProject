@@ -27,6 +27,9 @@ class BadDetailScreen extends Component{
     }
     componentDidMount(){
         Navigation.mergeOptions(this.props.componentId, {
+          statusBar: {
+            style: 'light'
+          },
             topBar: {
               visible: false,
               leftButtons: [
