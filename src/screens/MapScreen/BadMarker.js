@@ -2,9 +2,26 @@ import React, { Fragment } from "react";
 import { View, StyleSheet, Text, Animated } from "react-native";
 import { Marker } from "react-native-maps";
 import { lightNavyBlueColor, transparent } from '../../constants/colors'
-
+import isEqual from 'lodash.isequal'
 export default class BadMarker extends React.Component{
+    state = {
+      tracksViewChanges: true,
+    }
 
+    componentWillReceiveProps(nextProps) {
+      if (!isEqual(this.props, nextProps)) {
+        this.setState(() => ({
+          tracksViewChanges: true,
+        }))
+      }
+    }
+    componentDidUpdate() {
+      if (this.state.tracksViewChanges) {
+        this.setState(() => ({
+          tracksViewChanges: false,
+        }))
+      }
+    }
     
 
     render(){
@@ -27,6 +44,7 @@ export default class BadMarker extends React.Component{
                       };
                     return(
                     <Marker
+                        tracksViewChanges={this.state.tracksViewChanges}
                         key={index}
                         coordinate={marker.location}
                         centerOffset={{ x: 0, y: -15 }}

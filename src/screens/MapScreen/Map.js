@@ -20,7 +20,7 @@ import { BlurView } from "@react-native-community/blur";
 import DetailCard from "./DetailCard";
 import Carousel, { Pagination, getInputRangeFromIndexes } from 'react-native-snap-carousel';
 import { Navigation } from 'react-native-navigation'
-
+import {mapStyle} from '../../constants/colors'
 
 const defaultRegion = {
   latitude: 59.284467,
@@ -322,7 +322,9 @@ const sliderWidth = width;
                   ...this.state.curPos,
                   latitudeDelta: this.state.latitudeDelta,
                   longitudeDelta: this.state.longitudeDelta}}
+                provider={PROVIDER_GOOGLE}
                 onPress={this.handleOnPress}
+                customMapStyle={mapStyle}
                 style={StyleSheet.absoluteFill}>
 
             <BadMarker 
