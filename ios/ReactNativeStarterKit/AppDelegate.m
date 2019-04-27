@@ -9,22 +9,20 @@
 #import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTLinkingManager.h>
 #import <ReactNativeNavigation/ReactNativeNavigation.h>
-
-#define FACEBOOK_SCHEME @"fb2429596703782219"
+#import <GoogleMaps/GoogleMaps.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];
+  [GMSServices provideAPIKey:@"AIzaSyBkVyaHLqJ1fEF-O5U5qrhtRhTer_5TQOI"];
   NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
   [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
   
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-                           didFinishLaunchingWithOptions:launchOptions];
+  
   
   return YES;
 }
@@ -32,16 +30,7 @@
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-  /**
-   Facebook Request
-   */
-  if ([[url scheme] isEqualToString:FACEBOOK_SCHEME]) {
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                          openURL:url
-                                                sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                                                       annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
-            ];
-  }
+  
   
   return [RCTLinkingManager application:application
                                 openURL:url
@@ -51,7 +40,6 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  [FBSDKAppEvents activateApp];
 }
 
 @end
