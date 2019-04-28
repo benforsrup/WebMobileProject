@@ -35,6 +35,7 @@ target 'ReactNativeStarterKit' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Functions'
   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
 
   pod 'ReactNativeSearchBar', :path => '../node_modules/react-native-search-bar'

@@ -47,12 +47,12 @@ class WelcomeScreen extends PureComponent {
     .signInAnonymously()
     .then(credential => {
       if (credential) {
-        console.log('default app user ->', credential.user.toJSON());
+        // console.log('default app user ->', credential.user.toJSON());
         pushTabBasedApp()
       }
 
     }).catch(error=>{
-      console.log(error, "comeon")
+      // console.log(error, "comeon")
     })
     // Navigation.push(this.props.componentId, {
     //   component: {

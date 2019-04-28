@@ -13,8 +13,6 @@ export const DEFAULT = {
 
 export default function markers(state = DEFAULT, action = {}) {
   const { type, payload } = action;
-  console.log(action, payload)
-
   switch (type) {
     case INC: {
       return {

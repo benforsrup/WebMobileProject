@@ -63,7 +63,6 @@ const sliderWidth = width;
       this.moveToUserLocation()
       const constants = await Navigation.constants();
       const bottomTabsHeight = constants.bottomTabsHeight;
-      console.log(bottomTabsHeight)
       this.setState({bottomTabsHeight: bottomTabsHeight})      
       // We should detect when scrolling has stopped then animate
       // We should just debounce the event listener here
@@ -156,7 +155,7 @@ const sliderWidth = width;
     }
 
     componentDidUpdate(oldProps){
-      console.log(oldProps, this.props)
+      // console.log(oldProps, this.props)
       if(oldProps.openedFromList != this.props.openedFromList){
         Animated.timing(                  // Animate over time
           this.state.detailMoveAnim,            // The animated value to drive
@@ -433,6 +432,7 @@ const sliderWidth = width;
       backgroundColor:'white',
       borderRadius:20,
       shadowRadius: 5,
+      backgroundColor:'transparent',
       shadowOpacity: 0.3,
       shadowOffset: { x: 2, y: -2 },
       height: CARD_HEIGHT,

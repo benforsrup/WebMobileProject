@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 class LoginScreen extends React.Component {
   constructor(props){
     super(props);
-    console.log(this)
+    // console.log(this)
   }
  
 
@@ -37,7 +37,7 @@ class LoginScreen extends React.Component {
     .signInAnonymously()
     .then(credential => {
       if (credential) {
-        console.log('default app user ->', credential.user.toJSON());
+        // console.log('default app user ->', credential.user.toJSON());
         pushTabBasedApp()
       }
     });

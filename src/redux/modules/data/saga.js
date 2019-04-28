@@ -29,7 +29,7 @@ export function* asyncGetFacebookUserData({ payload }) {
       yield put(fetchDataActionCreators.getFacebookUserDataSuccess(response.data));
     }
   } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 }
 

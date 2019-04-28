@@ -22,7 +22,7 @@ import TopList from './TopList';
 import { bindActionCreators } from "redux";
 import {  markersActionCreators } from 'src/redux';
 import EventEmitter from 'EventEmitter';
-
+import firebase from 'react-native-firebase'
 const { width, height } = Dimensions.get("window");
 
 
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.15,
     shadowRadius: 5,
-
+    backgroundColor:'transparent',
     elevation: 9,
   },
   
@@ -66,6 +66,16 @@ class ListScreen extends PureComponent {
   }
 
   componentDidMount(){
+    const httpsCallable = firebase.functions().httpsCallable('testing');
+
+    httpsCallable()
+      .then((data) => {
+          console.log(data); // hello world
+      })
+      .catch(httpsError => {
+          console.log(httpsError); // invalid-argument
+        
+      })
     this.props.actions.openFromList(false)
   }
 
@@ -73,7 +83,7 @@ class ListScreen extends PureComponent {
 
   navigateToMapMarker = (marker, index) => {
     //set some marker stuff with redux
-    console.log("heeeeey marker")
+    // console.log("heeeeey marker")
     this.props.actions.openFromList(true)
     this.props.actions.setSelectedBadPlats(index)
     Navigation.mergeOptions(this.props.componentId, {
@@ -110,7 +120,7 @@ class ListScreen extends PureComponent {
       <TouchableOpacity onPress={() => this.openDetail(item, index)}>
         <ListItem
             containerStyle={{backgroundColor:'transparent'}}
-            key={index}
+            key={item.id}
             bottomDivider={true}
             title={item.information.name} />   
       </TouchableOpacity>
@@ -130,7 +140,7 @@ class ListScreen extends PureComponent {
           data={filteredBadplatser}
           keyboardShouldPersistTaps={'handled'}
 
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.id}
           renderItem={this._renderSearchListItem}
       />
     )
@@ -142,7 +152,7 @@ class ListScreen extends PureComponent {
     
   }
   onClear = () => {
-    console.log("onClear")
+    // console.log("onClear")
   }
   onBlur = () => {
     //this.ref.cancel()
@@ -189,7 +199,7 @@ class ListScreen extends PureComponent {
   
 
   render() {
-    console.log(this.state.isSearching)
+    // console.log(this.state.isSearching)
     const { search, isSearching } = this.state
     return (
       <SafeAreaView style={styles.container}>

@@ -45,7 +45,7 @@ class DetailOverlay extends React.Component{
     }
     
     closeOverlay = () =>{
-        console.log(this.props)
+        // console.log(this.props)
         this.props.events.emit('closeDetail')
         this.animatable.slideOutDown(1000)
         setTimeout(async() => await Navigation.dismissOverlay(this.props.componentId)  , 1000)

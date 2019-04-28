@@ -29,9 +29,12 @@ class TopList extends Component{
 
 
     _renderCardItem = ({item, index}) => {
-        let isFirst = false;
-        
-        return <TopListCard marker={item} isFirst={index == 0}index={index} key={item.id} openDetail={() => this.openDetail(index)}/>
+        return <TopListCard 
+                marker={item} 
+                isFirst={index == 0} 
+                index={index}
+                key={item.id} 
+                openDetail={() => this.openDetail(index)}/>
       }
 
     renderCards = ()=> {
@@ -112,6 +115,7 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         borderRadius:20,
         shadowRadius: 5,
+        backgroundColor:'transparent',
         shadowOpacity: 0.3,
         shadowOffset: { x: 2, y: -2 },
         height: CARD_HEIGHT,

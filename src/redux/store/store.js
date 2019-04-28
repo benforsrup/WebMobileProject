@@ -18,7 +18,7 @@ export default function initializeStore() {
   const middlewares = compact([
     thunk.withExtraArgument(),
     sagaMiddleware,
-    __DEV__ ? createLogger() : null
+    // __DEV__ ? createLogger() : null
   ]);
 
   let debuggWrapper = data => data;

@@ -56,8 +56,9 @@ class MapScreen extends PureComponent {
   onCollectionUpdate = (querySnapshot) =>{
     const markers = [];
     querySnapshot.forEach((doc) => {
-      const { location, information } = doc.data();
+      const { location, information, id } = doc.data();
       markers.push({
+        id,
         location,
         information
       })  
@@ -105,7 +106,6 @@ class MapScreen extends PureComponent {
     //   });
     // }
     //   this.setState({detailIsOpen: true})
-    console.log(marker)
     Navigation.showModal({
       stack: {
         children: [{
@@ -135,7 +135,7 @@ class MapScreen extends PureComponent {
   }
 
   render() {
-    console.log("Mapscreen: ", this.props.markers)
+    // console.log("Mapscreen: ", this.props.markers)
     return (
       <View style={styles.container}>
             
