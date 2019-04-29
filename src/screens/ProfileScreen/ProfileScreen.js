@@ -74,7 +74,9 @@ class ProfileScreen extends React.Component {
   signOut = () => {
     console.log(firebase.auth().currentUser.toJSON())
     firebase.auth().signOut().then( async() => {
+      
       const isSignedInToGoogle = await GoogleSignin.isSignedIn()
+      console.log(isSignedInToGoogle)
       if(isSignedInToGoogle){
         try {
           await GoogleSignin.revokeAccess();
@@ -84,6 +86,9 @@ class ProfileScreen extends React.Component {
         } catch (error) {
           console.log(error)
         }
+      }
+      else{
+        pushTutorialScreen()
       }
       
     }).catch(error => {

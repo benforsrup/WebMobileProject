@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class AuthScreen extends PureComponent {
+class LoadingScreen extends PureComponent {
 
   constructor(props){
     super(props)
@@ -78,7 +78,6 @@ class AuthScreen extends PureComponent {
       email:"",
       password:""
     }
-    this.firestoreref = firebase.firestore().collection('badfeature');
   }
 
   loginInWithCredentials = () => {
@@ -107,17 +106,12 @@ class AuthScreen extends PureComponent {
     //   //Assign the promise unresolved first then get the data using the json method. 
     //   const badplatserApiCall = await fetch('https://badplatsen.havochvatten.se/badplatsen/api/feature/');
     //   const badplatser = await badplatserApiCall.json()
-    //   badplatser.features.forEach( async(feature) => {
+    //   badplatser.features.slice(100,105).forEach( async(feature) => {
     //     try {
     //       const id = feature.properties.NUTSKOD
     //       const badplatsdetailApiCall = await fetch('https://badplatsen.havochvatten.se/badplatsen/api/testlocationprofile/' + id );
     //       const baddetail = await badplatsdetailApiCall.json()
     //       console.log(feature, baddetail)
-    //       let object = {
-    //         feature,
-    //         baddetail
-    //       }
-    //       this.firestoreref.add({object})
     //     }catch(error){
 
     //     }
@@ -216,9 +210,10 @@ class AuthScreen extends PureComponent {
     return (
       <SafeAreaView style={{flex:1, backgroundColor: "rgb(245, 245, 245)"}}>
       <View style={styles.flex}>
-        <Text style={{marginVertical: 60, fontSize: 90, fontWeight:'bold'}}>
-        🏊‍
-        </Text>
+        <Image
+          style={styles.logo}
+          source={require('assets/images/logo2.png')}
+        />
         <View style={styles.inputContainer}>
         <Input
           onChangeText={(text) => this.setState({email:text})}
@@ -265,4 +260,4 @@ class AuthScreen extends PureComponent {
   }
 }
 
-export default AuthScreen;
+export default LoadingScreen;

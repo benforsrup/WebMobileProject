@@ -8,7 +8,8 @@ import {
   Dimensions,
   Image,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { pushSingleScreenApp, pushTabBasedApp } from 'src/navigation';
@@ -60,69 +61,121 @@ const styles = StyleSheet.create({
     fontWeight: '500'
   },
   inputContainer:{
-    paddingHorizontal:10,
-    paddingVertical:30,
-    marginBottom: 40,
     width: wp(85),
-    shadowColor: "rgba(96, 166, 216, 1)",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 5,
-    backgroundColor: "rgba(255, 255, 255, 1)",
-    justifyContent:'center',
-    alignItems:'center'
+    justifyContent:'space-evenly',
+    alignItems:'center',
+    padding:0,
+    flex: 1,
   }
 });
 
 class SignUpScreen extends PureComponent {
 
+  constructor(props){
+    super(props)
+    this.state = {
+      user:{
+        name:"",
+        email:"",
+        password:"",
+        passwordConfirm:""
+      }
+    }
+  }
+
   goBack = () => {
     Navigation.pop(this.props.componentId)
   }
 
+  createWithWithCredentials = () => {
+    const { user } = this.state
+    //need more validation
+    if(user.password === user.passwordConfirm){
+      console.log(user)
+      firebase
+      .auth()
+      .createUserWithEmailAndPassword(user.email, user.password)
+      .then(user => {
+        console.log(user)
+        pushTabBasedApp()
+      })
+      .catch(error => this.setState({ errorMessage: error.message }))
+    }
+    // firebase
+    //   .auth()
+    //   .createUserWithEmailAndPassword(email, password)
+    //   .then(user => this.props.navigation.navigate('Main'))
+    //   .catch(error => this.setState({ errorMessage: error.message }))
+  }
+  
+
   render() {
+    const { user } = this.state
+    console.log(user)
     return (
       <SafeAreaView style={{flex:1, backgroundColor: "rgb(245, 245, 245)"}}>
-      <View style={styles.flex}>
-        
-        <Image
-          style={styles.logo}
-          source={require('assets/images/logo2.png')}
-        />
-        <View style={styles.inputContainer}>
-        <Input
-          containerStyle={{marginBottom: 30}}
-          placeholder='Namn'
-        />
-        <Input
-          containerStyle={{marginBottom: 30}}
-          placeholder='Email'
-        />
-        <Input
-          containerStyle={{marginBottom: 30}}
-          placeholder='Lösenord'
-        />
-        <Input
-          containerStyle={{marginBottom: 15}}
-          placeholder='Bekräfta lösenord'
-        />
-        
-        </View>
-      <Button
-          onPress={this.loginInWithCredentials}
+        <View style={styles.flex}>
+          
+          <KeyboardAvoidingView behavior="padding" style={styles.inputContainer} enabled>
+          <Text style={{marginVertical: 60, fontSize: 30, fontWeight:'bold'}}>
+        Skapa ett konto 😊
+        </Text>
+          <Input
+            value={user.name}
+            onChangeText={(text) => this.setState({user:{
+              ...this.state.user,
+              name: text
+            }})}
+            containerStyle={{marginBottom: 30}}
+            placeholder='Namn'
+          />
+          <Input
+          onChangeText={(e) => this.setState({user:{
+            ...this.state.user,
+            email: e
+          }})}
+          value={user.email}
+            containerStyle={{marginBottom: 30}}
+            placeholder='Email'
+            keyboardType='email-address'
+            autoCapitalize='none'
+          />
+          <Input
+          onChangeText={(e) => this.setState({user:{
+            ...this.state.user,
+            password: e
+          }})}
+          value={user.password}
+            containerStyle={{marginBottom: 30}}
+            placeholder='Lösenord'
+            secureTextEntry={true}
+          />
+          <Input
+          onChangeText={(e) => this.setState({user:{
+            ...this.state.user,
+            passwordConfirm: e
+          }})}
+            value={user.passwordConfirm}
+            secureTextEntry={true}
+
+            containerStyle={{marginBottom: 15}}
+            placeholder='Bekräfta lösenord'
+          />
+          <View style={{height:60}} />
+          <Button
+          onPress={this.createWithWithCredentials}
           title={'Skapa konto'}
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
         />
+          </KeyboardAvoidingView>
+        
 
         <TouchableOpacity onPress={this.goBack} style={styles.back}>
           <Icon  name="chevron-left" size={27} color="#4A4A4A" />
         </TouchableOpacity>
-
-      </View>
+       
+        </View>
       </SafeAreaView>
     );
   }
