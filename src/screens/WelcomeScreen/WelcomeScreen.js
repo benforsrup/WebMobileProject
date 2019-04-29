@@ -4,25 +4,36 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   View,
-  Image
+  SafeAreaView,
+  Dimensions,
+  Image,
+  Text
 } from 'react-native';
-import { Button } from 'react-native-elements';
 import { Navigation } from 'react-native-navigation';
 import { pushSingleScreenApp, pushTabBasedApp } from 'src/navigation';
 import { LOGIN_SCREEN } from 'src/navigation';
 import { SFProDisplayMedium } from 'src/fonts';
 import firebase from 'react-native-firebase'
-import { GoogleSignin } from 'react-native-google-signin'
+import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin'
+import { Card, Button,Input } from 'react-native-elements';
+
+const {width, height} = Dimensions.get('window');
+
+function wp (percentage) {
+  const value = (percentage * width) / 100;
+  return Math.round(value);
+}
+
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   button: {
     backgroundColor: '#039893',
     width: 230,
-    marginTop: 30,
+    marginTop: 0,
     borderRadius: 25
   },
   buttonTitle: {
@@ -31,13 +42,30 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 300,
-    height: 120,
-    resizeMode: 'contain'
+    height: 220,
+    resizeMode: 'contain',
+    marginTop: 40,
+    marginBottom: 0
   },
   logoTitle: {
     marginTop: 10,
     fontSize: 16,
     fontWeight: '500'
+  },
+  inputContainer:{
+    paddingHorizontal:10,
+    paddingVertical:30,
+    width: wp(85),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
+    backgroundColor:'white',
+    justifyContent:'center',
+    alignItems:'center'
   }
 });
 
@@ -72,6 +100,20 @@ class WelcomeScreen extends PureComponent {
     // });
   };
 
+  loginInWithCredentials = () => {
+    firebase.auth()
+    .signInAnonymously()
+    .then(credential => {
+      if (credential) {
+        // console.log('default app user ->', credential.user.toJSON());
+        pushTabBasedApp()
+      }
+
+    }).catch(error=>{
+      // console.log(error, "comeon")
+    })
+  }
+
   async componentDidMount(){
     const a = await GoogleSignin.isSignedIn()
     console.log("isSignedIn: ", a)
@@ -100,27 +142,41 @@ class WelcomeScreen extends PureComponent {
 
   render() {
     return (
+      <SafeAreaView style={{flex:1}}>
       <View style={styles.flex}>
         <Image
           style={styles.logo}
-          source={require('assets/images/logo.png')}
+          source={require('assets/images/logo2.png')}
         />
-        <SFProDisplayMedium style={styles.logoTitle}>
-          {'Welcome to RNN v2 Starter Kit!'}
-        </SFProDisplayMedium>
+        <View style={styles.inputContainer}>
+        <Input
+          placeholder='Mail eller användarnamn'
+        />
+        <Input
+          containerStyle={{marginVertical: 30}}
+          placeholder='Lösenord'
+        />
+        <Button
+          onPress={this.loginInWithCredentials}
+          title={'Logga in'}
+          buttonStyle={styles.button}
+          titleStyle={styles.buttonTitle}
+        />
+        </View>
+        
+        <Text style={{marginVertical: 20}}>
+          - eller -
+        </Text>
+
         <Button
           onPress={this.googleLogin}
-          title={'Start Single Screen App'}
+          title={'Logga in med Google'}
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
         />
-        <Button
-          onPress={() => this.handleGetStartAction('Tab')}
-          title={'Start Tab Based App'}
-          buttonStyle={styles.button}
-          titleStyle={styles.buttonTitle}
-        />
+
       </View>
+      </SafeAreaView>
     );
   }
 }
