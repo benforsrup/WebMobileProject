@@ -4,12 +4,12 @@ import React from 'react';
 import { Navigation } from 'react-native-navigation';
 
 import {
-  WelcomeScreen,
   LoginScreen,
   ProfileScreen,
   MapScreen,
   BadDetailScreen,
-  ListScreen
+  ListScreen,
+  SignUpScreen
 } from 'src/screens';
 
 
@@ -18,15 +18,18 @@ import DetailOverlay from 'src/screens/MapScreen/DetailOverlay'
 import { Provider } from 'src/redux';
 
 import {
-  WELCOME_SCREEN,
   LOGIN_SCREEN,
   MAP_SCREEN,
   CUSTOMTOPBAR,
   CUSTOMDETAILOVERLAY,
   BAD_DETAIL_SCREEN,
   LIST_SCREEN,
-  PROFILE_SCREEN
+  PROFILE_SCREEN,
+  SIGNUP_SCREEN,
+  AUTH_SCREEN,
+  FORGOTPASS_SCREEN
 } from './Screens';
+import { AuthScreen, ForgotPassScreen } from '../screens';
 
 function WrappedComponent(Component, store) {
   const InternalComponent = Component;
@@ -54,7 +57,9 @@ function WrappedComponent(Component, store) {
 }
 
 export default function (store) {
-  Navigation.registerComponent(WELCOME_SCREEN, () => WrappedComponent(WelcomeScreen, store));
+  Navigation.registerComponent(AUTH_SCREEN, () => WrappedComponent(AuthScreen, store));
+  Navigation.registerComponent(FORGOTPASS_SCREEN, () => WrappedComponent(ForgotPassScreen, store));
+  Navigation.registerComponent(SIGNUP_SCREEN, () => WrappedComponent(SignUpScreen, store));
   Navigation.registerComponent(LOGIN_SCREEN, () => WrappedComponent(LoginScreen, store));
   Navigation.registerComponent(PROFILE_SCREEN, () => WrappedComponent(ProfileScreen, store));
   Navigation.registerComponent(MAP_SCREEN, () => WrappedComponent(MapScreen, store));

@@ -3,10 +3,12 @@
 import { Navigation } from 'react-native-navigation';
 import {StatusBar } from 'react-native'
 import {
-  WELCOME_SCREEN,
   MAP_SCREEN,
   LIST_SCREEN,
-  PROFILE_SCREEN
+  PROFILE_SCREEN,
+  SIGNUP_SCREEN,
+  AUTH_SCREEN,
+  FORGOTPASS_SCREEN
 } from './Screens';
 import registerScreens from './registerScreens';
 import store from '../redux/store'
@@ -27,7 +29,7 @@ export function pushTutorialScreen() {
       stack: {
         children: [{
           component: {
-            name: WELCOME_SCREEN,
+            name: SIGNUP_SCREEN,
             options: {
               topBar: {
                 visible: false,
@@ -37,7 +39,33 @@ export function pushTutorialScreen() {
               }
             }
           }
-        }]
+        },
+        {
+          component: {
+            name: FORGOTPASS_SCREEN,
+            options: {
+              topBar: {
+                visible: false,
+              },
+              statusBar: {
+                style: 'dark'
+              }
+            }
+          }
+        },
+        {
+        component: {
+          name: AUTH_SCREEN,
+          options: {
+            topBar: {
+              visible: false,
+            },
+            statusBar: {
+              style: 'dark'
+            }
+          }
+        }
+      }]
       }
     }
   });
@@ -54,21 +82,6 @@ export function pushSingleScreenApp() {
             options: {
               topBar: {
                 
-                // leftButtons: [
-                //   {
-                //     id: 'nav_user_btn',
-                //     // icon: require('assets/icons/ic_nav_user.png'),
-                //     color: 'black',
-                //     systemItem: 'back'
-                //   }
-                // ],
-                // rightButtons: [
-                //   {
-                //     id: 'nav_logout_btn',
-                //     icon: require('assets/icons/ic_nav_logout.png'),
-                //     color: 'black'
-                //   }
-                // ]
               }
             }
           }

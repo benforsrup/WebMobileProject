@@ -1,6 +1,8 @@
 // @flow
 
-export const WELCOME_SCREEN = 'demo.WelcomeScreen';
+export const AUTH_SCREEN = 'demo.AuthScreen';
+export const SIGNUP_SCREEN = 'demo.SignUpScreen'
+export const FORGOTPASS_SCREEN='demo.ForgotPassScreen'
 export const LOGIN_SCREEN = 'demo.LoginScreen';
 export const PROFILE_SCREEN = 'demo.ProfileScreen';
 export const LIST_SCREEN = 'demo.ListScreen';
