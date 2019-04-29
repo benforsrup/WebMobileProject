@@ -30,7 +30,6 @@ class LoginScreen extends React.Component {
     // console.log(this)
   }
  
-
   loginWithFacebook = () => {
     //pushSingleScreenApp();
     firebase.auth()

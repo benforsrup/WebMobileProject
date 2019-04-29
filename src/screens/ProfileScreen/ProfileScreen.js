@@ -7,7 +7,7 @@ import {
   View,
   Text,
   ScrollView,
-  Alert
+  Alert, TouchableOpacity
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { get } from 'lodash';
@@ -15,7 +15,9 @@ import Config from 'react-native-config';
 import { applyThemeOptions } from '../../styling'
 import { pushTutorialScreen } from 'src/navigation';
 import { connectData } from 'src/redux';
-
+import firebase from 'react-native-firebase'
+import { GoogleSignin } from 'react-native-google-signin'
+import * as _ from 'lodash'
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
@@ -28,7 +30,9 @@ class ProfileScreen extends React.Component {
 
   constructor(props) {
     super(props);
-
+    this.state = {
+      user:""
+    }
     Navigation.events().bindComponent(this);
   }
 
@@ -41,7 +45,14 @@ class ProfileScreen extends React.Component {
       },
     });
   }
+  componentDidMount(){
+   console.log(firebase.auth().currentUser.toJSON())
+   if(firebase.auth().currentUser.toJSON()){
+     this.setState({user: firebase.auth().currentUser.toJSON()})
+   }
+  }
 
+  
 
   navigationButtonPressed({ buttonId }) {
     const { data } = this.props;
@@ -60,13 +71,30 @@ class ProfileScreen extends React.Component {
     }
   }
 
+  signOut = () => {
+    firebase.auth().signOut().then( async() => {
+      try {
+        await GoogleSignin.revokeAccess();
+        await GoogleSignin.signOut();
+        
+        this.setState({ user: null });
+        pushTutorialScreen()
+      } catch (error) {
+        console.log(error)
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+
   render() {
     return (
       <ScrollView>
       <View style={styles.flex}>
-        <Text style={{ fontSize: 48, fontWeight: 'bold', color:'green' }}>
-          {Config.API_URL}
-        </Text>
+      {!_.isEmpty(this.state.user) && <Text>{this.state.user.displayName}</Text>}
+      <TouchableOpacity onPress={this.signOut}>
+        <Text> Sign out</Text>
+      </TouchableOpacity>
       </View>
       </ScrollView>
     );

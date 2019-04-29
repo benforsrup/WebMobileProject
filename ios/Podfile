@@ -37,7 +37,7 @@ target 'ReactNativeStarterKit' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Functions'
   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
-
+  pod 'GoogleSignIn', '~> 4.4.0'
   pod 'ReactNativeSearchBar', :path => '../node_modules/react-native-search-bar'
 
 end

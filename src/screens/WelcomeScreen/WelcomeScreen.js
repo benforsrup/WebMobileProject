@@ -12,6 +12,7 @@ import { pushSingleScreenApp, pushTabBasedApp } from 'src/navigation';
 import { LOGIN_SCREEN } from 'src/navigation';
 import { SFProDisplayMedium } from 'src/fonts';
 import firebase from 'react-native-firebase'
+import { GoogleSignin } from 'react-native-google-signin'
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
@@ -71,6 +72,32 @@ class WelcomeScreen extends PureComponent {
     // });
   };
 
+  async componentDidMount(){
+    const a = await GoogleSignin.isSignedIn()
+    console.log("isSignedIn: ", a)
+  }
+
+  // Calling this function will open Google for login.
+  googleLogin = async () => {
+    try {
+      // add any configuration settings here:
+      await GoogleSignin.configure();
+      
+      const data = await GoogleSignin.signIn();
+  
+      // create a new firebase credential with the token
+      const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+      // login with credential
+      const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
+      if(firebaseUserCredential){
+        pushTabBasedApp()
+      }
+      
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   render() {
     return (
       <View style={styles.flex}>
@@ -82,7 +109,7 @@ class WelcomeScreen extends PureComponent {
           {'Welcome to RNN v2 Starter Kit!'}
         </SFProDisplayMedium>
         <Button
-          onPress={() => this.handleGetStartAction('Single')}
+          onPress={this.googleLogin}
           title={'Start Single Screen App'}
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
