@@ -87,7 +87,6 @@ class ListScreen extends PureComponent {
     const markers = [];
     console.log("hey")
     querySnapshot.forEach((doc) => {
-      console.log(doc.data())
       const { object } = doc.data()
       const { baddetail, feature } = object
       let o = {

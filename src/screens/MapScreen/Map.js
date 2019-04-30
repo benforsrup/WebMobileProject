@@ -46,8 +46,8 @@ const sliderWidth = width;
         this.state = {
             curPos: defaultRegion,
             curAng: 45,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.04,
+            longitudeDelta: 0.04,
             detailVisible:false,
             detailMoveAnim: new Animated.Value(400),
             bottomTabsHeight:80,
@@ -112,15 +112,18 @@ const sliderWidth = width;
     handleMarkerSelect = (marker, index) => {
       //this.props.onDetailOpen(marker)
       //this.props.onSelectMarker(index)
-      Animated.timing(                  // Animate over time
-        this.state.detailMoveAnim,            // The animated value to drive
-        {
-          toValue: this.state.bottomTabsHeight,
-          duration: 100,   
-          useNativeDriver: true           // Make it take a while
-        }
-      ).start();   
-      this.setState({detailVisible: true, hasAlreadyAnimated: true})
+      if(!this.state.detailVisible){
+        Animated.timing(                  // Animate over time
+          this.state.detailMoveAnim,            // The animated value to drive
+          {
+            toValue: this.state.bottomTabsHeight,
+            duration: 400,   
+            useNativeDriver: true           // Make it take a while
+          }
+        ).start();   
+        this.setState({detailVisible: true, hasAlreadyAnimated: true})
+      }
+      
       this.cardListRef.snapToItem(index)
       // this.cardListRef.getNode().scrollTo({x:index*(CARD_WIDTH+20)})
       let r = {
@@ -164,11 +167,13 @@ const sliderWidth = width;
     componentDidUpdate(oldProps){
       // console.log(oldProps, this.props)
       if(oldProps.openedFromList != this.props.openedFromList){
+        console.log("hey called")
+
         Animated.timing(                  // Animate over time
           this.state.detailMoveAnim,            // The animated value to drive
           {
             toValue: this.state.bottomTabsHeight,
-            duration: 200, 
+            duration: 400, 
             useNativeDriver: true             // Make it take a while
           }
         ).start(); 
@@ -179,7 +184,7 @@ const sliderWidth = width;
           latitudeDelta: this.state.latitudeDelta,
           longitudeDelta: this.state.longitudeDelta,
         }
-        this.map.animateToRegion(r, 350);
+        //this.map.animateToRegion(r, 350);
         this.cardListRef.snapToItem(this.props.selectedMarkerIndex, true)
       }
     }

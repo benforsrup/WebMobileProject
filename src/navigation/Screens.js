@@ -1,5 +1,5 @@
 // @flow
-
+export const LOADING_SCREEN ='demo.LoadingScreen'
 export const AUTH_SCREEN = 'demo.AuthScreen';
 export const SIGNUP_SCREEN = 'demo.SignUpScreen'
 export const FORGOTPASS_SCREEN='demo.ForgotPassScreen'

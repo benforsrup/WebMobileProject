@@ -76,7 +76,8 @@ class AuthScreen extends PureComponent {
     super(props)
     this.state ={
       email:"",
-      password:""
+      password:"",
+      hasUser: false
     }
     this.firestoreref = firebase.firestore().collection('badfeature');
   }
@@ -97,10 +98,12 @@ class AuthScreen extends PureComponent {
 
   async componentDidMount(){
     const a = await GoogleSignin.isSignedIn()
-    console.log("isSignedIn: ", a)
     const user = firebase.auth().currentUser
     if(user){
-      console.log(user.toJSON())
+      pushTabBasedApp()
+      
+    }else{
+      this.setState({hasUser: true})
     }
 
     // try {
@@ -213,55 +216,74 @@ class AuthScreen extends PureComponent {
   }
 
   render() {
-    return (
-      <SafeAreaView style={{flex:1, backgroundColor: "rgb(245, 245, 245)"}}>
-      <View style={styles.flex}>
-        <Text style={{marginVertical: 60, fontSize: 90, fontWeight:'bold'}}>
-        🏊‍
-        </Text>
-        <View style={styles.inputContainer}>
-        <Input
-          onChangeText={(text) => this.setState({email:text})}
-          placeholder='Mail eller användarnamn'
-          autoCapitalize='none'
-          keyboardType='email-address'
-        />
-        <Input
-          onChangeText={(text) => this.setState({password:text})}
-          containerStyle={{marginVertical: 30}}
-          placeholder='Lösenord'
-          secureTextEntry={true}
-        />
+      if(!this.state.hasUser){
+        return(
+        <SafeAreaView style={{flex:1, backgroundColor: "rgb(245, 245, 245)"}}>
+        <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
+          
         <Button
-          onPress={this.loginInWithCredentials}
-          title={'Logga in'}
-          buttonStyle={styles.button}
-          titleStyle={styles.buttonTitle}
-        />
-        </View>
-        
-        <Text style={{marginVertical: 20}}>
-          - eller -
-        </Text>
-
-        <Button
-          onPress={this.googleLogin}
-          title={'Logga in med Google'}
-          buttonStyle={styles.button}
-          titleStyle={styles.buttonTitle}
+          title="Loading button"
+          loading
+          type='clear'
         />
 
-        <View style={{marginTop:0, flex: 1, justifyContent:'center', alignItems:'center'}}>
-         
-          <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
-          <Text style={{marginVertical:10}}> Har du inget konto?</Text>
-          <TouchableOpacity onPress={this.signUp}><Text style={{color:'rgba(96, 166, 216, 1)', fontWeight:'bold'}}>  Skapa ett här</Text></TouchableOpacity>
-          </View>
         </View>
-
-      </View>
       </SafeAreaView>
-    );
+        )
+      }
+      return (
+        <SafeAreaView style={{flex:1, backgroundColor: "rgb(245, 245, 245)"}}>
+        <View style={styles.flex}>
+          <Text style={{marginVertical: 60, fontSize: 90, fontWeight:'bold'}}>
+          🏊‍
+          </Text>
+          <View style={styles.inputContainer}>
+          <Input
+            onChangeText={(text) => this.setState({email:text})}
+            placeholder='Mail eller användarnamn'
+            autoCapitalize='none'
+            keyboardType='email-address'
+          />
+          <Input
+            onChangeText={(text) => this.setState({password:text})}
+            containerStyle={{marginVertical: 30}}
+            placeholder='Lösenord'
+            secureTextEntry={true}
+          />
+          <Button
+            onPress={this.loginInWithCredentials}
+            title={'Logga in'}
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonTitle}
+          />
+          </View>
+          
+          <Text style={{marginVertical: 20}}>
+            - eller -
+          </Text>
+  
+          <Button
+            onPress={this.googleLogin}
+            title={'Logga in med Google'}
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonTitle}
+          />
+  
+          <View style={{marginTop:0, flex: 1, justifyContent:'center', alignItems:'center'}}>
+           
+            <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+            <Text style={{marginVertical:10}}> Har du inget konto?</Text>
+            <TouchableOpacity onPress={this.signUp}><Text style={{color:'rgba(96, 166, 216, 1)', fontWeight:'bold'}}>  Skapa ett här</Text></TouchableOpacity>
+            </View>
+          </View>
+  
+        </View>
+        </SafeAreaView>
+      
+      );
+      
+   
+   
   }
 }
 

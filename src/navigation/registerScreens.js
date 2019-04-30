@@ -27,9 +27,10 @@ import {
   PROFILE_SCREEN,
   SIGNUP_SCREEN,
   AUTH_SCREEN,
-  FORGOTPASS_SCREEN
+  FORGOTPASS_SCREEN,
+  LOADING_SCREEN
 } from './Screens';
-import { AuthScreen, ForgotPassScreen } from '../screens';
+import { AuthScreen, ForgotPassScreen, LoadingScreen } from '../screens';
 
 function WrappedComponent(Component, store) {
   const InternalComponent = Component;
@@ -59,6 +60,7 @@ function WrappedComponent(Component, store) {
 export default function (store) {
   Navigation.registerComponent(AUTH_SCREEN, () => WrappedComponent(AuthScreen, store));
   Navigation.registerComponent(FORGOTPASS_SCREEN, () => WrappedComponent(ForgotPassScreen, store));
+  Navigation.registerComponent(LOADING_SCREEN, () => WrappedComponent(LoadingScreen, store))
   Navigation.registerComponent(SIGNUP_SCREEN, () => WrappedComponent(SignUpScreen, store));
   Navigation.registerComponent(LOGIN_SCREEN, () => WrappedComponent(LoginScreen, store));
   Navigation.registerComponent(PROFILE_SCREEN, () => WrappedComponent(ProfileScreen, store));

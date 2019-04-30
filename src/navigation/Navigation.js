@@ -8,7 +8,8 @@ import {
   PROFILE_SCREEN,
   SIGNUP_SCREEN,
   AUTH_SCREEN,
-  FORGOTPASS_SCREEN
+  FORGOTPASS_SCREEN,
+  LOADING_SCREEN
 } from './Screens';
 import registerScreens from './registerScreens';
 import store from '../redux/store'
