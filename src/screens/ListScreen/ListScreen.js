@@ -60,12 +60,16 @@ class ListScreen extends PureComponent {
       search: '',
       isSearching: false
     }
+    this.firebaseRef = firebase.firestore().collection('badfeature').where("object.feature.properties.KMN_NAMN", "==", "Nacka")
+    
 
     this.events = new EventEmitter();
     this.events.addListener('navigateToMapMarker', (marker, index) => this.navigateToMapMarker(marker, index) );
   }
 
   componentDidMount(){
+    this.unsubscribe = this.firebaseRef.onSnapshot(this.onCollectionUpdate) 
+
     const httpsCallable = firebase.functions().httpsCallable('testing');
 
     httpsCallable()
@@ -77,6 +81,36 @@ class ListScreen extends PureComponent {
         
       })
     this.props.actions.openFromList(false)
+  }
+
+  onCollectionUpdate = (querySnapshot) =>{
+    const markers = [];
+    console.log("hey")
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data())
+      const { object } = doc.data()
+      const { baddetail, feature } = object
+      let o = {
+        id: feature.id,
+        location:{
+          longitude: feature.geometry.coordinates[0],
+          latitude: feature.geometry.coordinates[1]
+        },
+        information:{
+          name: baddetail.name,
+          previewImage: 'https://dansglad.se/ute/arkiv/141203/141203_tenntorp-fixksatra_0027.jpg',
+          upvotes:0,
+          temperatur: 14
+        }
+      }
+      markers.push(o)
+      
+    });
+    this.props.actions.receivedBadplatser(markers)
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   

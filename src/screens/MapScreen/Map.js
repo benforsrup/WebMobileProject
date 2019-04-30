@@ -50,7 +50,8 @@ const sliderWidth = width;
             longitudeDelta: 0.0421,
             detailVisible:false,
             detailMoveAnim: new Animated.Value(400),
-            bottomTabsHeight:80
+            bottomTabsHeight:80,
+            hasAlreadyAnimated: false
         }
     }
 
@@ -119,10 +120,16 @@ const sliderWidth = width;
           useNativeDriver: true           // Make it take a while
         }
       ).start();   
-      this.setState({detailVisible: true})
+      this.setState({detailVisible: true, hasAlreadyAnimated: true})
       this.cardListRef.snapToItem(index)
       // this.cardListRef.getNode().scrollTo({x:index*(CARD_WIDTH+20)})
-      this.map.animateCamera({ center: marker.location });
+      let r = {
+        latitude: marker.location.latitude,
+        longitude: marker.location.longitude,
+        latitudeDelta: 0.04,
+        longitudeDelta: 0.04,
+    };
+      //this.map.animateToRegion(r, 300);
 
      
 
@@ -196,10 +203,11 @@ const sliderWidth = width;
             let r = {
               latitude: marker.location.latitude,
               longitude: marker.location.longitude,
-              latitudeDelta: this.state.latitudeDelta,
-              longitudeDelta: this.state.longitudeDelta,
+              latitudeDelta: 0.04,
+              longitudeDelta: 0.04,
             }
             this.map.animateToRegion(r, 350);
+
 
 
           }

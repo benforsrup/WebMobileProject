@@ -35,6 +35,7 @@ class MapScreen extends PureComponent {
     this.events = new EventEmitter();
     this.events.addListener('closeDetail', () =>  this.setState({detailIsOpen:false}) );
     this.firebaseRef = firebase.firestore().collection('badplatser')
+    
     this.unsubscribe = null;
   }
 
@@ -63,7 +64,7 @@ class MapScreen extends PureComponent {
         information
       })  
     });
-    this.props.actions.receivedBadplatser(markers)
+    // this.props.actions.receivedBadplatser(markers)
   }
 
   navigationButtonPressed({ buttonId }) {
