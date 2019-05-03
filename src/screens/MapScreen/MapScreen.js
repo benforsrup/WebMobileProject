@@ -72,7 +72,7 @@ class MapScreen extends PureComponent {
 
     switch (buttonId) {
       case 'nav_logout_btn': {
-        console.log("hey", this.props.actions)
+        // console.log("hey", this.props.actions)
         this.props.actions.increment()
         //pushTutorialScreen();
         break;

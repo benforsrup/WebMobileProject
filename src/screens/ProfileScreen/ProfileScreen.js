@@ -46,7 +46,7 @@ class ProfileScreen extends React.Component {
     });
   }
   componentDidMount(){
-   console.log(firebase.auth().currentUser.toJSON())
+  //  console.log(firebase.auth().currentUser.toJSON())
    if(firebase.auth().currentUser.toJSON()){
      this.setState({user: firebase.auth().currentUser.toJSON()})
    }
@@ -72,11 +72,11 @@ class ProfileScreen extends React.Component {
   }
 
   signOut = () => {
-    console.log(firebase.auth().currentUser.toJSON())
+    // console.log(firebase.auth().currentUser.toJSON())
     firebase.auth().signOut().then( async() => {
       
       const isSignedInToGoogle = await GoogleSignin.isSignedIn()
-      console.log(isSignedInToGoogle)
+      // console.log(isSignedInToGoogle)
       if(isSignedInToGoogle){
         try {
           await GoogleSignin.revokeAccess();

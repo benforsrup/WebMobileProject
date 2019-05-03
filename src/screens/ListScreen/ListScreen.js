@@ -20,7 +20,7 @@ import { connect } from 'react-redux'
 import { pushTutorialScreen } from 'src/navigation';
 import TopList from './TopList';
 import { bindActionCreators } from "redux";
-import {  markersActionCreators } from 'src/redux';
+import {  markersActionCreators, userActions } from 'src/redux';
 import EventEmitter from 'EventEmitter';
 import firebase from 'react-native-firebase'
 const { width, height } = Dimensions.get("window");
@@ -60,35 +60,47 @@ class ListScreen extends PureComponent {
       search: '',
       isSearching: false
     }
-    this.firebaseRef = firebase.firestore().collection('badfeature').where("object.feature.properties.KMN_NAMN", "==", "Nacka")
+    this.firebaseRef = firebase.firestore().collection('badlocations').where("feature.properties.KMN_NAMN", "==", "Nacka")
     
 
     this.events = new EventEmitter();
     this.events.addListener('navigateToMapMarker', (marker, index) => this.navigateToMapMarker(marker, index) );
   }
 
-  componentDidMount(){
+  async componentDidMount(){
     this.unsubscribe = this.firebaseRef.onSnapshot(this.onCollectionUpdate) 
+    const user = firebase.auth().currentUser
+ 
+    this.userSubsribe = firebase.firestore().collection('users').doc(user.toJSON().uid).onSnapshot(this.onUserUpdate) 
 
-    const httpsCallable = firebase.functions().httpsCallable('testing');
+    // const httpsCallable = firebase.functions().httpsCallable('testing');
 
-    httpsCallable()
-      .then((data) => {
-          console.log(data); // hello world
-      })
-      .catch(httpsError => {
-          console.log(httpsError); // invalid-argument
+    // httpsCallable()
+    //   .then((data) => {
+    //       console.log(data); // hello world
+    //   })
+    //   .catch(httpsError => {
+    //       console.log(httpsError); // invalid-argument
         
-      })
-    this.props.actions.openFromList(false)
+    //   })
+    // this.props.actions.openFromList(false)
+
+    
+  }
+  onUserUpdate = (querySnapshot) =>{
+    const userData = [];
+    console.log(querySnapshot.data())
+    if(querySnapshot.data()){
+      const data = querySnapshot.data()
+      this.props.userActions.updateUserData(data)
+    }
+    // this.props.actions.receivedBadplatser(markers)
   }
 
   onCollectionUpdate = (querySnapshot) =>{
     const markers = [];
-    console.log("hey")
     querySnapshot.forEach((doc) => {
-      const { object } = doc.data()
-      const { baddetail, feature } = object
+      const { baddetail, feature, detail } = doc.data()
       let o = {
         id: feature.id,
         location:{
@@ -100,7 +112,8 @@ class ListScreen extends PureComponent {
           previewImage: 'https://dansglad.se/ute/arkiv/141203/141203_tenntorp-fixksatra_0027.jpg',
           upvotes:0,
           temperatur: 14
-        }
+        },
+        detail
       }
       markers.push(o)
       
@@ -312,6 +325,7 @@ const mapDispatchToProps = dispatch => {
   return {
     // dispatching plain actions
     actions: bindActionCreators(markersActionCreators, dispatch),
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

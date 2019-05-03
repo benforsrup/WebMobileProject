@@ -17,6 +17,7 @@ import firebase from 'react-native-firebase'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin'
 import { Card, Button,Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { addUserToFirestore } from '../../services/firebaseService';
 
 const {width, height} = Dimensions.get('window');
 
@@ -97,7 +98,9 @@ class SignUpScreen extends PureComponent {
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(user => {
         console.log(user)
-        pushTabBasedApp()
+        addUserToFirestore().then(() => {
+          pushTabBasedApp()
+        })
       })
       .catch(error => this.setState({ errorMessage: error.message }))
     }

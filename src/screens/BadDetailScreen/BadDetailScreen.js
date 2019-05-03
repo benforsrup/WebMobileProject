@@ -6,6 +6,9 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ImageViewer from 'react-native-image-zoom-viewer'
 import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {connect } from 'react-redux'
+import { userActions } from '../../redux/modules/user/actions';
+import { bindActionCreators } from "redux";
 
 
 const window = Dimensions.get('window');
@@ -16,13 +19,13 @@ const PARALLAX_HEADER_HEIGHT = 350;
 const STICKY_HEADER_HEIGHT = 70;
 
 class BadDetailScreen extends Component{
-
     constructor(props){
         super(props)
         Navigation.events().bindComponent(this);
         this.state ={
             index: 0,
-            modalVisible: false
+            modalVisible: false,
+            isFavorited:false
         }
     }
     componentDidMount(){
@@ -62,7 +65,27 @@ class BadDetailScreen extends Component{
       this.props.events.emit('navigateToMapMarker', this.props.marker,this.props.index )   
     }
 
+    componentDidUpdate(oldProps){
+      
+    }
+
+    addToFavorites = () => {
+      const { actions, marker, user } = this.props
+      let isFavorited = user.favorites.indexOf(marker.id) != -1;
+      if(isFavorited){
+        //remove from favorites
+        actions.removeFromFavorites(this.props.marker.id)
+      }
+      else{
+        //add to favorites
+        actions.addToFavorites(this.props.marker.id)
+
+      }
+      // this.setState({isFavorited:!this.state.isFavorited})
+    }
+
     render(){
+      // console.log(this.props.marker)
         const default_images = [
             {
               url: this.props.marker.information.previewImage
@@ -72,7 +95,10 @@ class BadDetailScreen extends Component{
              },
             
           ];
-        const { marker } = this.props
+        const { marker, user } = this.props
+        // console.log(marker, user)
+        let isFavorited = user.favorites.indexOf(marker.id) != -1;
+        // console.log(isFavorited)
         const images = marker.information.images ? marker.information.images : default_images
         return (
             <HeaderImageScrollView
@@ -86,7 +112,7 @@ class BadDetailScreen extends Component{
                 renderForeground={() => (
                   <TouchableOpacity onPress={()=>console.log("hey")} style={{ height: 200, justifyContent: "center", alignItems: "center"}} >
                     <TouchableOpacity onPress={() => Navigation.dismissModal(this.props.componentId) } style={styles.backButton}>
-                    <Icon  name="chevron-left" size={30} color="white" style={styles.close} />
+                    <Icon name="chevron-left" size={30} color="white" style={styles.close} />
 
                       {/* <Text style={{fontWeight: 'bold', color:'black', fontSize: 15}}> Go back</Text> */}
                     </TouchableOpacity>
@@ -99,15 +125,19 @@ class BadDetailScreen extends Component{
                 
                 <View style={styles.scrollContent}>
                   <TriggeringView onHide={() => console.log("text hidden")}>
-                  <View style={{flexDirection:'row', alignItems:'center'}}>
-                      <TouchableOpacity onPress={() => console.log("tap!!")}>
+                  <View style={{flexDirection:'row', alignItems:'center', marginLeft: 40,width:window.width, backgroundColor:'transparent'}}>
+                  <TouchableOpacity onPress={this.addToFavorites}>
+                   <Icon  name={isFavorited ? 'star' : 'star-o'} size={30} color='#1967d2'  style={{marginRight: 10}} light  />
+                  </TouchableOpacity>
+                      <TouchableOpacity style={styles.titleContainer} onPress={() => console.log("tap!!")}>
                         <Text style={styles.titleStyle}>{marker.information.name}</Text>
                       </TouchableOpacity>
-                     {this.props.cameFromList && <TouchableOpacity onPress={this.navigateToMarkerMap}>
-                        <Text style={{marginLeft: 40}} >Open in map</Text>
+                     
+                    </View>
+                    {this.props.cameFromList && <TouchableOpacity onPress={this.navigateToMarkerMap}>
+                        <Text style={{marginLeft: 40, marginTop:10}} >Open in map</Text>
                       </TouchableOpacity>
                      }
-                    </View>
                   </TriggeringView>
                 </View>
               </HeaderImageScrollView>
@@ -133,16 +163,16 @@ const styles = StyleSheet.create({
     },
     titleStyle:{
       backgroundColor: "transparent", 
-      color:'rgba(107, 185, 240, 1)', 
+      color:'#1967d2', 
       fontWeight: 'bold',
       fontSize:30,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.15,
-      shadowRadius: 1.84,
+      
+    },
+    titleContainer:{
+      backgroundColor:'#e8f0fe',
+      paddingVertical:10,
+      paddingHorizontal: 20,
+      borderRadius:66
     },
     scrollContent:{
       height: 1000,
@@ -169,14 +199,14 @@ const styles = StyleSheet.create({
     customRadius:{
       height: 70,
       position:'absolute',
-      top:-50,
+      top:-30,
       backgroundColor:'rgba(240, 250, 252, 1)',
       left:0,
       right:0,
       width:window.width,
       zIndex:0,
-      borderTopLeftRadius: 50,
-      borderTopRightRadius: 50,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
@@ -190,29 +220,19 @@ const styles = StyleSheet.create({
     }
 })
 
-export default BadDetailScreen
+const mapStateToProps = (state)=>{
+  const { user } = state
+  return  {
+    user
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching plain actions
+    actions: bindActionCreators(userActions, dispatch),
+  }
+}
 
 
-//  <Text> hey</Text>
-//                 <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
-//                     <Image
-//                     source={{ uri: marker.information.previewImage }}
-//                     style={{ width: 200, height: 200 }}
-//                     /></TouchableOpacity>
+export default connect(mapStateToProps, mapDispatchToProps)(BadDetailScreen);
 
-//                 <Modal
-//                     visible={this.state.modalVisible}
-//                     transparent={true}
-//                     onRequestClose={() => this.setState({ modalVisible: false })}
-//                     >
-//                     <ImageViewer
-//                         imageUrls={images}
-//                         enableImageZoom={false}
-//                         index={this.state.index}
-//                         onSwipeDown={() => {
-//                         this.setState({modalVisible: false})
-//                         }}
-//                         onMove={data => console.log(data)}
-//                         enableSwipeDown={true}
-//                     />
-//                     </Modal> 

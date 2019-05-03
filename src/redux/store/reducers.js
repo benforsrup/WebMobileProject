@@ -5,7 +5,8 @@ import storage from 'redux-persist/lib/storage';
 
 import {
   data,
-  markers
+  markers,
+  user
 } from '../modules';
 
 const config = {
@@ -15,7 +16,8 @@ const config = {
 
 const appReducer = persistCombineReducers(config, {
   data,
-  markers
+  markers,
+  user
 });
 
 export default function rootReducer(state, action) {

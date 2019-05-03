@@ -16,6 +16,7 @@ import firebase from 'react-native-firebase'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin'
 import { Card, Button,Input } from 'react-native-elements';
 import { SIGNUP_SCREEN, FORGOTPASS_SCREEN } from '../../navigation';
+import { addUserToFirestore } from '../../services/firebaseService';
 
 const {width, height} = Dimensions.get('window');
 
@@ -79,7 +80,7 @@ class AuthScreen extends PureComponent {
       password:"",
       hasUser: false
     }
-    this.firestoreref = firebase.firestore().collection('badfeature');
+    this.firestoreref = firebase.firestore().collection('users');
   }
 
   loginInWithCredentials = () => {
@@ -88,7 +89,9 @@ class AuthScreen extends PureComponent {
     .then(credential => {
       if (credential) {
         // console.log('default app user ->', credential.user.toJSON());
-        pushTabBasedApp()
+        addUserToFirestore().then(() => {
+          pushTabBasedApp()
+        })
       }
 
     }).catch(error=>{
@@ -96,39 +99,61 @@ class AuthScreen extends PureComponent {
     })
   }
 
+  // update = async() => {
+  //   console.log("Hey")
+  //     //Assign the promise unresolved first then get the data using the json method. 
+  //     const badplatserApiCall = await fetch('https://badplatsen.havochvatten.se/badplatsen/api/feature/');
+  //     const badplatser = await badplatserApiCall.json()
+  //     console.log(badplatser)
+  //     badplatser.features.map( async(feature) => {
+        
+  //       const id = feature.properties.NUTSKOD
+  //       const badplatsdetailApiCall =  fetch('https://badplatsen.havochvatten.se/badplatsen/api/testlocationprofile/' + id );
+  //       // const baddetail = await badplatsdetailApiCall.json()
+  //       // console.log(baddetail)
+  //       // console.log('https://badplatsen.havochvatten.se/badplatsen/api/detail/' + id)
+  //       const detailApiCall =  fetch('https://badplatsen.havochvatten.se/badplatsen/api/detail/' + id );
+  //       // const details = await detailApiCall.json()
+  //       // console.log(details, "hey")
+
+  //       const [res1, res2] = [await badplatsdetailApiCall, await detailApiCall]
+  //       const baddetail = await res1.json() 
+  //       const details = await res2.json()
+  //       console.log(baddetail, details)
+        
+
+  //       // const badplats = {
+  //       //   feature,
+  //       //   baddetail,
+  //       //   details
+  //       // }  
+
+  //       // console.log(badplats)
+  //       this.firestoreref.add({feature, baddetail, details})
+        
+
+      
+  //     })
+    
+
+  // }
+
   async componentDidMount(){
     const a = await GoogleSignin.isSignedIn()
     const user = firebase.auth().currentUser
     if(user){
-      pushTabBasedApp()
+      addUserToFirestore().then(() => {
+        pushTabBasedApp()
+      })
+      
       
     }else{
       this.setState({hasUser: true})
     }
 
-    // try {
-    //   //Assign the promise unresolved first then get the data using the json method. 
-    //   const badplatserApiCall = await fetch('https://badplatsen.havochvatten.se/badplatsen/api/feature/');
-    //   const badplatser = await badplatserApiCall.json()
-    //   badplatser.features.forEach( async(feature) => {
-    //     try {
-    //       const id = feature.properties.NUTSKOD
-    //       const badplatsdetailApiCall = await fetch('https://badplatsen.havochvatten.se/badplatsen/api/testlocationprofile/' + id );
-    //       const baddetail = await badplatsdetailApiCall.json()
-    //       console.log(feature, baddetail)
-    //       let object = {
-    //         feature,
-    //         baddetail
-    //       }
-    //       this.firestoreref.add({object})
-    //     }catch(error){
-
-    //     }
-    //   })
-    // } catch(error) {
-    //   console.log(error)
-    // }
+    
   }
+  
 
   // Calling this function will open Google for login.
   googleLogin = async () => {
@@ -143,7 +168,9 @@ class AuthScreen extends PureComponent {
       // login with credential
       const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
       if(firebaseUserCredential){
-        pushTabBasedApp()
+        addUserToFirestore().then(() => {
+          pushTabBasedApp()
+        })
       }
       
     } catch (e) {

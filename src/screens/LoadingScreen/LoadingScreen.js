@@ -45,11 +45,10 @@ class LoadingScreen extends PureComponent {
   componentDidMount(){
     const user = firebase.auth().currentUser
     if(user){
-      console.log(user.toJSON())
       // pushTabBasedApp()
     }
     else{
-      console.log("should go to auth", this.props.componentId)
+      // console.log("should go to auth", this.props.componentId)
       // Navigation.push(this.props.compententId, {
       //   component:{
       //     name:AUTH_SCREEN,
