@@ -51,7 +51,8 @@ const sliderWidth = width;
             detailVisible:false,
             detailMoveAnim: new Animated.Value(400),
             bottomTabsHeight:80,
-            hasAlreadyAnimated: false
+            hasAlreadyAnimated: false,
+            zoomLevel:13
         }
     }
 
@@ -289,16 +290,21 @@ const sliderWidth = width;
     handleZoomLevels = zoom => {
       switch(zoom){
         case 9:
-          console.log("Level 9: far out, should filter based on distance from center")
+          if(this.state.zoomLevel != 9){
+            this.setState({zoomLevel:9})
+          }
           break
         case 10:
-          console.log("Level 10: far out, should filter based on a smaller distance from center")      
+          if(this.state.zoomLevel != 10){
+            this.setState({zoomLevel:10})
+          }
           break    
         case 13:
-          console.log("Level 13: far out, should filter based on a even samller distance from center")
+          if(this.state.zoomLevel != 13){
+            this.setState({zoomLevel:13})
+          }
           break
-        default:
-          console.log("default zoom")
+        
       }
     }
    
@@ -324,6 +330,9 @@ const sliderWidth = width;
         return { scale, opacity };
       });
       
+      
+
+      console.log(this.state.zoomLevel)
 
       return (
         <View style={styles.mapWrapper}>    

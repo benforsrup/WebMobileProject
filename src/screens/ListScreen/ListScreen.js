@@ -18,7 +18,7 @@ import { get } from 'lodash';
 import { SearchBar, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux'
 import { pushTutorialScreen } from 'src/navigation';
-import TopList from './TopList';
+import TopList from 'src/components/TopList';
 import { bindActionCreators } from "redux";
 import {  markersActionCreators, userActions } from 'src/redux';
 import EventEmitter from 'EventEmitter';
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.15,
     shadowRadius: 5,
-    backgroundColor:'transparent',
+    backgroundColor:'white',
     elevation: 9,
   },
   
@@ -60,19 +60,26 @@ class ListScreen extends PureComponent {
       search: '',
       isSearching: false
     }
-    this.firebaseRef = firebase.firestore().collection('badlocations').where("feature.properties.KMN_NAMN", "==", "Nacka")
+    this.firebaseRef = firebase.firestore().collection('badlocations').where("feature.properties.KMN_NAMN", "==", "Stockholm")
+
+    
+
+
     
 
     this.events = new EventEmitter();
     this.events.addListener('navigateToMapMarker', (marker, index) => this.navigateToMapMarker(marker, index) );
   }
 
-  async componentDidMount(){
+  componentDidMount(){
+
     this.unsubscribe = this.firebaseRef.onSnapshot(this.onCollectionUpdate) 
+
+
+   // this.unsubscribe = this.firebaseRef.onSnapshot(this.onCollectionUpdate, (err) => console.log(error))
     const user = firebase.auth().currentUser
  
     this.userSubsribe = firebase.firestore().collection('users').doc(user.toJSON().uid).onSnapshot(this.onUserUpdate) 
-
     // const httpsCallable = firebase.functions().httpsCallable('testing');
 
     // httpsCallable()
@@ -83,13 +90,12 @@ class ListScreen extends PureComponent {
     //       console.log(httpsError); // invalid-argument
         
     //   })
-    // this.props.actions.openFromList(false)
+    this.props.actions.openFromList(false)
 
     
   }
   onUserUpdate = (querySnapshot) =>{
     const userData = [];
-    console.log(querySnapshot.data())
     if(querySnapshot.data()){
       const data = querySnapshot.data()
       this.props.userActions.updateUserData(data)
@@ -98,8 +104,10 @@ class ListScreen extends PureComponent {
   }
 
   onCollectionUpdate = (querySnapshot) =>{
+    console.log(querySnapshot)
     const markers = [];
     querySnapshot.forEach((doc) => {
+      console.log(doc)
       const { baddetail, feature, detail } = doc.data()
       let o = {
         id: feature.id,
@@ -113,7 +121,8 @@ class ListScreen extends PureComponent {
           upvotes:0,
           temperatur: 14
         },
-        detail
+        detail,
+        baddetail
       }
       markers.push(o)
       
@@ -231,9 +240,7 @@ class ListScreen extends PureComponent {
             },
             options: {
               topBar: {
-                title: {
-                  text: marker.information.name
-                }
+                visible:false
               }
             }
           }
@@ -270,6 +277,7 @@ class ListScreen extends PureComponent {
             onCancel={this.onCancel}
             cancelButtonTitle="Sluta sök"
             inputContainerStyle={{backgroundColor:'white'}}
+            
             containerStyle={[styles.searchBarShadow, {width: wp(90), backgroundColor:'transparent'}]}
             placeholder="Skriv här..."
             

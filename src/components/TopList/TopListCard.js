@@ -45,16 +45,16 @@ class TopListCard extends React.Component{
                 onPress={() => openDetail(index)}>
                 
                 <View style={styles.shadow} />
-                <View style={styles.imageContainer}>
-                    <Image
-                            source={{ uri: marker.information.previewImage}}
-                            style={styles.image}
-                        />
+                    <View style={styles.imageContainer}>
+                        <Image
+                                source={{ uri: marker.information.previewImage}}
+                                style={styles.image}
+                            />
                         <View style={styles.radiusMask} />
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.title} numberOfLines={2}>
-                            { marker.information.name } &#183; Temperature: 18&deg;
+                        <Text style={styles.title} numberOfLines={1}>
+                            { marker.information.name }
                         </Text>
                     </View>
                 </TouchableOpacity>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
       },
       textContainer: {
         justifyContent: 'center',
-        paddingTop: 20 - entryBorderRadius,
+        paddingTop: 10,
         paddingBottom: 20,
         paddingHorizontal: 16,
         backgroundColor: 'white',

@@ -67,9 +67,10 @@ class TopList extends Component{
                     <Text style={styles.title}>
                         {this.props.title}    
                     </Text>
-                    <TouchableOpacity><Text style={styles.subtitle}>
-                        See all   
-                    </Text>
+                    <TouchableOpacity style={styles.subtitleContainer}>
+                        <Text style={styles.subtitle}>
+                            See all   
+                        </Text>
                     </TouchableOpacity>
                 </View>
 
@@ -103,11 +104,20 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         alignItems:'center'
     },  
-    subtitle:{
-        fontWeight:'bold',
-        color:'rgba(150,217, 223, 1)',
-        fontSize: 15
+    subtitleContainer:{
+        backgroundColor:'#e8f0fe',
+        paddingVertical:7,
+        paddingHorizontal: 20,
+        borderRadius:66
     },
+    subtitle:{
+        backgroundColor: "transparent", 
+        color:'#1967d2', 
+        fontWeight: 'bold',
+        fontSize:12,
+        
+
+    },  
     card: {
         padding: 10,
         elevation: 2,

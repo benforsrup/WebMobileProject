@@ -23,7 +23,7 @@ export default function initializeStore() {
 
   let debuggWrapper = data => data;
   if (__DEV__) {
-    debuggWrapper = composeWithDevTools({ realtime: true, port: 8000 });
+    // debuggWrapper = composeWithDevTools({ realtime: true, port: 8000, suppressConnectErrors: false });
   }
 
   const store = createStore(

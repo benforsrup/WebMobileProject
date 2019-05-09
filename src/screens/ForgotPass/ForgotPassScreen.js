@@ -11,7 +11,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { pushSingleScreenApp, pushTabBasedApp } from 'src/navigation';
+import { pushTabBasedApp } from 'src/navigation';
 import firebase from 'react-native-firebase'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin'
 import { Card, Button,Input } from 'react-native-elements';

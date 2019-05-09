@@ -72,25 +72,6 @@ export function pushTutorialScreen() {
   });
 }
 
-export function pushSingleScreenApp() {
-  console.disableYellowBox = true;
-  Navigation.setRoot({
-    root: {
-      stack: {
-        children: [{
-          component: {
-            name: MAP_SCREEN,
-            options: {
-              topBar: {
-                
-              }
-            }
-          }
-        }]
-      }
-    }
-  });
-}
 
 export function pushTabBasedApp() {
 
@@ -209,6 +190,9 @@ export function pushTabBasedApp() {
               }
             }],
             options: {
+              topBar:{
+                visible:false
+              },
               bottomTab: {
                 icon: require('assets/icons/ic_nav_user.png'),
                 testID: 'SECOND_TAB_BAR_BUTTON',

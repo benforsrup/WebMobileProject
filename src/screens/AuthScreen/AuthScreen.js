@@ -141,10 +141,11 @@ class AuthScreen extends PureComponent {
   async componentDidMount(){
     const a = await GoogleSignin.isSignedIn()
     const user = firebase.auth().currentUser
+    console.log(user)
     if(user){
-      addUserToFirestore().then(() => {
+      // addUserToFirestore().then(() => {
         pushTabBasedApp()
-      })
+      // })
       
       
     }else{

@@ -31,7 +31,6 @@ class LoginScreen extends React.Component {
   }
  
   loginWithFacebook = () => {
-    //pushSingleScreenApp();
     firebase.auth()
     .signInAnonymously()
     .then(credential => {
