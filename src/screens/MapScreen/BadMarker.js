@@ -26,9 +26,12 @@ export default class BadMarker extends React.Component{
 
     render(){
         const { badmarkers, markerSelect, animations, detailOpen} = this.props
+        console.log(this.props.currentSelectedIndex)
         if(badmarkers.length == 0){
             return null;
         }
+        
+
         return (
             <Fragment>
                 {badmarkers.map((marker, index) => {
@@ -48,17 +51,19 @@ export default class BadMarker extends React.Component{
                         key={index}
                         coordinate={marker.location}
                         centerOffset={{ x: 0, y: -15 }}
+                        pinColor={this.props.currentSelectedIndex === index ? "rgb(0, 255, 255)": null}
+                        style={this.props.currentSelectedIndex === index ? styles.markerStyle: null}
                         onPress={() => markerSelect(marker, index)}
                         stopPropagation
                     >
                         <Animated.View style={[styles.markerView]}>
-                            <View style={styles.markerTextWrapper}>
+                            <View style={[styles.markerTextWrapper,this.props.currentSelectedIndex === index && styles.selectedMarker]}>
                             <Text type="h4" style={{color:'white', fontWeight:'700'}}>
                                 {marker.information.name}
                                 
                             </Text>
                             </View>
-                            <View style={styles.triangle} />
+                            <View style={[styles.triangle, this.props.currentSelectedIndex === index && styles.selectedMarkerTriangle]} />
                         </Animated.View>
                     </Marker>
                 )})}
@@ -72,7 +77,26 @@ export default class BadMarker extends React.Component{
 const styles = StyleSheet.create({
     markerView: {
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
+      
+    },
+    markerStyle:{
+      zIndex: 1,
+      
+    },
+    selectedMarker:{
+      backgroundColor: 'rgba(25, 120, 254, 1)',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.75,
+      shadowRadius: 3.84,
+    },
+    selectedMarkerTriangle:{
+      borderBottomColor: 'rgba(25, 120, 254, 1)',
+
     },
     markerTextWrapper: {
       paddingHorizontal: 8,
@@ -83,6 +107,13 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 10,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
       
     },
     triangle: {

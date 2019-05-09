@@ -96,11 +96,17 @@ class SignUpScreen extends PureComponent {
       firebase
       .auth()
       .createUserWithEmailAndPassword(user.email, user.password)
-      .then(user => {
+      .then(userCredentials => {
         console.log(user)
-        addUserToFirestore().then(() => {
-          pushTabBasedApp()
-        })
+        if(userCredentials.user){
+          userCredentials.user.updateProfile({
+            displayName: user.name
+          }).then(() => {
+            addUserToFirestore().then(() => pushTabBasedApp())  
+          })
+
+        }
+        
       })
       .catch(error => this.setState({ errorMessage: error.message }))
     }
@@ -114,7 +120,6 @@ class SignUpScreen extends PureComponent {
 
   render() {
     const { user } = this.state
-    console.log(user)
     return (
       <SafeAreaView style={{flex:1, backgroundColor: "rgb(245, 245, 245)"}}>
         <View style={styles.flex}>

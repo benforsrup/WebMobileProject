@@ -104,10 +104,8 @@ class ListScreen extends PureComponent {
   }
 
   onCollectionUpdate = (querySnapshot) =>{
-    console.log(querySnapshot)
     const markers = [];
     querySnapshot.forEach((doc) => {
-      console.log(doc)
       const { baddetail, feature, detail } = doc.data()
       let o = {
         id: feature.id,
@@ -124,6 +122,7 @@ class ListScreen extends PureComponent {
         detail,
         baddetail
       }
+      
       markers.push(o)
       
     });

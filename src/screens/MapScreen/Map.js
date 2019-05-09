@@ -45,6 +45,7 @@ const sliderWidth = width;
         super(props)
         this.state = {
             curPos: defaultRegion,
+            currentSelectedIndex: null,
             curAng: 45,
             latitudeDelta: 0.04,
             longitudeDelta: 0.04,
@@ -62,7 +63,7 @@ const sliderWidth = width;
     }
 
    async componentDidMount() {
-      this.moveToUserLocation()
+      // this.moveToUserLocation()
       const constants = await Navigation.constants();
       const bottomTabsHeight = constants.bottomTabsHeight;
       this.setState({bottomTabsHeight: bottomTabsHeight})      
@@ -122,7 +123,7 @@ const sliderWidth = width;
             useNativeDriver: true           // Make it take a while
           }
         ).start();   
-        this.setState({detailVisible: true, hasAlreadyAnimated: true})
+        this.setState({detailVisible: true, hasAlreadyAnimated: true, currentSelectedIndex: index})
       }
       
       this.cardListRef.snapToItem(index)
@@ -152,7 +153,7 @@ const sliderWidth = width;
     }
 
     handleOnPress = (event) => {
-      this.setState({detailVisible: false})
+      this.setState({detailVisible: false, currentSelectedIndex: null})
       Animated.timing(                  // Animate over time
         this.state.detailMoveAnim,            // The animated value to drive
         {
@@ -199,6 +200,7 @@ const sliderWidth = width;
         if (index <= 0) {
           index = 0;
         }
+
   
         clearTimeout(this.regionTimeout);
         this.regionTimeout = setTimeout(() => {
@@ -213,6 +215,7 @@ const sliderWidth = width;
               longitudeDelta: 0.04,
             }
             this.map.animateToRegion(r, 350);
+            this.setState({ currentSelectedIndex: index})
 
 
 
@@ -349,6 +352,7 @@ const sliderWidth = width;
                 style={StyleSheet.absoluteFill}>
 
             <BadMarker 
+              currentSelectedIndex= {this.state.currentSelectedIndex}
               badmarkers={badmarkers}
               markerSelect={this.handleMarkerSelect}
               animations={interpolations}

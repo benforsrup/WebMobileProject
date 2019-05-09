@@ -100,6 +100,18 @@ class BadDetailScreen extends Component{
         let isFavorited = user.favorites.indexOf(marker.id) != -1;
         // console.log(isFavorited)
         const images = marker.information.images ? marker.information.images : default_images
+
+        let summary = null
+        let quality = null;
+
+        if(marker.baddetail.summary){
+          summary = marker.baddetail.summary
+        }
+        console.log(marker)
+        if(marker.detail && marker.detail.qualityRating){
+          quality = marker.detail.qualityRating[1].ratingText;
+        }
+
         return (
             <HeaderImageScrollView
                 minOverlayOpacity={0}
@@ -127,17 +139,17 @@ class BadDetailScreen extends Component{
                   <TriggeringView onHide={() => console.log("text hidden")}>
                   <View style={{flexDirection:'row', alignItems:'center', marginLeft: 40,width:window.width, backgroundColor:'transparent'}}>
                   <TouchableOpacity onPress={this.addToFavorites}>
-                   <Icon  name={isFavorited ? 'star' : 'star-o'} size={30} color='#1967d2'  style={{marginRight: 10}} light  />
+                   <Icon  name={isFavorited ? 'star' : 'star-o'} size={20} color='#1967d2'  style={{marginRight: 10}} light  />
                   </TouchableOpacity>
-                      <TouchableOpacity style={styles.titleContainer} onPress={() => console.log("tap!!")}>
-                        <Text style={styles.titleStyle}>{marker.information.name}</Text>
+                      <TouchableOpacity style={styles.titleContainer} onPress={() => this.props.cameFromList && this.navigateToMarkerMap()}>
+                        <Text  numberOfLines={2} style={styles.titleStyle}>{marker.information.name}</Text>
                       </TouchableOpacity>
                      
                     </View>
-                    {this.props.cameFromList && <TouchableOpacity onPress={this.navigateToMarkerMap}>
-                        <Text style={{marginLeft: 40, marginTop:10}} >Open in map</Text>
-                      </TouchableOpacity>
-                     }
+                    
+                     <View style={styles.locationDesc}>
+                       <Text style={styles.descTitle} numberOfLines={5}>{ summary }</Text>
+                     </View>
                   </TriggeringView>
                 </View>
               </HeaderImageScrollView>
@@ -154,6 +166,17 @@ const styles = StyleSheet.create({
         // justifyContent:'center',
         // alignItems:'center',
     },
+    locationDesc:{
+      width:window.width,
+      marginLeft:20,
+      marginTop: 20,
+      paddingHorizontal:20,
+      alignItems:'center'
+
+    },
+    descTitle:{
+      fontSize:15
+    },
     background: {
       position: 'absolute',
       top: 0,
@@ -165,13 +188,13 @@ const styles = StyleSheet.create({
       backgroundColor: "transparent", 
       color:'#1967d2', 
       fontWeight: 'bold',
-      fontSize:30,
+      fontSize:18,
       
     },
     titleContainer:{
       backgroundColor:'#e8f0fe',
-      paddingVertical:10,
-      paddingHorizontal: 20,
+      paddingVertical:20,
+      paddingHorizontal: 10,
       borderRadius:66
     },
     scrollContent:{
