@@ -23,8 +23,8 @@ import { Navigation } from 'react-native-navigation'
 import {mapStyle} from '../../constants/colors'
 import { connect } from 'react-redux'
 const defaultRegion = {
-  latitude: 59.284467,
-  longitude: 18.281070,
+  latitude: 59.334591,
+  longitude: 18.063240,
 }
 
 const { width, height } = Dimensions.get("window");

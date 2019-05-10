@@ -117,7 +117,7 @@ class ListScreen extends PureComponent {
         },
         information:{
           name: baddetail.name.replace("Mälaren, ", ""),
-          previewImage: 'https://source.unsplash.com/collection/273709',
+          previewImage: 'https://firebasestorage.googleapis.com/v0/b/badplatser-4f321.appspot.com/o/pic.jpg?alt=media&token=00baeaa0-19be-4fdf-9fca-b355d3efc412',
           upvotes:upvotes,
           temperatur: 14
         },
