@@ -60,7 +60,7 @@ export default class BadMarker extends React.Component{
                               favorite && styles.favMarkerTextStyle,
                               
                               ]}>
-                                {marker.information.name}
+                                🏊‍
                                 
                             </Text>
                             </View>
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
     },
     markerTextStyle:{
       color:'white',
-      fontWeight:'bold'
+      fontWeight:'bold',
+      fontSize: 20
     },
     favMarkerTextTriangle:{
       borderBottomColor: 'yellow',
@@ -127,11 +128,20 @@ const styles = StyleSheet.create({
       paddingHorizontal: 8,
       paddingVertical: 2,
       backgroundColor: 'rgba(25, 181, 254, 1)',
-      height: 50,
-      width: 150,
+      height: 40,
+      width: 40,
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: 10,
+      borderRadius: 5,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.52,
+      shadowRadius: 2.22,
+
+      elevation: 3,
       
       
     },
