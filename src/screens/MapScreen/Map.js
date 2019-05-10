@@ -414,7 +414,7 @@ const sliderWidth = width;
     },
     touchable: {
       alignSelf: "flex-end",
-      marginTop: Platform.OS === "ios" ? 100 : 8,
+      marginTop: Platform.OS === "ios" ? 20 : 8,
       paddingRight: Platform.OS === "ios" ? 0 : 8,
       paddingLeft: 10,
       paddingBottom: 10
