@@ -93,6 +93,10 @@
 		<string>SFProDisplaySemibold.otf</string>
 		<string>SFProDisplayThin.otf</string>
 		<string>SFProDisplayUltralight.otf</string>
+		<string>ProductSansBold.ttf</string>
+		<string>ProductSansRegular.ttf</string>
+		<string>ProductSansItalic.ttf</string>
+		<string>ProductSansBoldItalic.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

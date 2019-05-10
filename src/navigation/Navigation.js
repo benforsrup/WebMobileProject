@@ -1,7 +1,7 @@
 // @flow
 
 import { Navigation } from 'react-native-navigation';
-import {StatusBar } from 'react-native'
+import {StatusBar, Text } from 'react-native'
 import {
   MAP_SCREEN,
   LIST_SCREEN,

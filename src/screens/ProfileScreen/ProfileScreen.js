@@ -20,7 +20,7 @@ import firebase from 'react-native-firebase'
 import { GoogleSignin } from 'react-native-google-signin'
 import * as _ from 'lodash'
 import { Avatar, Button } from 'react-native-elements';
-
+import { connect } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
 
@@ -77,9 +77,20 @@ class ProfileScreen extends React.Component {
     })
   }
   render() {
-
+    const { userProps }  = this.props
+    let numOfFavorites = null;
+    let favoriteText = null
+    if(userProps){
+      numOfFavorites = userProps.favorites.length
+      if(numOfFavorites == 1){
+        favoriteText = "favorit"
+      }
+      else{
+        favoriteText = "favoriter"
+      }
+    }
     return (
-      <ScrollView>
+      <ScrollView >
       <View style={styles.flex}>
       {/* {!_.isEmpty(this.state.user) && <Text>{this.state.user.displayName}</Text>} */}
       
@@ -87,6 +98,8 @@ class ProfileScreen extends React.Component {
       <Avatar
         size="xlarge"
         rounded
+        avatarStyle={{backgroundColor:'rgba(107, 185, 240, 1)'}}
+        containerStyle={styles.avatarStyle}
         title={this.state.user.displayName ? (this.state.user.displayName).match(/\b(\w)/g).join(''): ""}
         onPress={() => console.log("Works!")}
         activeOpacity={0.7}
@@ -95,7 +108,12 @@ class ProfileScreen extends React.Component {
       <View style={styles.informationContainer}>
 
       <Text style={styles.nameStyle}> {this.state.user.displayName} </Text>
+      {numOfFavorites > 0 && <View>
+        <Text> Du har <Text style={styles.favStyle}>{numOfFavorites}</Text> {favoriteText} </Text>
+      </View>}
       <Button
+            
+            buttonStyle={{backgroundColor:'rgba(107, 185, 240, 1)'}}
             onPress={this.signOut}
             title={'Logga ut'}
           />
@@ -110,14 +128,28 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
     alignItems: 'flex-start',
-    justifyContent: 'center'
+    justifyContent: 'center',
+  },
+  favStyle:{
+    fontWeight: 'bold'
+  },
+  avatarStyle:{
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   profileBackground: {
     width:width,
     height: 200,
     justifyContent:'center',
     alignItems:'center',
-    backgroundColor:'lightgray'
+    backgroundColor:'white'
   },
   informationContainer:{
     width:width,
@@ -130,4 +162,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connectData()(ProfileScreen);
+
+const mapStateToProps = (state) => {
+  const { user } = state
+  return  {
+    userProps:user
+    
+  }
+}
+
+export default connect(mapStateToProps, null)(ProfileScreen);

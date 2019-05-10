@@ -106,7 +106,7 @@ class ListScreen extends PureComponent {
   onCollectionUpdate = (querySnapshot) =>{
     const markers = [];
     querySnapshot.forEach((doc) => {
-      const { baddetail, feature, detail } = doc.data()
+      const { baddetail, feature, detail, upvotes } = doc.data()
       let o = {
         id: feature.id,
         location:{
@@ -116,7 +116,7 @@ class ListScreen extends PureComponent {
         information:{
           name: baddetail.name,
           previewImage: 'https://source.unsplash.com/collection/273709',
-          upvotes:0,
+          upvotes:upvotes,
           temperatur: 14
         },
         detail,
@@ -174,6 +174,7 @@ class ListScreen extends PureComponent {
       <TouchableOpacity onPress={() => this.openDetail(item, index)}>
         <ListItem
             containerStyle={{backgroundColor:'transparent'}}
+            titleStyle={{fontFamily:'ProductSans-Regular'}}
             key={item.id}
             bottomDivider={true}
             title={item.information.name} />   
@@ -248,6 +249,15 @@ class ListScreen extends PureComponent {
     });
 
   }
+
+  addUpvotes = () => {
+    this.firebaseRef.get().then((snapchot) => {
+      snapchot.forEach((doc) => {
+        let r = Math.floor(Math.random() * 200) + 100
+        doc.ref.update("upvotes", r)
+      })
+    })
+  }
   
 
   render() {
@@ -268,7 +278,8 @@ class ListScreen extends PureComponent {
         
         
           <View style={{alignItems:'center', marginTop: 20, paddingHorizontal:26 }}>
-            <Text style={{fontSize: 30, fontWeight:'bold'}}>Sök efter en badplats! 🏊‍</Text>
+            
+            <Text style={{fontSize: 30, fontFamily:'ProductSans-Regular'}}>Sök efter en badplats! 🏊‍</Text>
           </View>
         
         <View style={{alignItems:'center', marginVertical: 10, backgroundColor:'white'}}>
@@ -282,8 +293,8 @@ class ListScreen extends PureComponent {
             ref={(ref) => this.ref = ref}
             onCancel={this.onCancel}
             cancelButtonTitle="Sluta sök"
-            inputContainerStyle={{backgroundColor:'white'}}
-            
+            cancelButtonProps={{buttonTextStyle:{fontFamily:'ProductSans-Regular'}}}
+            inputContainerStyle={{backgroundColor:'white', fontFamily:'ProductSans-Regular'}}
             containerStyle={[styles.searchBarShadow, {width: wp(90), backgroundColor:'transparent'}]}
             placeholder="Skriv här..."
             
@@ -330,6 +341,15 @@ class ListScreen extends PureComponent {
     );
   }
 }
+
+// let oldRender = Text.render;
+// Text.render = function (...args) {
+//     let origin = oldRender.call(this, ...args);
+//     return React.cloneElement(origin, {
+//         style: [origin.props.style, {fontFamily: 'ProductSans-Regular'}]
+//     });
+// };
+
 
 function mapStateToProps(state) {
   const { data, markers, user } = state

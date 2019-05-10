@@ -147,6 +147,10 @@ class BadDetailScreen extends Component{
                      
                     </View>
                     
+                    <View style={styles.upvotes}>
+                      <Text> {marker.information.upvotes} har gillat denna badplats</Text>
+                    </View>
+
                      <View style={styles.locationDesc}>
                        <Text style={styles.descTitle} numberOfLines={5}>{ summary }</Text>
                      </View>
@@ -162,7 +166,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'hotpink', 
-        overflow: 'hidden'
+        overflow: 'hidden',
+        
         // justifyContent:'center',
         // alignItems:'center',
     },
@@ -174,8 +179,17 @@ const styles = StyleSheet.create({
       alignItems:'center'
 
     },
+    upvotes:{
+      width:window.width,
+      marginLeft:20,
+      marginTop: 20,
+      paddingHorizontal:20,
+      alignItems:'center',
+      fontFamily:'ProductSans-Regular'
+    },
     descTitle:{
-      fontSize:15
+      fontSize:15,
+      fontFamily:'ProductSans-Regular'
     },
     background: {
       position: 'absolute',
@@ -189,6 +203,7 @@ const styles = StyleSheet.create({
       color:'#1967d2', 
       fontWeight: 'bold',
       fontSize:18,
+      fontFamily:'ProductSans-Regular'
       
     },
     titleContainer:{

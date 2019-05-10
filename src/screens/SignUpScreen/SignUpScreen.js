@@ -41,13 +41,14 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'rgba(96, 166, 216, 1)',
-    width: 230,
-    marginTop: 0,
+    width: 220,
+    marginBottom: 40,
     borderRadius: 25
   },
   buttonTitle: {
-    fontSize: 14,
-    fontWeight: 'bold'
+    fontSize: 24,
+    fontWeight: 'bold',
+    fontFamily:'ProductSans-Regular'
   },
   logo: {
     width: 300,
@@ -125,10 +126,11 @@ class SignUpScreen extends PureComponent {
         <View style={styles.flex}>
           
           <KeyboardAvoidingView behavior="padding" style={styles.inputContainer} enabled>
-          <Text style={{marginVertical: 60, fontSize: 30, fontWeight:'bold'}}>
+          <Text style={{marginVertical: 60, fontSize: 30, fontWeight:'bold', fontFamily:'ProductSans-Regular'}}>
         Skapa ett konto 😊
         </Text>
           <Input
+            inputStyle={{fontFamily:'ProductSans-Regular'}}
             value={user.name}
             onChangeText={(text) => this.setState({user:{
               ...this.state.user,
@@ -138,6 +140,7 @@ class SignUpScreen extends PureComponent {
             placeholder='Namn'
           />
           <Input
+          inputStyle={{fontFamily:'ProductSans-Regular'}}
           onChangeText={(e) => this.setState({user:{
             ...this.state.user,
             email: e
@@ -149,6 +152,7 @@ class SignUpScreen extends PureComponent {
             autoCapitalize='none'
           />
           <Input
+          inputStyle={{fontFamily:'ProductSans-Regular'}}
           onChangeText={(e) => this.setState({user:{
             ...this.state.user,
             password: e
@@ -159,6 +163,7 @@ class SignUpScreen extends PureComponent {
             secureTextEntry={true}
           />
           <Input
+          inputStyle={{fontFamily:'ProductSans-Regular'}}
           onChangeText={(e) => this.setState({user:{
             ...this.state.user,
             passwordConfirm: e

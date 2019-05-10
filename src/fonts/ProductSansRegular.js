@@ -6,17 +6,17 @@ const styles = StyleSheet.create({
   text: {
     color: 'black',
     fontSize: 12,
-    fontFamily: 'SFProDisplay-Black',
+    fontFamily: 'ProductSans-Regular',
   }
 });
 
-export function SFProDisplayBlack({ style, ...props }) {
+export function ProductSansRegular({ style, ...props }) {
   return (
     <Text allowFontScaling={false} {...props} style={[styles.text, style]} />
   );
 }
 
-SFProDisplayBlack.propTypes = {
+ProductSansRegular.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -25,7 +25,7 @@ SFProDisplayBlack.propTypes = {
   style: Text.propTypes.style,
 };
 
-SFProDisplayBlack.defaultProps = {
+ProductSansRegular.defaultProps = {
   children: undefined,
   style: {}
 };

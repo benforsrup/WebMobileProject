@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
   Text,
+  Alert,
   TouchableOpacity
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -40,7 +41,8 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     fontSize: 14,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily:'ProductSans-Regular'
   },
   logo: {
     width: 300,
@@ -52,7 +54,8 @@ const styles = StyleSheet.create({
   logoTitle: {
     marginTop: 10,
     fontSize: 16,
-    fontWeight: '500'
+    fontWeight: '500',
+    fontFamily:'ProductSans-Regular'
   },
   inputContainer:{
     paddingHorizontal:10,
@@ -68,7 +71,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent:'center',
     alignItems:'center',
-    borderRadius:20
+    borderRadius:20,
+    
   }
 });
 
@@ -84,6 +88,12 @@ class AuthScreen extends PureComponent {
     this.firestoreref = firebase.firestore().collection('users');
   }
 
+  showAlert = (error) => {
+    Alert.alert(
+      error
+    )
+  }
+
   loginInWithCredentials = () => {
     firebase.auth()
     .signInAnonymously()
@@ -96,7 +106,8 @@ class AuthScreen extends PureComponent {
       }
 
     }).catch(error=>{
-      // console.log(error, "comeon")
+
+      console.log(error, "comeon")
     })
   }
 
@@ -236,9 +247,13 @@ class AuthScreen extends PureComponent {
         .then((user)=> {
           console.log(user)
           pushTabBasedApp()
+        }).catch((error) => {
+          this.setState({email:'', password:''})
+          this.showAlert("Fel inloggningsuppgifter!")
         })
     }
     else{
+      this.showAlert("Fel inloggningsuppgifter!")
       //show error
 
     }
@@ -268,12 +283,22 @@ class AuthScreen extends PureComponent {
           </Text>
           <View style={styles.inputContainer}>
           <Input
+            leftIcon={{ type: 'font-awesome', name: 'user', color:'rgba(96, 166, 216, 1)' }}
+            leftIconContainerStyle={{marginLeft:0, marginRight:10 }}
+            inputStyle={{fontFamily:'ProductSans-Regular'}}
+            value={this.state.email}
             onChangeText={(text) => this.setState({email:text})}
+            inputContainerStyle={{ borderBottomWidth: 0}}
             placeholder='Mail eller användarnamn'
             autoCapitalize='none'
             keyboardType='email-address'
           />
           <Input
+            value={this.state.password}
+            leftIcon={{ type: 'font-awesome', name: 'lock', color:'rgba(96, 166, 216, 1)' }}
+            leftIconContainerStyle={{marginLeft:0, marginRight:10 }}
+            inputStyle={{fontFamily:'ProductSans-Regular'}}
+            inputContainerStyle={{ borderBottomWidth: 0}}
             onChangeText={(text) => this.setState({password:text})}
             containerStyle={{marginVertical: 30}}
             placeholder='Lösenord'
@@ -287,7 +312,7 @@ class AuthScreen extends PureComponent {
           />
           </View>
           
-          <Text style={{marginVertical: 20}}>
+          <Text style={{marginVertical: 20, fontFamily:'ProductSans-Regular'}}>
             - eller -
           </Text>
   
@@ -301,8 +326,11 @@ class AuthScreen extends PureComponent {
           <View style={{marginTop:0, flex: 1, justifyContent:'center', alignItems:'center'}}>
            
             <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
-            <Text style={{marginVertical:10}}> Har du inget konto?</Text>
-            <TouchableOpacity onPress={this.signUp}><Text style={{color:'rgba(96, 166, 216, 1)', fontWeight:'bold'}}>  Skapa ett här</Text></TouchableOpacity>
+            <Text style={{marginVertical:10, fontFamily:'ProductSans-Regular'}}> Har du inget konto? </Text>
+            <TouchableOpacity onPress={this.signUp}><Text style={{color:'rgba(96, 166, 216, 1)', fontWeight:'bold', fontFamily:'ProductSans-Regular'}}>
+              Skapa ett här
+              </Text>
+              </TouchableOpacity>
             </View>
           </View>
   

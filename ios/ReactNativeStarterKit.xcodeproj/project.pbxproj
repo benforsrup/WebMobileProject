@@ -14,6 +14,11 @@
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		03ABBDC8B55B4159BCFBE7CB /* SFProDisplayThin.otf in Resources */ = {isa = PBXBuildFile; fileRef = B00710C2B7704CF59B6D5709 /* SFProDisplayThin.otf */; };
 		0C701C7022764B88008ED22D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C701C4222764B88008ED22D /* GoogleService-Info.plist */; };
+		0CEE90FC228576AE008AF35F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CEE90CD228576AE008AF35F /* Images.xcassets */; };
+		0CEE914122857B55008AF35F /* ProductSansBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CEE910F22857B54008AF35F /* ProductSansBoldItalic.ttf */; };
+		0CEE914222857B55008AF35F /* ProductSansItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CEE913E22857B54008AF35F /* ProductSansItalic.ttf */; };
+		0CEE914322857B55008AF35F /* ProductSansBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CEE913F22857B54008AF35F /* ProductSansBold.ttf */; };
+		0CEE914422857B55008AF35F /* ProductSansRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CEE914022857B55008AF35F /* ProductSansRegular.ttf */; };
 		0CEFB4472276FB5D00FB661A /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CEFB4442276FB3800FB661A /* libRNGoogleSignin.a */; };
 		0CEFB4492276FB6F00FB661A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CEFB4482276FB6F00FB661A /* AddressBook.framework */; };
 		0CEFB44B2276FB7700FB661A /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CEFB44A2276FB7700FB661A /* SafariServices.framework */; };
@@ -25,7 +30,6 @@
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1462414A9997456296475E9A /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E652BE4E548A48379840A0DC /* MaterialCommunityIcons.ttf */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
@@ -402,6 +406,11 @@
 		00E356F21AD99517003FC87E /* ReactNativeStarterKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactNativeStarterKitTests.m; sourceTree = "<group>"; };
 		08B9B906A57B4E7E9F91F839 /* SFProDisplayLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SFProDisplayLight.otf; path = ../src/fonts/assets/SFProDisplayLight.otf; sourceTree = "<group>"; };
 		0C701C4222764B88008ED22D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0CEE90CD228576AE008AF35F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ReactNativeStarterKit/Images.xcassets; sourceTree = "<group>"; };
+		0CEE910F22857B54008AF35F /* ProductSansBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ProductSansBoldItalic.ttf; path = ../src/fonts/assets/ProductSansBoldItalic.ttf; sourceTree = "<group>"; };
+		0CEE913E22857B54008AF35F /* ProductSansItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ProductSansItalic.ttf; path = ../src/fonts/assets/ProductSansItalic.ttf; sourceTree = "<group>"; };
+		0CEE913F22857B54008AF35F /* ProductSansBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ProductSansBold.ttf; path = ../src/fonts/assets/ProductSansBold.ttf; sourceTree = "<group>"; };
+		0CEE914022857B55008AF35F /* ProductSansRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ProductSansRegular.ttf; path = ../src/fonts/assets/ProductSansRegular.ttf; sourceTree = "<group>"; };
 		0CEFB4142276FB3800FB661A /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 		0CEFB4482276FB6F00FB661A /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		0CEFB44A2276FB7700FB661A /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
@@ -413,7 +422,6 @@
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ReactNativeStarterKit/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ReactNativeStarterKit/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ReactNativeStarterKit/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ReactNativeStarterKit/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReactNativeStarterKit/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
@@ -610,7 +618,7 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				0CEE90CD228576AE008AF35F /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -736,6 +744,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				0CEE913F22857B54008AF35F /* ProductSansBold.ttf */,
+				0CEE910F22857B54008AF35F /* ProductSansBoldItalic.ttf */,
+				0CEE913E22857B54008AF35F /* ProductSansItalic.ttf */,
+				0CEE914022857B55008AF35F /* ProductSansRegular.ttf */,
 				BA0D733A21ECF02400608CB8 /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* ReactNativeStarterKit */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1289,7 +1301,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				0CEE914122857B55008AF35F /* ProductSansBoldItalic.ttf in Resources */,
+				0CEE914222857B55008AF35F /* ProductSansItalic.ttf in Resources */,
+				0CEE914322857B55008AF35F /* ProductSansBold.ttf in Resources */,
+				0CEE914422857B55008AF35F /* ProductSansRegular.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				3A0EACE08A1745F6A2BA7C1C /* AntDesign.ttf in Resources */,
 				6937749C8479486886355A62 /* Entypo.ttf in Resources */,
@@ -1299,6 +1314,7 @@
 				50D931E8BF174548921D9D2D /* FontAwesome5_Brands.ttf in Resources */,
 				5337355B3B784F6885DB7624 /* FontAwesome5_Regular.ttf in Resources */,
 				4A37C9F6EB4345BA9651E926 /* FontAwesome5_Solid.ttf in Resources */,
+				0CEE90FC228576AE008AF35F /* Images.xcassets in Resources */,
 				7AE81CA62D6A4DE48AC272FB /* Foundation.ttf in Resources */,
 				2DCA75D3C6A04C649547D120 /* Ionicons.ttf in Resources */,
 				0C701C7022764B88008ED22D /* GoogleService-Info.plist in Resources */,

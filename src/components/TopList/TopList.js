@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         color:'black',
         fontSize: 20,
-        
+        fontFamily:'ProductSans-Regular'
     },
     titleContainer:{
         flex: 1,

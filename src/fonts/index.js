@@ -6,5 +6,5 @@ export { SFProDisplayThin } from './SFProDisplayThin';
 export { SFProDisplayLight } from './SFProDisplayLight';
 export { SFProDisplayMedium } from './SFProDisplayMedium';
 export { SFProDisplayRegular } from './SFProDisplayRegular';
-export { SFProDisplayBlack } from './SFProDisplayBlack';
+export { ProductSansRegular } from './ProductSansRegular';
 export { SFProDisplaySemiBold } from './SFProDisplaySemiBold';

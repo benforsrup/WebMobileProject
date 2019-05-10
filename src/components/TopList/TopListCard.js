@@ -134,7 +134,8 @@ const styles = StyleSheet.create({
         color:'black',
         fontSize: 13,
         fontWeight: 'bold',
-        letterSpacing: 0.5
+        letterSpacing: 0.5,
+        fontFamily:'ProductSans-Regular'
     },
 });
 
