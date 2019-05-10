@@ -67,11 +67,11 @@ class TopList extends Component{
                     <Text style={styles.title}>
                         {this.props.title}    
                     </Text>
-                    <TouchableOpacity style={styles.subtitleContainer}>
+                    {/* <TouchableOpacity style={styles.subtitleContainer}>
                         <Text style={styles.subtitle}>
                             See all   
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
 
                 {this.renderCards()}

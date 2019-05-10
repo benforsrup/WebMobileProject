@@ -88,18 +88,20 @@ export function pushTabBasedApp() {
       drawBehind: true,
     },
     bottomTabs:{
-      // translucent:true,
+      translucent:true,
       barStyle:'default',
-      // drawBehind:true,
+      drawBehind:true,
       selectedTabColor:'green',
-      backgroundColor:'rgba(107, 185, 240, 1)',
-      currentTabIndex: 0
+      currentTabIndex: 0,
+      blur:true,
+      
+
    
     },
     bottomTab:{
       iconColor:'rgba(52, 73, 94, 1)',
-      selectedIconColor:'white',
-      selectedTextColor:'white'
+      selectedIconColor:'rgba(107, 185, 240, 1)',
+      selectedTextColor:'rgba(107, 185, 240, 1)'
     }
     
   });
@@ -118,29 +120,15 @@ export function pushTabBasedApp() {
                     title: {
                       text: 'TAB 2'
                     },
-                    leftButtons: [
-                      {
-                        id: 'nav_user_btn',
-                        icon: require('assets/icons/ic_nav_user.png'),
-                        color: 'black'
-                      }
-                    ],
-                    rightButtons: [
-                      {
-                        id: 'nav_logout_btn',
-                        icon: require('assets/icons/ic_nav_logout.png'),
-                        color: 'black'
-                      }
-                    ]
                   }
                 }
               }
             }],
             options: {
               bottomTab: {
-                icon: require('assets/icons/ic_tab_menu.png'),
+                icon: require('assets/icons/ic_search.png'),
                 testID: 'SECOND_TAB_BAR_BUTTON',
-                selectedTextColor:'white'
+                text:'Sök'
               }
             }
           },
@@ -155,29 +143,15 @@ export function pushTabBasedApp() {
                       text: 'Badplatser'
                     },
                     visible:false,
-
-                    leftButtons: [
-                      {
-                        id: 'nav_user_btn',
-                        icon: require('assets/icons/ic_nav_user.png'),
-                        color: 'black'
-                      }
-                    ],
-                    rightButtons: [
-                      {
-                        id: 'nav_logout_btn',
-                        icon: require('assets/icons/ic_nav_logout.png'),
-                        color: 'black'
-                      }
-                    ]
                   }
                 }
               }
             }],
             options: {
               bottomTab: {
-                icon: require('assets/icons/ic_tab_home.png'),
+                icon: require('assets/icons/ic_map.png'),
                 testID: 'FIRST_TAB_BAR_BUTTON',
+                text:'Karta'
               }
             }
           }
@@ -196,6 +170,7 @@ export function pushTabBasedApp() {
               bottomTab: {
                 icon: require('assets/icons/ic_nav_user.png'),
                 testID: 'SECOND_TAB_BAR_BUTTON',
+                text:'Profil'
               }
             }
           }

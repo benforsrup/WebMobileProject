@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     },
     scrollContent:{
       height: 1000,
-      backgroundColor:'rgba(240, 250, 252, 1)',
+      backgroundColor:'white',
       justifyContent:'flex-start',
       alignItems:'center',
     },
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
       height: 70,
       position:'absolute',
       top:-30,
-      backgroundColor:'rgba(240, 250, 252, 1)',
+      backgroundColor:'white',
       left:0,
       right:0,
       width:window.width,

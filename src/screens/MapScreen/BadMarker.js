@@ -35,16 +35,7 @@ export default class BadMarker extends React.Component{
         return (
             <Fragment>
                 {badmarkers.map((marker, index) => {
-                    const scaleStyle = {
-                        transform: [
-                          {
-                            scale: detailOpen ? animations[index].scale : 1 ,
-                          },
-                        ],
-                      };
-                      const opacityStyle = {
-                        opacity: detailOpen ? animations[index].opacity: 1,
-                      };
+                    
                     return(
                     <Marker
                         tracksViewChanges={this.state.tracksViewChanges}
@@ -91,7 +82,7 @@ const styles = StyleSheet.create({
         width: 0,
         height: 2,
       },
-      shadowOpacity: 0.75,
+      shadowOpacity: 0.15,
       shadowRadius: 3.84,
     },
     selectedMarkerTriangle:{
@@ -107,13 +98,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 10,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
+      
       
     },
     triangle: {

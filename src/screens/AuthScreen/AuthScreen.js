@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: "rgb(245, 245, 245)"
+    backgroundColor: "white"
   },
   button: {
     backgroundColor: 'rgba(96, 166, 216, 1)',
@@ -44,9 +44,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 300,
-    height: 200,
+    height: 150,
     resizeMode: 'contain',
-    marginTop: 40,
+    marginTop: 10,
     marginBottom: 0
   },
   logoTitle: {
@@ -57,17 +57,18 @@ const styles = StyleSheet.create({
   inputContainer:{
     paddingHorizontal:10,
     paddingVertical:30,
-    width: wp(85),
-    shadowColor: "rgba(96, 166, 216, 1)",
+    width: wp(80),
+    shadowColor: "rgba(96, 66, 16, 1)",
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 1,
     },
     shadowOpacity: 0.25,
     shadowRadius: 5,
-    backgroundColor: "rgba(255, 255, 255, 1)",
+    backgroundColor: "white",
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+    borderRadius:20
   }
 });
 
@@ -175,7 +176,7 @@ class AuthScreen extends PureComponent {
       }
       
     } catch (e) {
-      console.error(e);
+      
     }
   }
   signUp = () => {
@@ -246,7 +247,7 @@ class AuthScreen extends PureComponent {
   render() {
       if(!this.state.hasUser){
         return(
-        <SafeAreaView style={{flex:1, backgroundColor: "rgb(245, 245, 245)"}}>
+        <SafeAreaView style={{flex:1, backgroundColor: "white"}}>
         <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
           
         <Button
@@ -260,9 +261,9 @@ class AuthScreen extends PureComponent {
         )
       }
       return (
-        <SafeAreaView style={{flex:1, backgroundColor: "rgb(245, 245, 245)"}}>
+        <SafeAreaView style={{flex:1, backgroundColor: "white"}}>
         <View style={styles.flex}>
-          <Text style={{marginVertical: 60, fontSize: 90, fontWeight:'bold'}}>
+          <Text style={{marginVertical: 40, fontSize: 90, fontWeight:'bold'}}>
           🏊‍
           </Text>
           <View style={styles.inputContainer}>

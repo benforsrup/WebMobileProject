@@ -34,7 +34,7 @@ function wp (percentage) {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor:'rgba(240, 250, 252, 1)'
+    backgroundColor:'white'
   },
   searchBarShadow:{
     shadowColor: "#000",
@@ -115,7 +115,7 @@ class ListScreen extends PureComponent {
         },
         information:{
           name: baddetail.name,
-          previewImage: 'https://dansglad.se/ute/arkiv/141203/141203_tenntorp-fixksatra_0027.jpg',
+          previewImage: 'https://source.unsplash.com/collection/273709',
           upvotes:0,
           temperatur: 14
         },
@@ -253,6 +253,13 @@ class ListScreen extends PureComponent {
   render() {
     // console.log(this.state.isSearching)
     const { search, isSearching } = this.state
+    const { user } = this.props
+
+    const favorites = this.props.markers.markers.filter((marker) => {
+      return user.favorites.indexOf(marker.id) != -1
+    })
+
+    console.log(favorites)
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.container}>
@@ -264,7 +271,7 @@ class ListScreen extends PureComponent {
             <Text style={{fontSize: 30, fontWeight:'bold'}}>Sök efter en badplats! 🏊‍</Text>
           </View>
         
-        <View style={{alignItems:'center', marginVertical: 10, backgroundColor:'rgba(240, 250, 252, 1)'}}>
+        <View style={{alignItems:'center', marginVertical: 10, backgroundColor:'white'}}>
           <SearchBar
             lightTheme={true}
             
@@ -299,14 +306,17 @@ class ListScreen extends PureComponent {
           <TopList
             onDetailOpen={this.openDetail}
             badmarkers={this.props.markers.markers} 
-            title="Dina favoriter"
-          />
-
-          <TopList
-            onDetailOpen={this.openDetail}
-            badmarkers={this.props.markers.markers} 
             title="Varmast idag"
           />
+
+          {favorites.length > 0 &&
+          <TopList
+            onDetailOpen={this.openDetail}
+            badmarkers={favorites} 
+            title="Dina favoriter"
+          />}
+
+          
         </View> : 
         <View style={{paddingLeft:15, paddingRight:15}}>
             {this.renderSearchList()}
@@ -322,10 +332,12 @@ class ListScreen extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const { data, markers } = state
+  const { data, markers, user } = state
   return  {
     data: data,
-    markers: markers
+    markers: markers,
+    user
+    
   }
 }
 const mapDispatchToProps = dispatch => {
