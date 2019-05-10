@@ -19,7 +19,6 @@ export function* addToFavorites(data){
   // console.log("GET_BADPLATSER")
   try{
     // const response = yield call(firebaseService.getBadplatser);
-      console.log("called")
       const response = yield call(firebaseService.addToFavoritesService, data.payload)
     
   } catch(e){
@@ -29,7 +28,6 @@ export function* addToFavorites(data){
 export function* removeFromFavorites(data){
     try{
         // const response = yield call(firebaseService.getBadplatser);
-          console.log("called")
           const response = yield call(firebaseService.removeFromFavorites, data.payload)
         
       } catch(e){

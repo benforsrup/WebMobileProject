@@ -116,7 +116,7 @@ class ListScreen extends PureComponent {
           latitude: feature.geometry.coordinates[1]
         },
         information:{
-          name: baddetail.name,
+          name: baddetail.name.replace("Mälaren, ", ""),
           previewImage: 'https://source.unsplash.com/collection/273709',
           upvotes:upvotes,
           temperatur: 14

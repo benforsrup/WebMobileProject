@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect } from 'react-redux'
 import { userActions } from '../../redux/modules/user/actions';
 import { bindActionCreators } from "redux";
+import firebase from 'react-native-firebase'
 
 
 const window = Dimensions.get('window');
@@ -28,6 +29,8 @@ class BadDetailScreen extends Component{
             isFavorited:false,
             isLiked: false
         }
+
+
     }
     componentDidMount(){
         Navigation.mergeOptions(this.props.componentId, {
@@ -45,7 +48,10 @@ class BadDetailScreen extends Component{
               ],
             }
           });
+
     }
+
+    
 
     navigationButtonPressed({ buttonId }) {
         const { data } = this.props;
@@ -88,7 +94,6 @@ class BadDetailScreen extends Component{
     addToUpvoted = () => {
       const { actions, marker, user } = this.props
       let isUpvoted = user.upvoted.indexOf(marker.id) != -1;
-      console.log(isUpvoted)
       if(isUpvoted){
         //remove from favorites
         actions.removeFromUpvoted(this.props.marker.id)
@@ -103,7 +108,6 @@ class BadDetailScreen extends Component{
     }
 
     render(){
-      console.log(this.props.marker)
         const default_images = [
             {
               url: this.props.marker.information.previewImage
@@ -127,7 +131,6 @@ class BadDetailScreen extends Component{
         if(marker.baddetail.summary){
           summary = marker.baddetail.summary
         }
-        console.log(marker)
         if(marker.detail && marker.detail.qualityRating){
           quality = marker.detail.qualityRating[1].ratingText;
         }
@@ -211,6 +214,7 @@ const styles = StyleSheet.create({
     },
     socialButton:{
       flexDirection:'row',
+      alignItems:'center'
     },
     socialText:{
       fontFamily:'ProductSans-Regular',

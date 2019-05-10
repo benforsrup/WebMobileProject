@@ -21,7 +21,7 @@ import DetailCard from "./DetailCard";
 import Carousel, { Pagination, getInputRangeFromIndexes } from 'react-native-snap-carousel';
 import { Navigation } from 'react-native-navigation'
 import {mapStyle} from '../../constants/colors'
-
+import { connect } from 'react-redux'
 const defaultRegion = {
   latitude: 59.284467,
   longitude: 18.281070,
@@ -53,7 +53,8 @@ const sliderWidth = width;
             detailMoveAnim: new Animated.Value(400),
             bottomTabsHeight:80,
             hasAlreadyAnimated: false,
-            zoomLevel:13
+            zoomLevel:13,
+            favoriteHasChanged: false
         }
     }
 
@@ -62,36 +63,13 @@ const sliderWidth = width;
       this.animation = new Animated.Value(0);
     }
 
+    
+
    async componentDidMount() {
       // this.moveToUserLocation()
       const constants = await Navigation.constants();
       const bottomTabsHeight = constants.bottomTabsHeight;
-      this.setState({bottomTabsHeight: bottomTabsHeight})      
-      // We should detect when scrolling has stopped then animate
-      // We should just debounce the event listener here
-      // this.animation.addListener(({ value }) => {
-      //   console.log(value)
-      //   let index = Math.floor(value / CARD_WIDTH + 0.5); // animate 30% away from landing on the next item
-      //   if (index >= this.props.badmarkers.length) {
-      //     index = this.props.badmarkers.length - 1;
-      //   }
-      //   if (index <= 0) {
-      //     index = 0;
-      //   }
-  
-      //   clearTimeout(this.regionTimeout);
-      //   this.regionTimeout = setTimeout(() => {
-      //     if (this.index !== index) {
-      //       this.index = index;
-      //       const { location } = this.props.badmarkers[index];
-      //       console.log("should animate")
-      //       this.map.animateCamera({center:location,zoom:10}     
-      //         ,
-      //         {duration:350}
-      //       );
-      //     }
-      //   }, 10);
-      // });
+      this.setState({bottomTabsHeight: bottomTabsHeight})
     }
     
     moveToUserLocation = () => {
@@ -189,6 +167,9 @@ const sliderWidth = width;
         //this.map.animateToRegion(r, 350);
         this.cardListRef.snapToItem(this.props.selectedMarkerIndex, true)
       }
+      if(oldProps.favorites.length !=this.props.favorites.length){
+        this.setState({favoriteHasChanged:!this.state.favoriteHasChanged})
+      }
     }
 
     handleAnimationEvent = (event) => {
@@ -225,14 +206,17 @@ const sliderWidth = width;
 
     }
 
+    
     openDetail = (index) => {
       const marker = this.props.badmarkers[index];
       this.props.onSelectMarker(index)
-      this.props.onDetailOpen(marker)
+      this.props.onDetailOpen(marker, index)
     }
 
     _renderCardItem = ({item, index}) => {
-      return <DetailCard marker={item} index={index} key={item.id} openDetail={this.openDetail}/>
+      let isFavorite = this.props.favorites.indexOf(item.id) != -1;
+      
+      return <DetailCard marker={item} index={index} isFavorite={isFavorite} key={item.id} openDetail={this.openDetail}/>
     }
 
     onCardScroll = (event) => {
@@ -266,12 +250,12 @@ const sliderWidth = width;
     renderDetailCards = ()=> {
       const { badmarkers } = this.props
       return (
-        <Animated.View  style={[styles.scrollView, {bottom: this.state.bottomTabsHeight,transform:[{translateY: this.state.detailMoveAnim}]}]}>
+        <Animated.View  style={[styles.scrollView, {bottom: this.state.bottomTabsHeight+30,transform:[{translateY: this.state.detailMoveAnim}]}]}>
                 <Carousel
                   ref={(ref) => this.cardListRef = ref}
                   data={badmarkers}
                   renderItem={this._renderCardItem}
-                  
+                  extraData={this.state.favoriteHasChanged}
                   sliderWidth={sliderWidth}
                   itemWidth={CARD_WIDTH}
                   containerCustomStyle={styles.slider}
@@ -335,7 +319,6 @@ const sliderWidth = width;
       
       
 
-      console.log(this.state.zoomLevel)
 
       return (
         <View style={styles.mapWrapper}>    
@@ -354,6 +337,7 @@ const sliderWidth = width;
             <BadMarker 
               currentSelectedIndex= {this.state.currentSelectedIndex}
               badmarkers={badmarkers}
+              favorites={this.props.favorites}
               markerSelect={this.handleMarkerSelect}
               animations={interpolations}
               detailOpen={this.state.detailVisible}
@@ -493,4 +477,10 @@ const sliderWidth = width;
 })
   
   
-  export default  Map;
+
+
+
+
+export default Map;
+
+

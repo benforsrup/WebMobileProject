@@ -37,6 +37,8 @@ class DetailCard extends React.Component{
 
     }
 
+    
+
     render(){
         const { marker, openDetail,index  } = this.props
         return (
@@ -47,6 +49,14 @@ class DetailCard extends React.Component{
                 
                 <View style={styles.shadow} />
                 <View style={styles.imageContainer}>
+                    {this.props.isFavorite &&<View style={
+                        {position:'absolute', top:wp(1.25), left:wp(1.25), width:wp(80), zIndex: 1, padding: 10,
+                        backgroundColor:'#fef7e0',
+                        alignItems:'center',
+                    borderRadius: 20}
+                        }>
+                        <Text style={{fontFamily:'ProductSans-Regular',color:'#fbbc04', fontWeight:'bold'}}> Denna badplats är en av dina favoriter!</Text>
+                    </View>}
                     <Image
                             source={{ uri: marker.information.previewImage}}
                             style={styles.image}
@@ -97,7 +107,7 @@ const styles = StyleSheet.create({
        
         borderTopLeftRadius: entryBorderRadius,
         borderTopRightRadius: entryBorderRadius,
-        overflow:'hidden'
+        overflow:'hidden',
     },
     imageContainer: {
         flex: 1,
@@ -124,7 +134,8 @@ const styles = StyleSheet.create({
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         paddingHorizontal: itemHorizontalMargin,
-        paddingBottom: 18 // needed for shadow
+        paddingBottom: 18, // needed for shadow,
+       
       },
       blurContainer:{
         justifyContent:'center',
@@ -144,7 +155,8 @@ const styles = StyleSheet.create({
         color:'black',
         fontSize: 13,
         fontWeight: 'bold',
-        letterSpacing: 0.5
+        letterSpacing: 0.5,
+        fontFamily:'ProductSans-Regular'
     },
 });
 

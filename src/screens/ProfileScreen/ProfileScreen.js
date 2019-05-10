@@ -11,16 +11,14 @@ import {
   Alert, TouchableOpacity
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { get } from 'lodash';
-import Config from 'react-native-config';
 import { applyThemeOptions } from '../../styling'
 import { pushTutorialScreen } from 'src/navigation';
-import { connectData } from 'src/redux';
 import firebase from 'react-native-firebase'
 import { GoogleSignin } from 'react-native-google-signin'
 import * as _ from 'lodash'
 import { Avatar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const { width, height } = Dimensions.get('window');
 
@@ -78,16 +76,20 @@ class ProfileScreen extends React.Component {
   }
   render() {
     const { userProps }  = this.props
-    let numOfFavorites = null;
-    let favoriteText = null
+    let numOfFavorites = 0;
+    let numOfUpvotes = 0;
+    let favoriteText = "favoriter"
+    let upvoteText = "badplatser"
     if(userProps){
       numOfFavorites = userProps.favorites.length
+      numOfUpvotes = userProps.upvoted.length
       if(numOfFavorites == 1){
         favoriteText = "favorit"
       }
-      else{
-        favoriteText = "favoriter"
+      if(numOfUpvotes == 1){
+        upvoteText = "badplats"
       }
+
     }
     return (
       <ScrollView >
@@ -108,9 +110,22 @@ class ProfileScreen extends React.Component {
       <View style={styles.informationContainer}>
 
       <Text style={styles.nameStyle}> {this.state.user.displayName} </Text>
-      {numOfFavorites > 0 && <View>
-        <Text> Du har <Text style={styles.favStyle}>{numOfFavorites}</Text> {favoriteText} </Text>
-      </View>}
+      
+      <View style={styles.socialContainer}>
+          <View style={styles.socialButton}>
+          <Text style={{fontSize: 17, fontFamily: "ProductSans-Regular"}}>Du har <Text style={styles.favStyle}>{numOfFavorites}</Text> {favoriteText} </Text>
+          <Icon  name='star' size={20} color='#1967d2'  style={{marginLeft:5}} light  />
+
+          </View>
+
+
+          <View  style={styles.socialButton}>
+          <Text style={{fontFamily: "ProductSans-Regular", fontSize: 17}}>Du gillar <Text style={styles.favStyle}>{numOfUpvotes}</Text> {upvoteText}</Text>
+          <Icon  name='thumbs-up' size={20} color='#1967d2'  style={{marginLeft:5}} light  />
+          </View>                  
+        </View>
+      
+   
       <Button
             
             buttonStyle={{backgroundColor:'rgba(107, 185, 240, 1)'}}
@@ -129,6 +144,26 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'center',
+  },
+  socialContainer:{
+    flexDirection:'column',
+      justifyContent:'center',
+      alignItems:'center',
+      marginTop:10,
+      marginBottom:30,
+      paddingHorizontal:5,
+      width:width,
+      paddingVertical:0,
+  },
+  socialButton:{
+    flexDirection:'row',
+    alignItems:'center',
+    marginVertical: 20
+  },
+  socialText:{
+    fontFamily:'ProductSans-Regular',
+    marginRight:5,
+    fontSize: 17
   },
   favStyle:{
     fontWeight: 'bold'
@@ -156,7 +191,7 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   nameStyle:{
-    marginVertical:20,
+    marginTop:20,
     fontSize: 20,
     fontWeight: 'bold'
   }

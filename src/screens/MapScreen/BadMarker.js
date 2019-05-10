@@ -26,7 +26,6 @@ export default class BadMarker extends React.Component{
 
     render(){
         const { badmarkers, markerSelect, animations, detailOpen} = this.props
-        console.log(this.props.currentSelectedIndex)
         if(badmarkers.length == 0){
             return null;
         }
@@ -35,6 +34,7 @@ export default class BadMarker extends React.Component{
         return (
             <Fragment>
                 {badmarkers.map((marker, index) => {
+                    let favorite = this.props.favorites.indexOf(marker.id) != -1 
                     
                     return(
                     <Marker
@@ -48,13 +48,29 @@ export default class BadMarker extends React.Component{
                         stopPropagation
                     >
                         <Animated.View style={[styles.markerView]}>
-                            <View style={[styles.markerTextWrapper,this.props.currentSelectedIndex === index && styles.selectedMarker]}>
-                            <Text type="h4" style={{color:'white', fontWeight:'700'}}>
+                            <View style={[
+                              styles.markerTextWrapper,
+                              this.props.currentSelectedIndex === index && styles.selectedMarker,
+                              favorite && styles.favMarker,
+                              
+                            ]}>
+                            <Text type="h4" style={[
+                              styles.markerTextStyle,
+                              this.props.currentSelectedIndex === index && styles.selectedMarkerTextStyle,
+                              favorite && styles.favMarkerTextStyle,
+                              
+                              ]}>
                                 {marker.information.name}
                                 
                             </Text>
                             </View>
-                            <View style={[styles.triangle, this.props.currentSelectedIndex === index && styles.selectedMarkerTriangle]} />
+                            <View style={[
+                              styles.triangle, 
+                              this.props.currentSelectedIndex === index && styles.selectedMarkerTriangle,
+                              favorite && styles.favMarkerTextTriangle,
+
+                             
+                              ]} />
                         </Animated.View>
                     </Marker>
                 )})}
@@ -72,9 +88,27 @@ const styles = StyleSheet.create({
       
     },
     markerStyle:{
-      zIndex: 1,
-      
+      zIndex: 1,  
     },
+    favMarker:{
+      backgroundColor: 'yellow',
+      padding: 10
+    },
+    favMarkerTextStyle:{
+      color: 'rgba(25, 181, 254, 1)'
+    },
+    markerTextStyle:{
+      color:'white',
+      fontWeight:'bold'
+    },
+    favMarkerTextTriangle:{
+      borderBottomColor: 'yellow',
+
+    },
+    selectedMarkerTextStyle:{
+      color:'white'
+    },
+
     selectedMarker:{
       backgroundColor: 'rgba(25, 120, 254, 1)',
       shadowColor: "#000",

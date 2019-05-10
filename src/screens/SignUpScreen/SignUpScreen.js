@@ -93,12 +93,10 @@ class SignUpScreen extends PureComponent {
     const { user } = this.state
     //need more validation
     if(user.password === user.passwordConfirm){
-      console.log(user)
       firebase
       .auth()
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(userCredentials => {
-        console.log(user)
         if(userCredentials.user){
           userCredentials.user.updateProfile({
             displayName: user.name

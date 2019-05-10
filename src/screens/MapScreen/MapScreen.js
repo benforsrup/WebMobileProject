@@ -50,6 +50,14 @@ class MapScreen extends PureComponent {
     this.unsubscribe = this.firebaseRef.onSnapshot(this.onCollectionUpdate) 
   }
 
+  componentDidUpdate(oldProps){
+    if(oldProps.user.favorites.length != this.props.user.favorites.length){
+      console.log("heey")
+      this.forceUpdate()
+      
+    }
+  }
+
   componentWillUnmount() {
     this.unsubscribe();
   }
@@ -87,7 +95,7 @@ class MapScreen extends PureComponent {
     }
   }
 
-   openDetail = async(marker) =>{
+   openDetail = async(marker, index) =>{
     //  console.log("is open: ", this.state.detailIsOpen)
      
     //  if(!this.state.detailIsOpen){
@@ -113,7 +121,8 @@ class MapScreen extends PureComponent {
           component: {
             name: 'demo.BadDetailScreen',
             passProps: {
-              marker: marker
+              index,
+              markerId: marker.id
             },
             options: {
               topBar: {
@@ -136,11 +145,12 @@ class MapScreen extends PureComponent {
   }
 
   render() {
-    // console.log("Mapscreen: ", this.props.markers)
+     console.log("Mapscreen: ", this.props.user.favorites.length)
     return (
       <View style={styles.container}>
             
           <Map 
+            favorites={this.props.user.favorites}
             openedFromList={this.props.markers.openedFromList}
             selectedMarkerIndex={this.props.markers.selectedIndex}
             onSelectMarker={this.props.actions.setSelectedBadPlats}
@@ -194,10 +204,11 @@ const styles = StyleSheet.create({
 // };
 
 function mapStateToProps(state) {
-  const { data, markers } = state
+  const { data, markers, user } = state
   return  {
     data: data,
-    markers: markers
+    markers: markers,
+    user
   }
 }
 const mapDispatchToProps = dispatch => {

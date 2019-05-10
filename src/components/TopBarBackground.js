@@ -16,19 +16,15 @@ class TopBarBackground extends Component {
   }
 
   componentDidAppear() {
-    // console.log('RNN', 'TBB.componentDidAppear');
   }
 
   componentDidDisappear() {
-    // console.log('RNN', `TBB.componentDidDisappear`);
   }
 
   componentDidMount() {
-    // console.log('RNN', `TBB.componentDidMount`);
   }
 
   componentWillUnmount() {
-    // console.log('RNN', `TBB.componentWillUnmount`);
     this.subscription.remove();
   }
 
