@@ -53,7 +53,7 @@ class TopListCard extends React.Component{
                         <View style={styles.radiusMask} />
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.title} numberOfLines={1}>
+                        <Text style={styles.title} numberOfLines={2}>
                             { marker.information.name }
                         </Text>
                     </View>

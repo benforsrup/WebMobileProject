@@ -25,7 +25,8 @@ class BadDetailScreen extends Component{
         this.state ={
             index: 0,
             modalVisible: false,
-            isFavorited:false
+            isFavorited:false,
+            isLiked: false
         }
     }
     componentDidMount(){
@@ -84,8 +85,25 @@ class BadDetailScreen extends Component{
       // this.setState({isFavorited:!this.state.isFavorited})
     }
 
+    addToUpvoted = () => {
+      const { actions, marker, user } = this.props
+      let isUpvoted = user.upvoted.indexOf(marker.id) != -1;
+      console.log(isUpvoted)
+      if(isUpvoted){
+        //remove from favorites
+        actions.removeFromUpvoted(this.props.marker.id)
+      }
+      else{
+        //add to favorites
+        actions.addToUpvotes(this.props.marker.id)
+
+
+      }
+      // this.setState({isFavorited:!this.state.isFavorited})
+    }
+
     render(){
-      // console.log(this.props.marker)
+      console.log(this.props.marker)
         const default_images = [
             {
               url: this.props.marker.information.previewImage
@@ -98,6 +116,8 @@ class BadDetailScreen extends Component{
         const { marker, user } = this.props
         // console.log(marker, user)
         let isFavorited = user.favorites.indexOf(marker.id) != -1;
+        let isUpvoted = user.upvoted.indexOf(marker.id) != -1;
+
         // console.log(isFavorited)
         const images = marker.information.images ? marker.information.images : default_images
 
@@ -125,9 +145,12 @@ class BadDetailScreen extends Component{
                   <TouchableOpacity onPress={()=>console.log("hey")} style={{ height: 200, justifyContent: "center", alignItems: "center"}} >
                     <TouchableOpacity onPress={() => Navigation.dismissModal(this.props.componentId) } style={styles.backButton}>
                     <Icon name="chevron-left" size={30} color="white" style={styles.close} />
-
+                      
                       {/* <Text style={{fontWeight: 'bold', color:'black', fontSize: 15}}> Go back</Text> */}
                     </TouchableOpacity>
+                    <View style={styles.upvotes}>
+                      <Text style={{color:'#1967d2', fontWeight:'bold'}}> {marker.information.upvotes} har gillat denna badplats</Text>
+                    </View>
                     
                   </TouchableOpacity>
                 )}
@@ -137,19 +160,29 @@ class BadDetailScreen extends Component{
                 
                 <View style={styles.scrollContent}>
                   <TriggeringView onHide={() => console.log("text hidden")}>
-                  <View style={{flexDirection:'row', alignItems:'center', marginLeft: 40,width:window.width, backgroundColor:'transparent'}}>
-                  <TouchableOpacity onPress={this.addToFavorites}>
-                   <Icon  name={isFavorited ? 'star' : 'star-o'} size={20} color='#1967d2'  style={{marginRight: 10}} light  />
-                  </TouchableOpacity>
+                  <View style={{flexDirection:'row', justifyContent:'center',alignItems:'center',width:window.width, backgroundColor:'transparent'}}>
+                  
+                    
                       <TouchableOpacity style={styles.titleContainer} onPress={() => this.props.cameFromList && this.navigateToMarkerMap()}>
                         <Text  numberOfLines={2} style={styles.titleStyle}>{marker.information.name}</Text>
                       </TouchableOpacity>
                      
                     </View>
                     
-                    <View style={styles.upvotes}>
-                      <Text> {marker.information.upvotes} har gillat denna badplats</Text>
+                    <View style={styles.socialContainer}>
+                      <TouchableOpacity onPress={this.addToFavorites} style={styles.socialButton}>
+                      <Text style={[styles.socialText, {fontFamily: isFavorited ? "ProductSans-Bold": "ProductSans-Regular"} ]}>{isFavorited ? 'Tillagd i favoriter' : 'Lägg till i favoriter'}</Text>
+                      <Icon  name={isFavorited ? 'star' : null} size={20} color='#1967d2'  style={{marginLeft:0}} light  />
+                      </TouchableOpacity>
+
+
+                      <TouchableOpacity onPress={this.addToUpvoted} style={styles.socialButton}>
+                      <Text style={[styles.socialText, {fontFamily: isUpvoted ? "ProductSans-Bold": "ProductSans-Regular"} ]}>{isUpvoted ? 'Gillar badplats' : 'Gilla badplats'}</Text>
+                      <Icon  name={isUpvoted ? 'thumbs-up' : null} size={20} color='#1967d2'  style={{marginLeft:0}} light  />
+                      </TouchableOpacity>
+                      
                     </View>
+                    
 
                      <View style={styles.locationDesc}>
                        <Text style={styles.descTitle} numberOfLines={5}>{ summary }</Text>
@@ -165,26 +198,40 @@ class BadDetailScreen extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'hotpink', 
         overflow: 'hidden',
         
         // justifyContent:'center',
         // alignItems:'center',
     },
+    socialContainer:{
+      flexDirection:'row',
+      justifyContent:'space-evenly',
+      marginTop:10,
+      paddingVertical:10
+    },
+    socialButton:{
+      flexDirection:'row',
+    },
+    socialText:{
+      fontFamily:'ProductSans-Regular',
+      marginRight:5,
+      fontSize: 17
+    },
     locationDesc:{
       width:window.width,
-      marginLeft:20,
+      marginLeft:0,
       marginTop: 20,
       paddingHorizontal:20,
       alignItems:'center'
 
     },
     upvotes:{
-      width:window.width,
-      marginLeft:20,
-      marginTop: 20,
-      paddingHorizontal:20,
+      padding:10,
+      borderRadius:20,
       alignItems:'center',
+      justifyContent:'center',
+      marginTop:10,
+      backgroundColor:'rgba(255,255,255, .9)',
       fontFamily:'ProductSans-Regular'
     },
     descTitle:{
@@ -203,20 +250,26 @@ const styles = StyleSheet.create({
       color:'#1967d2', 
       fontWeight: 'bold',
       fontSize:18,
-      fontFamily:'ProductSans-Regular'
+      fontFamily:'ProductSans-Regular',
       
     },
     titleContainer:{
       backgroundColor:'#e8f0fe',
       paddingVertical:20,
       paddingHorizontal: 10,
-      borderRadius:66
+      borderRadius:20,
+      width:window.width-20,
+      alignItems:'center',
+      justifyContent:'center',
+      flexDirection:'row',
+     
+      
+      paddingBottom:20
     },
     scrollContent:{
       height: 1000,
       backgroundColor:'white',
-      justifyContent:'flex-start',
-      alignItems:'center',
+      alignItems:'flex-start',
     },
     backButton:{
       position:'absolute',
@@ -237,11 +290,11 @@ const styles = StyleSheet.create({
     customRadius:{
       height: 70,
       position:'absolute',
-      top:-30,
+      top:-10,
       backgroundColor:'white',
-      left:0,
-      right:0,
-      width:window.width,
+      left:-3,
+      right:3,
+      width:window.width+6,
       zIndex:0,
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
@@ -258,10 +311,12 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state)=>{
-  const { user } = state
+const mapStateToProps = (state, props)=>{
+  const { user, markers } = state
+  console.log(markers.markers[props.index])
   return  {
-    user
+    user,
+    marker:markers.markers[props.index] 
   }
 }
 const mapDispatchToProps = dispatch => {

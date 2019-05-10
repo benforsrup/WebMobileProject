@@ -40,12 +40,12 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 1,
     },
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
-    backgroundColor:'white',
-    elevation: 9,
+    shadowOpacity: 0.42,
+    shadowRadius: 1.22,
+
+    elevation: 3,
   },
   
 });
@@ -105,6 +105,8 @@ class ListScreen extends PureComponent {
 
   onCollectionUpdate = (querySnapshot) =>{
     const markers = [];
+    console.log("onCollectionUpdate")
+    
     querySnapshot.forEach((doc) => {
       const { baddetail, feature, detail, upvotes } = doc.data()
       let o = {
@@ -233,7 +235,7 @@ class ListScreen extends PureComponent {
           component: {
             name: 'demo.BadDetailScreen',
             passProps: {
-              marker: marker,
+              markerId: marker.id,
               events:this.events,
               cameFromList: true,
               index: index
@@ -269,7 +271,6 @@ class ListScreen extends PureComponent {
       return user.favorites.indexOf(marker.id) != -1
     })
 
-    console.log(favorites)
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.container}>
@@ -294,7 +295,8 @@ class ListScreen extends PureComponent {
             onCancel={this.onCancel}
             cancelButtonTitle="Sluta sök"
             cancelButtonProps={{buttonTextStyle:{fontFamily:'ProductSans-Regular'}}}
-            inputContainerStyle={{backgroundColor:'white', fontFamily:'ProductSans-Regular'}}
+            inputStyle={{fontFamily:'ProductSans-Regular'}}
+            inputContainerStyle={{backgroundColor:'white'}}
             containerStyle={[styles.searchBarShadow, {width: wp(90), backgroundColor:'transparent'}]}
             placeholder="Skriv här..."
             

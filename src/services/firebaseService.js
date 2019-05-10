@@ -84,7 +84,7 @@ export const addToFavoritesService = async (id) => {
 
     const { currentUser } = firebase.auth() 
     const firestoreRef = firebase.firestore().collection('users').doc(currentUser.uid)
-    
+
     console.log("heey", currentUser)
     firestoreRef.get()
 			.then((docSnapshot) => {
@@ -97,12 +97,93 @@ export const addToFavoritesService = async (id) => {
 					
 					firestoreRef.update("favorites", favorites)
 					
+					
 				} else {
                     console.log("user data does not exist")
 
 				}
 			});
 	} catch (error){
+		console.log(error)
+	}
+
+}
+
+export const addToUpvotesService = async (id) => {
+	try{
+
+    const { currentUser } = firebase.auth() 
+    const firestoreRef = firebase.firestore().collection('users').doc(currentUser.uid)
+	const firestoreLocationsRef = firebase.firestore().collection('badlocations').where('feature.id', '==', id)
+
+    firestoreRef.get()
+			.then((docSnapshot) => {
+				if (docSnapshot.exists) {
+					console.log(id)
+					let { upvoted } = docSnapshot.data()
+					if(upvoted.indexOf(id) == -1){
+						upvoted.push(id);
+					}
+					firestoreRef.update("upvoted", upvoted)
+					
+				} else {
+                    console.log("user data does not exist")
+
+				}
+			});
+	} catch (error){
+		console.log(error)
+	}
+}
+
+export const removeFromUpvoted = async (id) => {
+	try{
+
+    const { currentUser } = firebase.auth() 
+    const firestoreRef = firebase.firestore().collection('users').doc(currentUser.uid)
+    
+    firestoreRef.get()
+			.then((docSnapshot) => {
+				if (docSnapshot.exists) {
+					
+					let { upvoted } = docSnapshot.data()
+					if(upvoted.indexOf(id) != -1){
+						_.remove(upvoted, (e) => {
+							return e == id
+						})
+					}
+
+					firestoreRef.update("upvoted", upvoted)
+					
+				} else {
+                    console.log("user data does not exist")
+
+				}
+			});
+	} catch (error){
+		console.log(error)
+	}
+}
+
+
+
+export const addToLocationsUpvote = async(data) => {
+	const id = data.payload;
+	const add = data.upvote;
+	const firestoreLocationsRef = firebase.firestore().collection('badlocations').where('feature.id', '==', id).limit(1)
+	try{
+		firestoreLocationsRef.get()
+        .then((docSnapshot) => {
+			console.log("called", docSnapshot.docs[0])
+          
+            
+            let { upvotes } = docSnapshot.docs[0].data()
+            upvotes = add ? upvotes + 1: upvotes - 1;
+            docSnapshot.docs[0].ref.update("upvotes", upvotes)
+          
+	  }).catch((error) => console.log(error))
+	  
+	} catch(error){
 		console.log(error)
 	}
 }
