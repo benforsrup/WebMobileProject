@@ -19,7 +19,7 @@ import * as _ from 'lodash'
 import { Avatar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import CustomButton from '../../components/CustomButton';
 const { width, height } = Dimensions.get('window');
 
 class ProfileScreen extends React.Component {
@@ -57,14 +57,14 @@ class ProfileScreen extends React.Component {
     firebase.auth().signOut().then( async() => {
       
       const isSignedInToGoogle = await GoogleSignin.isSignedIn()
-      // console.log(isSignedInToGoogle)
+      console.log(isSignedInToGoogle)
       if(isSignedInToGoogle){
         try {
-          await GoogleSignin.revokeAccess();
-          await GoogleSignin.signOut();
-          this.setState({ user: "", loading: false });
-          pushTutorialScreen()
-          
+           GoogleSignin.signOut().then(()=> {
+            this.setState({ user: "", loading: false });
+            pushTutorialScreen()  
+          });
+         
         } catch (error) {
           console.log(error)
         }
@@ -133,13 +133,11 @@ class ProfileScreen extends React.Component {
           </View>                  
         </View>
       
-   
-      <Button
-            
-            buttonStyle={{backgroundColor:'rgba(107, 185, 240, 1)'}}
-            onPress={this.signOut}
-            loading={this.state.loading}
-            title={'Logga ut'}
+  
+          <CustomButton 
+           onPress={this.signOut}
+           loading={this.state.loading}
+           title={'Logga ut'}
           />
       </View>
       </View>

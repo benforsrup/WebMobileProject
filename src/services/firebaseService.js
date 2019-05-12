@@ -1,5 +1,7 @@
 import firebase from 'react-native-firebase'
 import * as _ from 'lodash'
+
+
 export const getBadplatser = async () => {
 	let badplatserRef = firebase.firestore().collection('badplatser')
 	try{
@@ -46,7 +48,6 @@ export const addUserToFirestore = async () => {
 			});
 	})
 }
-
 
 export const removeFromFavorites = async (id) => {
 	try{
@@ -164,8 +165,6 @@ export const removeFromUpvoted = async (id) => {
 		console.log(error)
 	}
 }
-
-
 
 export const addToLocationsUpvote = async(data) => {
 	const id = data.payload;

@@ -18,6 +18,7 @@ import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin'
 import { Card, Button,Input } from 'react-native-elements';
 import { SIGNUP_SCREEN, FORGOTPASS_SCREEN } from '../../navigation';
 import { addUserToFirestore } from '../../services/firebaseService';
+import CustomButton from '../../components/CustomButton';
 
 const {width, height} = Dimensions.get('window');
 
@@ -327,25 +328,26 @@ class AuthScreen extends PureComponent {
             placeholder='Lösenord'
             secureTextEntry={true}
           />
-          <Button
-            onPress={this.loginInWithCredentials}
-            title={'Logga in'}
-            loading={this.state.loadingLogin}
-            buttonStyle={styles.button}
-            titleStyle={styles.buttonTitle}
+          
+            <CustomButton 
+              onPress={this.loginInWithCredentials}
+              title={'Logga in'}
+              loading={this.state.loadingLogin}
           />
+
           </View>
           
           <Text style={{marginVertical: 20, fontFamily:'ProductSans-Regular'}}>
             - eller -
           </Text>
   
-          <Button
+          
+          <CustomButton 
             onPress={this.googleLogin}
             loading={this.state.loadingLogin}
             title={'Logga in med Google'}
-            buttonStyle={styles.button}
-            titleStyle={styles.buttonTitle}
+            customButtonStyle={{borderColor:'rgb(239,89,57)'}}
+            customTitleStyle={{color:'rgb(239,89,57)'}}
           />
   
           <View style={{marginTop:0, flex: 1, justifyContent:'center', alignItems:'center'}}>
