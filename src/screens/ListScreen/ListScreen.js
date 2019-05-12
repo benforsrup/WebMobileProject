@@ -105,7 +105,6 @@ class ListScreen extends PureComponent {
 
   onCollectionUpdate = (querySnapshot) =>{
     const markers = [];
-    console.log("onCollectionUpdate")
     
     querySnapshot.forEach((doc) => {
       const { baddetail, feature, detail, upvotes } = doc.data()
@@ -268,8 +267,9 @@ class ListScreen extends PureComponent {
     const { user } = this.props
 
     const favorites = this.props.markers.markers.filter((marker) => {
-      return user.favorites.indexOf(marker.id) != -1
+      return user.favorites.indexOf(marker.id) > -1
     })
+
 
     return (
       <SafeAreaView style={styles.container}>

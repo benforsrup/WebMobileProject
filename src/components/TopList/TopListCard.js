@@ -40,7 +40,6 @@ class TopListCard extends React.Component{
         const { marker, openDetail,index  } = this.props
         return (
             <TouchableOpacity
-                activeOpacity={1}
                 style={[styles.cardInnerContainer, {marginLeft: this.props.isFirst ? 15: 0}]}
                 onPress={() => openDetail(index)}>
                 

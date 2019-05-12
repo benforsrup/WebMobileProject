@@ -9,6 +9,7 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  Alert,
   KeyboardAvoidingView
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -81,7 +82,8 @@ class SignUpScreen extends PureComponent {
         email:"",
         password:"",
         passwordConfirm:""
-      }
+      },
+      loading: false
     }
   }
 
@@ -92,6 +94,7 @@ class SignUpScreen extends PureComponent {
   createWithWithCredentials = () => {
     const { user } = this.state
     //need more validation
+    this.setState({loading: true})
     if(user.password === user.passwordConfirm){
       firebase
       .auth()
@@ -101,19 +104,33 @@ class SignUpScreen extends PureComponent {
           userCredentials.user.updateProfile({
             displayName: user.name
           }).then(() => {
-            addUserToFirestore().then(() => pushTabBasedApp())  
+            
+
+            addUserToFirestore().then(() => {
+              this.setState({loading: false})
+              pushTabBasedApp()
+            })  
           })
 
         }
         
       })
-      .catch(error => this.setState({ errorMessage: error.message }))
+      .catch(error => this.setState({ errorMessage: error.message, loading: false }))
+    }
+    else{
+      this.showAlert("Lösenorden matchade inte :)")
+      this.setState({user:{email:'', password:'', name:'',passwordConfirm:''}, loading: false})
     }
     // firebase
     //   .auth()
     //   .createUserWithEmailAndPassword(email, password)
     //   .then(user => this.props.navigation.navigate('Main'))
     //   .catch(error => this.setState({ errorMessage: error.message }))
+  }
+  showAlert = (error) => {
+    Alert.alert(
+      error
+    )
   }
   
 
@@ -176,6 +193,7 @@ class SignUpScreen extends PureComponent {
           <Button
           onPress={this.createWithWithCredentials}
           title={'Skapa konto'}
+          loading={this.state.loading}
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
         />

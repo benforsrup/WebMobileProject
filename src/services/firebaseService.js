@@ -170,17 +170,15 @@ export const removeFromUpvoted = async (id) => {
 export const addToLocationsUpvote = async(data) => {
 	const id = data.payload;
 	const add = data.upvote;
-	const firestoreLocationsRef = firebase.firestore().collection('badlocations').where('feature.id', '==', id).limit(1)
+	const firestoreLocationsRef = firebase.firestore().collection('upvotes').doc(id)
 	try{
 		firestoreLocationsRef.get()
         .then((docSnapshot) => {
-			console.log("called", docSnapshot.docs[0])
-          
-            
-            let { upvotes } = docSnapshot.docs[0].data()
-            upvotes = add ? upvotes + 1: upvotes - 1;
-            docSnapshot.docs[0].ref.update("upvotes", upvotes)
-          
+			if(docSnapshot.exists){
+				let { upvotes } = docSnapshot.data()
+				upvotes = add ? upvotes + 1: upvotes - 1;
+				docSnapshot.ref.update("upvotes", upvotes)
+			} 
 	  }).catch((error) => console.log(error))
 	  
 	} catch(error){

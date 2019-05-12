@@ -83,7 +83,8 @@ class AuthScreen extends PureComponent {
     this.state ={
       email:"",
       password:"",
-      hasUser: false
+      hasUser: false,
+      loadingLogin:false,
     }
     this.firestoreref = firebase.firestore().collection('users');
   }
@@ -150,6 +151,21 @@ class AuthScreen extends PureComponent {
 
   // }
 
+  createUpvotes = async() => {
+    this.upvoteRef = firebase.firestore().collection('upvotes')
+    this.locationRef = firebase.firestore().collection('badlocations').where("feature.properties.KMN_NAMN", "==", "Stockholm")
+    this.locationRef.get()
+      .then(snapShot => {
+        let listOfUpvotes = []
+        snapShot.forEach((document) => {
+          const { feature, upvotes} = document.data()
+          this.upvoteRef.doc(feature.id).set({
+            upvotes: upvotes
+          })
+        })
+      })
+  }
+
   async componentDidMount(){
     const a = await GoogleSignin.isSignedIn()
     const user = firebase.auth().currentUser
@@ -170,6 +186,7 @@ class AuthScreen extends PureComponent {
 
   // Calling this function will open Google for login.
   googleLogin = async () => {
+    this.setState({loadingLogin:true})
     try {
       // add any configuration settings here:
       await GoogleSignin.configure();
@@ -183,11 +200,13 @@ class AuthScreen extends PureComponent {
       if(firebaseUserCredential){
         addUserToFirestore().then(() => {
           pushTabBasedApp()
+          this.setState({loadingLogin:false})
         })
       }
       
     } catch (e) {
-      
+      this.showAlert("Något gick fel med inloggningen! Försök igen")
+      this.setState({loadingLogin:false})
     }
   }
   signUp = () => {
@@ -240,20 +259,24 @@ class AuthScreen extends PureComponent {
   }
 
   loginInWithCredentials = async() => {
+    this.setState({loadingLogin: true})
     const { email, password } = this.state
     await this.checkGoogleSign()//first check that googlesignout is confirmed
     if(email.length > 0 && password.length > 0){
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then((user)=> {
           console.log(user)
+          this.setState({loadingLogin:false})
           pushTabBasedApp()
         }).catch((error) => {
-          this.setState({email:'', password:''})
+          this.setState({email:'', password:'', loadingLogin:false})
           this.showAlert("Fel inloggningsuppgifter!")
         })
     }
     else{
       this.showAlert("Fel inloggningsuppgifter!")
+      this.setState({loadingLogin:false})
+
       //show error
 
     }
@@ -307,6 +330,7 @@ class AuthScreen extends PureComponent {
           <Button
             onPress={this.loginInWithCredentials}
             title={'Logga in'}
+            loading={this.state.loadingLogin}
             buttonStyle={styles.button}
             titleStyle={styles.buttonTitle}
           />
@@ -318,6 +342,7 @@ class AuthScreen extends PureComponent {
   
           <Button
             onPress={this.googleLogin}
+            loading={this.state.loadingLogin}
             title={'Logga in med Google'}
             buttonStyle={styles.button}
             titleStyle={styles.buttonTitle}

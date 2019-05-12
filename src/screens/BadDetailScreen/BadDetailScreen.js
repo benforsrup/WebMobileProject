@@ -27,12 +27,14 @@ class BadDetailScreen extends Component{
             index: 0,
             modalVisible: false,
             isFavorited:false,
-            isLiked: false
+            isLiked: false,
+            upvotes:""
         }
 
+        this.upvoteRef = firebase.firestore().collection('upvotes').doc(props.marker.id)
 
     }
-    componentDidMount(){
+    async componentDidMount(){
         Navigation.mergeOptions(this.props.componentId, {
           statusBar: {
             style: 'light'
@@ -48,7 +50,15 @@ class BadDetailScreen extends Component{
               ],
             }
           });
-
+        
+          this.upvoteRef.onSnapshot((docSnapshot) => {
+            if(docSnapshot.exists){
+              const { upvotes } = docSnapshot.data()
+              console.log(upvotes)
+              this.setState({upvotes})
+            }
+          })
+            
     }
 
     
@@ -118,7 +128,7 @@ class BadDetailScreen extends Component{
             
           ];
         const { marker, user } = this.props
-        // console.log(marker, user)
+        
         let isFavorited = user.favorites.indexOf(marker.id) != -1;
         let isUpvoted = user.upvoted.indexOf(marker.id) != -1;
 
@@ -134,6 +144,8 @@ class BadDetailScreen extends Component{
         if(marker.detail && marker.detail.qualityRating){
           quality = marker.detail.qualityRating[1].ratingText;
         }
+
+        console.log(this.state.upvotes)
 
         return (
             <HeaderImageScrollView
@@ -152,7 +164,7 @@ class BadDetailScreen extends Component{
                       {/* <Text style={{fontWeight: 'bold', color:'black', fontSize: 15}}> Go back</Text> */}
                     </TouchableOpacity>
                     <View style={styles.upvotes}>
-                      <Text style={{color:'#1967d2', fontWeight:'bold'}}> {marker.information.upvotes} har gillat denna badplats</Text>
+                      <Text style={{color:'#1967d2', fontWeight:'bold'}}> {this.state.upvotes} har gillat denna badplats</Text>
                     </View>
                     
                   </TouchableOpacity>
@@ -317,10 +329,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, props)=>{
   const { user, markers } = state
-  console.log(markers.markers[props.index])
+  let markerIndex = markers.markers.map(function(x) {return x.id; }).indexOf(props.markerId);
+  const marker = markers.markers[markerIndex];
   return  {
     user,
-    marker:markers.markers[props.index] 
+    marker:marker
   }
 }
 const mapDispatchToProps = dispatch => {

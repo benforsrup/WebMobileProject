@@ -51,11 +51,7 @@ class MapScreen extends PureComponent {
   }
 
   componentDidUpdate(oldProps){
-    if(oldProps.user.favorites.length != this.props.user.favorites.length){
-      console.log("heey")
-      this.forceUpdate()
-      
-    }
+    
   }
 
   componentWillUnmount() {
@@ -145,7 +141,6 @@ class MapScreen extends PureComponent {
   }
 
   render() {
-     console.log("Mapscreen: ", this.props.user.favorites.length)
     return (
       <View style={styles.container}>
             

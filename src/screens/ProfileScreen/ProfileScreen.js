@@ -27,7 +27,8 @@ class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user:""
+      user:"",
+      loading:false
     }
     Navigation.events().bindComponent(this);
   }
@@ -52,6 +53,7 @@ class ProfileScreen extends React.Component {
 
   signOut = () => {
     // console.log(firebase.auth().currentUser.toJSON())
+    this.setState({loading: true})
     firebase.auth().signOut().then( async() => {
       
       const isSignedInToGoogle = await GoogleSignin.isSignedIn()
@@ -60,18 +62,24 @@ class ProfileScreen extends React.Component {
         try {
           await GoogleSignin.revokeAccess();
           await GoogleSignin.signOut();
-          this.setState({ user: null });
+          this.setState({ user: "", loading: false });
           pushTutorialScreen()
+          
         } catch (error) {
           console.log(error)
         }
       }
       else{
         pushTutorialScreen()
+        this.setState({loading: false})
+
       }
       
     }).catch(error => {
       console.log(error)
+      this.setState({loading: false})
+
+      pushTutorialScreen()
     })
   }
   render() {
@@ -130,6 +138,7 @@ class ProfileScreen extends React.Component {
             
             buttonStyle={{backgroundColor:'rgba(107, 185, 240, 1)'}}
             onPress={this.signOut}
+            loading={this.state.loading}
             title={'Logga ut'}
           />
       </View>

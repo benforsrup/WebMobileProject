@@ -104,7 +104,7 @@ const sliderWidth = width;
         this.setState({detailVisible: true, hasAlreadyAnimated: true, currentSelectedIndex: index})
       }
       
-      this.cardListRef.snapToItem(index)
+      this.cardListRef.snapToItem(index, false)
       // this.cardListRef.getNode().scrollTo({x:index*(CARD_WIDTH+20)})
       let r = {
         latitude: marker.location.latitude,
@@ -250,10 +250,14 @@ const sliderWidth = width;
     renderDetailCards = ()=> {
       const { badmarkers } = this.props
       return (
-        <Animated.View  style={[styles.scrollView, {bottom: this.state.bottomTabsHeight+30,transform:[{translateY: this.state.detailMoveAnim}]}]}>
+        <Animated.View  style={[styles.scrollView, {bottom: this.state.bottomTabsHeight+80,transform:[{translateY: this.state.detailMoveAnim}]}]}>
                 <Carousel
                   ref={(ref) => this.cardListRef = ref}
                   data={badmarkers}
+                  useNativeDriver={true}
+                  horizontal={true}
+                  vertical={false}
+                  layout={'default'}
                   renderItem={this._renderCardItem}
                   extraData={this.state.favoriteHasChanged}
                   sliderWidth={sliderWidth}
@@ -262,7 +266,7 @@ const sliderWidth = width;
                   contentContainerCustomStyle={styles.sliderContentContainer}
                   onScroll={this.handleAnimationEvent}
                   // useScrollView={true}
-                  removeClippedSubviews={false} 
+                  //removeClippedSubviews={false} 
                 />
         </Animated.View>
       )
@@ -414,8 +418,8 @@ const sliderWidth = width;
     },
     touchable: {
       alignSelf: "flex-end",
-      marginTop: Platform.OS === "ios" ? 20 : 8,
-      paddingRight: Platform.OS === "ios" ? 0 : 8,
+      marginTop: Platform.OS === "ios" ? 50 : 8,
+      paddingRight: Platform.OS === "ios" ? 10 : 8,
       paddingLeft: 10,
       paddingBottom: 10
     },

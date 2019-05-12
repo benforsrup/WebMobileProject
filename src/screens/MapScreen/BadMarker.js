@@ -85,6 +85,16 @@ const styles = StyleSheet.create({
     markerView: {
       alignItems: "center",
       justifyContent: "center",
+      padding:10,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+
+      elevation: 3,
       
     },
     markerStyle:{
@@ -113,12 +123,7 @@ const styles = StyleSheet.create({
     selectedMarker:{
       backgroundColor: 'rgba(25, 120, 254, 1)',
       shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.15,
-      shadowRadius: 3.84,
+      
     },
     selectedMarkerTriangle:{
       borderBottomColor: 'rgba(25, 120, 254, 1)',
@@ -133,15 +138,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 5,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.52,
-      shadowRadius: 2.22,
-
-      elevation: 3,
+      
       
       
     },
