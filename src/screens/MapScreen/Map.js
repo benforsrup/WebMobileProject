@@ -22,6 +22,8 @@ import Carousel, { Pagination, getInputRangeFromIndexes } from 'react-native-sna
 import { Navigation } from 'react-native-navigation'
 import {mapStyle} from '../../constants/colors'
 import { connect } from 'react-redux'
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 const defaultRegion = {
   latitude: 59.334591,
   longitude: 18.063240,
@@ -388,12 +390,17 @@ const sliderWidth = width;
             <TouchableWithoutFeedback
               onPress={this.moveToUserLocation}
               hitSlop={{ top: 50, left: 10, right: 10, bottom: 10 }}>
-              <View>
-                <Image
+              <View style={{backgroundColor:'white',
+               padding: 10,
+               borderColor:'rgb(45,93,124)', 
+               borderRadius:40,
+                borderWidth:5}}>
+                <Icon name="location-arrow" size={17} color="rgb(45,93,124)" />
+                {/* <Image
                   accessibilityLabel="Show my location"
                   source={locationButtonActive}
                   style={styles.image}
-                />
+                /> */}
               </View>
             </TouchableWithoutFeedback>
           </View>

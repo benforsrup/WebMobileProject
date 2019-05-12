@@ -1,8 +1,11 @@
 import React, { Fragment } from "react";
-import { View, StyleSheet, Text, Animated } from "react-native";
+import { View, StyleSheet, Text, Animated, Image } from "react-native";
 import { Marker } from "react-native-maps";
 import { lightNavyBlueColor, transparent } from '../../constants/colors'
 import isEqual from 'lodash.isequal'
+import markerIcon from '../../assets/icons/ic_map.png'
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 export default class BadMarker extends React.Component{
     state = {
       tracksViewChanges: true,
@@ -54,7 +57,8 @@ export default class BadMarker extends React.Component{
                               favorite && styles.favMarker,
                               
                             ]}>
-                            <Text type="h4" style={[
+                            <Icon name="umbrella-beach" size={17} color="white" />
+                            {/* <Text type="h4" style={[
                               styles.markerTextStyle,
                               this.props.currentSelectedIndex === index && styles.selectedMarkerTextStyle,
                               favorite && styles.favMarkerTextStyle,
@@ -62,7 +66,7 @@ export default class BadMarker extends React.Component{
                               ]}>
                                 🏊‍
                                 
-                            </Text>
+                            </Text> */}
                             </View>
                             <View style={[
                               styles.triangle, 

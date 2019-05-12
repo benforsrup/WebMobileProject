@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import { Image } from 'react-native-elements';
 import { Navigation } from 'react-native-navigation'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
@@ -10,8 +10,7 @@ import {connect } from 'react-redux'
 import { userActions } from '../../redux/modules/user/actions';
 import { bindActionCreators } from "redux";
 import firebase from 'react-native-firebase'
-
-
+import * as _ from 'lodash'
 const window = Dimensions.get('window');
 
 const AVATAR_SIZE = 120;
@@ -28,7 +27,8 @@ class BadDetailScreen extends Component{
             modalVisible: false,
             isFavorited:false,
             isLiked: false,
-            upvotes:""
+            upvotes:"",
+            dataSource:{}
         }
 
         this.upvoteRef = firebase.firestore().collection('upvotes').doc(props.marker.id)
@@ -58,6 +58,16 @@ class BadDetailScreen extends Component{
               this.setState({upvotes})
             }
           })
+
+        var that = this;
+        let items = Array.apply(null, Array(3)).map((v, i) => {
+          return { id: i, src: 'http://placehold.it/200x200?text=' + (i + 1) };
+        });
+        that.setState({
+          //Setting the data source
+          dataSource: items,
+        });
+      
             
     }
 
@@ -117,6 +127,23 @@ class BadDetailScreen extends Component{
       // this.setState({isFavorited:!this.state.isFavorited})
     }
 
+    renderUserPictures = () => {
+      console.log(this.state.dataSource)
+      return(
+        <FlatList
+            data={this.state.dataSource}
+            renderItem={({ item }) => (
+              <View style={{ flex: 1, flexDirection: 'column', margin: 1 }}>
+                <Image style={styles.imageThumbnail} source={{ uri: item.src }} />
+              </View>
+            )}
+            //Setting the number of column
+            numColumns={2}
+            keyExtractor={(item, index) => index}
+          />
+      )
+      }
+
     render(){
         const default_images = [
             {
@@ -137,13 +164,16 @@ class BadDetailScreen extends Component{
 
         let summary = null
         let quality = null;
-
         if(marker.baddetail.summary){
           summary = marker.baddetail.summary
         }
         if(marker.detail && marker.detail.qualityRating){
           quality = marker.detail.qualityRating[1].ratingText;
         }
+
+        let userPics = this.renderUserPictures()
+
+
 
         console.log(this.state.upvotes)
 
@@ -180,6 +210,7 @@ class BadDetailScreen extends Component{
                     
                       <TouchableOpacity style={styles.titleContainer} onPress={() => this.props.cameFromList && this.navigateToMarkerMap()}>
                         <Text  numberOfLines={2} style={styles.titleStyle}>{marker.information.name}</Text>
+                        <Text > <Text style={{fontWeight:'bold'}}>Lat:</Text> {(marker.location.latitude).toFixed(4)}   <Text style={{fontWeight:'bold'}}>Long:</Text> {(marker.location.longitude).toFixed(4)} </Text>
                       </TouchableOpacity>
                      
                     </View>
@@ -202,6 +233,15 @@ class BadDetailScreen extends Component{
                      <View style={styles.locationDesc}>
                        <Text style={styles.descTitle} numberOfLines={5}>{ summary }</Text>
                      </View>
+
+                      <View style={styles.pictureStyles}>
+                        <Text style={styles.pictureHeader}> Bilder från användare</Text>
+                        <View style={styles.picsContainer}>
+                          {this.renderUserPictures()}
+                        </View>
+                      </View>
+                    
+
                   </TriggeringView>
                 </View>
               </HeaderImageScrollView>
@@ -224,9 +264,32 @@ const styles = StyleSheet.create({
       marginTop:10,
       paddingVertical:10
     },
+    pictureStyles:{
+      marginTop: 30,
+      flex:1,
+      width: window.width,
+      justifyContent:'center',
+      flexDirection:'column'
+    },
+    picsContainer:{
+      justifyContent: 'center',
+      flex: 1,
+      paddingTop: 20,
+    },
+    pictureHeader:{
+      fontFamily:'ProductSans-Bold',
+      fontSize: 30,
+      textAlign:'center'
+    },
     socialButton:{
       flexDirection:'row',
       alignItems:'center'
+    },
+    imageThumbnail: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 200,
+      
     },
     socialText:{
       fontFamily:'ProductSans-Regular',
@@ -266,6 +329,7 @@ const styles = StyleSheet.create({
       color:'#1967d2', 
       fontWeight: 'bold',
       fontSize:18,
+      marginBottom:10,
       fontFamily:'ProductSans-Regular',
       
     },
@@ -277,13 +341,13 @@ const styles = StyleSheet.create({
       width:window.width-20,
       alignItems:'center',
       justifyContent:'center',
-      flexDirection:'row',
-     
+      flexDirection:'column',
+      
       
       paddingBottom:20
     },
     scrollContent:{
-      height: 1000,
+      flex: 1,
       backgroundColor:'white',
       alignItems:'flex-start',
     },
