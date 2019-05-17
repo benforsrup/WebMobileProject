@@ -8,6 +8,7 @@ export const DEFAULT = {
   "testing":10,
   markers:[],
   selectedIndex: 0,
+  closeMarkers:[],
   openedFromList: false
 };
 

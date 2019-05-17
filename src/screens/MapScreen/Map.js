@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MapView, { Polyline, PROVIDER_GOOGLE } from "react-native-maps";
+
 import {
     Image,
     Platform,

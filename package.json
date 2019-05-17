@@ -23,6 +23,7 @@
     "react-native-image-header-scroll-view": "^0.10.1",
     "react-native-image-zoom-viewer": "^2.2.25",
     "react-native-keyboard-spacer": "^0.4.1",
+    "react-native-map-clustering": "^1.3.2",
     "react-native-maps": "^0.23.0",
     "react-native-modal": "^9.0.0",
     "react-native-navigation": "2.12.0",

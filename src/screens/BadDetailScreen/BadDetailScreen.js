@@ -234,12 +234,12 @@ class BadDetailScreen extends Component{
                        <Text style={styles.descTitle} numberOfLines={5}>{ summary }</Text>
                      </View>
 
-                      <View style={styles.pictureStyles}>
+                      {/* <View style={styles.pictureStyles}>
                         <Text style={styles.pictureHeader}> Bilder från användare</Text>
                         <View style={styles.picsContainer}>
                           {this.renderUserPictures()}
                         </View>
-                      </View>
+                      </View> */}
                     
 
                   </TriggeringView>
