@@ -76,7 +76,6 @@ const sliderWidth = width;
     }
     
     moveToUserLocation = () => {
-      // console.log("moveToUserLocation")
         geoService.getCurrentLocation().then(position => {
             if (position) {
                 this.setState({
@@ -148,9 +147,7 @@ const sliderWidth = width;
     }
 
     componentDidUpdate(oldProps){
-      // console.log(oldProps, this.props)
       if(oldProps.openedFromList != this.props.openedFromList){
-        // console.log("hey called")
 
         Animated.timing(                  // Animate over time
           this.state.detailMoveAnim,            // The animated value to drive

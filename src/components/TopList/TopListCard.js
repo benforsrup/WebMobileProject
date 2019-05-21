@@ -27,12 +27,14 @@ class TopListCard extends React.Component{
 
     get image (){
         const { marker } = this.props;
-        return(
-            <Image
-                source={{ uri: marker.information.previewImage}}
-                style={styles.image}
-            />
-        )
+        if(marker.information.images[0]){
+            return(
+                <Image
+                    source={{ uri: marker.information.images[0]}}
+                    style={styles.image}
+                />
+            )
+        }
 
     }
 
@@ -46,7 +48,7 @@ class TopListCard extends React.Component{
                 <View style={styles.shadow} />
                     <View style={styles.imageContainer}>
                         <Image
-                                source={{ uri: marker.information.previewImage}}
+                                source={{ uri: marker.information.images && marker.information.images[0]}}
                                 style={styles.image}
                             />
                         <View style={styles.radiusMask} />

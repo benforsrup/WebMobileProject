@@ -29,10 +29,11 @@ class TopList extends Component{
 
 
     _renderCardItem = ({item, index}) => {
+        console.log(item.originalIndex)
         return <TopListCard 
                 marker={item} 
                 isFirst={index == 0} 
-                index={index}
+                index={item.originalIndex}
                 key={item.id} 
                 openDetail={() => this.openDetail(index)}/>
       }

@@ -16,13 +16,11 @@ import {
 
 
 export function* addToFavorites(data){
-  // console.log("GET_BADPLATSER")
   try{
     // const response = yield call(firebaseService.getBadplatser);
       const response = yield call(firebaseService.addToFavoritesService, data.payload)
     
   } catch(e){
-    // console.log(e)
   }
 }
 export function* removeFromFavorites(data){
@@ -31,7 +29,6 @@ export function* removeFromFavorites(data){
           const response = yield call(firebaseService.removeFromFavorites, data.payload)
         
       } catch(e){
-        // console.log(e)
       }
 } 
 
@@ -48,7 +45,6 @@ export function* addToUpvoted(data){
 
       
   } catch(e){
-    // console.log(e)
   }
 }
 export function* removeFromUpvoted(data){
@@ -62,7 +58,6 @@ export function* removeFromUpvoted(data){
 
         
       } catch(e){
-        // console.log(e)
       }
 } 
 

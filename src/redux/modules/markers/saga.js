@@ -28,19 +28,15 @@ export function* asyncGetFacebookUserData({ payload }) {
       yield put(fetchDataActionCreators.getFacebookUserDataSuccess(response.data));
     }
   } catch (e) {
-    // console.log(e);
   }
 }
 
 export function* GetBadplatser(){
-  // console.log("GET_BADPLATSER")
   try{
     const response = yield call(firebaseService.getBadplatser);
     if(response.result === 'ok'){
-      // console.log(response)
     }
   } catch(e){
-    // console.log(e)
   }
 }
 
