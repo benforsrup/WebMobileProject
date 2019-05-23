@@ -29,7 +29,6 @@ class MapScreen extends PureComponent {
     this.events.addListener("closeDetail", () =>
       this.setState({ detailIsOpen: false })
     );
-    this.firebaseRef = firebase.firestore().collection("badplatser");
 
     this.unsubscribe = null;
   }
@@ -45,43 +44,6 @@ class MapScreen extends PureComponent {
     this.unsubscribe = this.firebaseRef.onSnapshot(this.onCollectionUpdate);
   }
 
-  componentDidUpdate(oldProps) {}
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  onCollectionUpdate = querySnapshot => {
-    const markers = [];
-    querySnapshot.forEach(doc => {
-      const { location, information, id } = doc.data();
-      markers.push({
-        id,
-        location,
-        information
-      });
-    });
-    // this.props.actions.receivedBadplatser(markers)
-  };
-
-  navigationButtonPressed({ buttonId }) {
-    const { data } = this.props;
-
-    switch (buttonId) {
-      case "nav_logout_btn": {
-        this.props.actions.increment();
-        //pushTutorialScreen();
-        break;
-      }
-      case "nav_user_btn": {
-        this.props.actions.decrement();
-        //Alert.alert(get(data, 'user.name', 'Unknown User'));
-        break;
-      }
-      default:
-        break;
-    }
-  }
 
   openDetail = async (marker, index) => {
     Navigation.showModal({
@@ -107,9 +69,7 @@ class MapScreen extends PureComponent {
       }
     });
   };
-  closeDetail = async () => {};
-  backDropPress = event => {};
-
+  
   render() {
     return (
       <View style={styles.container}>
