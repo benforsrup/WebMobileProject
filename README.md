@@ -1,7 +1,7 @@
 # Badplatser
 
 <p align="center">
-  <img src="https://github.com/benforsrup/WebMobileProject/blob/master/Screenshots/mapview.png?raw=true" alt="mapview"/>
+  <img width="200" src="https://github.com/benforsrup/WebMobileProject/blob/master/Screenshots/mapview.png?raw=true" alt="mapview"/>
 </p>
 The summer of 2018 was one of the hottest in modern history. Characterized by constant heat records and unmanageable forest fires, the weather also affected people’s choice of outdoor activities and had many seek out public bathing places as a refuge from the blazing climate. There are many great public swimming places in Stockholm municipality but the information about them is often lackluster or poorly presented. This project aims to solve that problem by providing an app where people can easily find available swimming places in their area, get relevant information about them such as water temperature and also an indication of its popularity as rated by other visitors. This helps inform people of new swimming places and saves them the time and effort of going there themselves to see what the current conditions are like.
 
@@ -56,9 +56,26 @@ These are created at the start of the application, in the file ```Navigation.js`
 
 ### The three tabs files
 - #### ```ListScreen.js```
+
 This file listens to the Firestore collection and pushes that content to the redux store. Furthermore, it creates some listviews using React Native's Flatlist API. A searchbar is created using React Native Elements.
 
 - #### ```MapScreen.js```
 Renders the map component from ```Map.js```.
 - #### ```ProfileScreen.js```
 Displays the number of upvotes and favorites the user has, as well as handling the user signout process.
+
+### Other important ```.js``` files
+
+- #### ```Map.js```
+Renders the MapView with markers. For each badlocation in the Firestore, we create a MapView.Marker from the React Native Maps API, with a coordinates props. The component then handles rendering the markers in their correct coordinate. We also pass in a onPress prop in order to send that event to the MapScreen for further processing. This component also requires the user's location, using ```navigator.geolocation.getCurrentPosition```.
+- #### ```BadDetailScreen.js```
+Displays detailed information about the badlocation, such as coordinates, if it has been quality checked and temperature (if it's measured). This screen also displays images from the location taken from Google. 
+- #### ```DetailCard.js```
+A small component that is rendered on top of the MapView, in order to provide easy navigation between different locations. Pressing on this card navigates the user to ```BadDetailScreen.js```.
+
+### Redux and Redux-Saga
+The store consists of 2 reducers:
+- #### user
+Has a bunch of actions regarding updating the user data. For most of these actions, a respective saga is responsible for handling async actions. These include actions for adding a location to the user's favorites and upvotes. Furthermore, when a user logs in for the first time, a saga is fired that creates a document in a collection called ```users``` on Firestore.
+- #### markers
+Consists of actions responsible requesting and receiving badlocations. At first, a saga was to be responsible for updating the list of locations. However, we decided to use Firebase's included ```onCollectionUpdate``` instead. A possible improvement is to combine these two.
