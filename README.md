@@ -1,4 +1,8 @@
 # Badplatser
+
+<p align="center">
+  <img src="https://github.com/benforsrup/WebMobileProject/blob/master/Screenshots/mapview.png?raw=true" alt="mapview"/>
+</p>
 The summer of 2018 was one of the hottest in modern history. Characterized by constant heat records and unmanageable forest fires, the weather also affected people’s choice of outdoor activities and had many seek out public bathing places as a refuge from the blazing climate. There are many great public swimming places in Stockholm municipality but the information about them is often lackluster or poorly presented. This project aims to solve that problem by providing an app where people can easily find available swimming places in their area, get relevant information about them such as water temperature and also an indication of its popularity as rated by other visitors. This helps inform people of new swimming places and saves them the time and effort of going there themselves to see what the current conditions are like.
 
 
