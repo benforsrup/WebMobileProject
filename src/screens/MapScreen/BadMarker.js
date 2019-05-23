@@ -57,7 +57,7 @@ export default class BadMarker extends React.Component{
                               favorite && styles.favMarker,
                               
                             ]}>
-                            <Icon name="umbrella-beach" size={17} color="white" />
+                            <Icon name="umbrella-beach" size={17} color={favorite ? '#fbbc04' : 'white'} />
                             {/* <Text type="h4" style={[
                               styles.markerTextStyle,
                               this.props.currentSelectedIndex === index && styles.selectedMarkerTextStyle,
@@ -105,11 +105,11 @@ const styles = StyleSheet.create({
       zIndex: 1,  
     },
     favMarker:{
-      backgroundColor: 'yellow',
+      backgroundColor: '#fef7e0',
       padding: 10
     },
     favMarkerTextStyle:{
-      color: 'rgba(25, 181, 254, 1)'
+      color: '#fbbc04'
     },
     markerTextStyle:{
       color:'white',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
       fontSize: 20
     },
     favMarkerTextTriangle:{
-      borderBottomColor: 'yellow',
+      borderBottomColor: '#fef7e0',
 
     },
     selectedMarkerTextStyle:{

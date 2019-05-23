@@ -68,7 +68,7 @@ class DetailCard extends React.Component{
                     </View>
                     <View style={styles.textContainer}>
                         <Text style={styles.title} numberOfLines={2}>
-                            { marker.information.name } &#183; Temperature: 18&deg;
+                            { marker.information.name }
                         </Text>
                     </View>
                 </TouchableOpacity>

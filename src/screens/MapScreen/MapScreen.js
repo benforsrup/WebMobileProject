@@ -41,7 +41,6 @@ class MapScreen extends PureComponent {
   componentDidMount() {
     //fetch markers
     // this.props.actions.requestBadplatser()
-    this.unsubscribe = this.firebaseRef.onSnapshot(this.onCollectionUpdate);
   }
 
 
@@ -69,7 +68,7 @@ class MapScreen extends PureComponent {
       }
     });
   };
-  
+
   render() {
     return (
       <View style={styles.container}>
